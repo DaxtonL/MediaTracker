@@ -13,7 +13,8 @@ Users will also be able to update a given work's status which will include:
  - Finished
  - On-hold
  - Dropped
- Finally, depending on the work's status, I want the user to be able to track other aspects of their media such as:
+ 
+In addition, depending on the work's status the user to be able to track other aspects of their media such as:
  - Priority in the watch/play/read later list
  - Progress through currently watching/playing/reading works
  - Rating once a work is finished
