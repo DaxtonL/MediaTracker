@@ -114,21 +114,6 @@ public class TestMediaTracker {
     }
 
     @Test
-    void testDisplayMediaList(){
-        List<String> output = new ArrayList<>();
-        testTracker.addMedia(m1);
-        testTracker.addMedia(m2);
-        testTracker.addMedia(m3);
-        String s1 = "Neon Genesis Evangelion | Show | On-hold | 12/26 episodes | Priority: 1 | Rating: N/A";
-        String s2 = "Shin Megami Tensei V | Game | Finished | 90/-- hours | Priority: 3 | Rating: 7/10";
-        String s3 = "Fullmetal Alchemist (manga) | Manga | Reading | 56/108 chapters | Priority: N/A | Rating: N/A";
-        output.add(s1);
-        output.add(s2);
-        output.add(s3);
-        assertEquals(output, testTracker.displayMediaList());
-    }
-
-    @Test
     void testAddMedia(){
         assertEquals(testList, testTracker.getFilterMedia(null));
 

@@ -40,45 +40,6 @@ public class MediaTracker {
     }
 
     // REQUIRES:
-    // MODIFIES:
-    // EFFECTS: returns a list of string with the information about the media in mediaList in a output-ready form
-    // information includes: name, status, logged progress, length, rating, and priority
-    public List<String> displayMediaList(){
-        List<String> output = new ArrayList<>();
-        for (Media m : mediaList){
-            String mName = m.getName();
-            String mType = toProperCase(m.getType().toString()); 
-            String mStatus = mediaTypeStrings(m).get(0);
-            String mLength;
-            if (m.getLength() == -1){
-                mLength = "--";
-            } else {
-                mLength = m.getLength().toString();
-            }
-            String mProgress = m.getTotalViewProgess().toString();
-            String mIncrement = mediaTypeStrings(m).get(1);
-            String mPriorty;
-            if (m.getPriority() == -1){
-                mPriorty = "N/A";
-            } else {
-                mPriorty = m.getPriority().toString();
-            }
-            String mRating;
-            if (m.getRating() == -1){
-                mRating = "N/A";
-            }
-            else{
-                mRating = m.getRating().toString()+"/10";
-            }
-            String details = mName + " | " + mType + " | " + mStatus + " | "  +
-             mProgress + "/" + mLength + " " + mIncrement + " | Priority: " + mPriorty + 
-             " | Rating: " + mRating;
-            output.add(details);
-        }
-        return output;
-    }
-
-    // REQUIRES:
     // MODIFIES: this 
     // EFFECTS: checks if media to add has a distinct name,
     //          returns true if adding was succesful otherwise returns false
@@ -105,69 +66,4 @@ public class MediaTracker {
         }
         return false;
     }
-
-    // REQUIRES:
-    // MODIFIES: this
-    // EFFECTS: outputs a list of strings based on the media type and status in a display-ready format
-    private List<String> mediaTypeStrings(Media m){
-        List<String> output = new ArrayList<>();
-        MediaType type = m.getType();
-        Status s = m.getStatus();
-        switch (type) {
-            case MOVIE:
-                output.add("Watching");
-                output.add("minutes");
-                break;
-            
-            case SHOW:
-                output.add("Watching");
-                output.add("episodes");
-                break;
-            
-            case BOOK:
-                output.add("Reading");
-                output.add("pages");
-                break;
-
-            case MANGA:
-                output.add("Reading");
-                output.add("chapters");
-                break;
-
-            case GAME:
-                output.add("Playing");
-                output.add("hours");
-                break;
-
-            default:
-                output.add("Viewing");
-                output.add("units");
-                break;
-        }
-        if (s != Status.VIEWING) {
-            if (s == Status.ON_HOLD) {
-                output.set(0, "On-hold");
-            }
-            else {
-                output.set(0, toProperCase(s.toString()));
-            }
-        }
-        return output;
-    }
-
-    // REQUIRES s.length > 0
-    // MODIFIES string s
-    // EFFECTS makes first character upper case and all following characters lowercase
-    private String toProperCase(String s){
-        String start = "";
-        String end = "";
-        if (s.length() > 0){
-            start = s.substring(0, 1);
-        }
-        if (s.length() > 1){
-            end = s.substring(1, s.length()).toLowerCase();
-        }
-        
-        return start + end;
-     }
 }

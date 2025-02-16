@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 public class TestMedia {
     private Media testShow;
+    private Media m1;
+    private Media m2;
+    private Media m3;
     private List<ViewLog> testLog;
     private ViewLog view1;
     private ViewLog view2;
@@ -112,5 +115,32 @@ public class TestMedia {
         assertEquals(19, testShow.getTotalViewProgess());
         testShow.logViewing(view3);
         assertEquals(26, testShow.getTotalViewProgess());
+    }
+
+    @Test
+    void testDisplayMediaList(){
+        m1 = new Media("Neon Genesis Evangelion", MediaType.SHOW, 26, 1);
+        System.out.println(m1.getStatus().toString());
+        m1.logViewing(new ViewLog(null, 12));
+        System.out.println(m1.getStatus().toString());
+        m1.setStatus(Status.ON_HOLD);
+        System.out.println(m1.getStatus().toString());
+
+        m2 = new Media("Shin Megami Tensei V", MediaType.GAME, -1, 3);
+        m2.logViewing(new ViewLog(null, 90));
+        m2.setRating(7);
+        m2.setStatus(Status.FINISHED);
+
+        m3 = new Media("Fullmetal Alchemist (manga)", MediaType.MANGA, 108, -1);
+        m3.logViewing(new ViewLog(null, 56));
+        m3.setStatus(Status.VIEWING);
+
+        String s1 = "Neon Genesis Evangelion | Show | On-hold | 12/26 episodes | Priority: 1 | Rating: N/A";
+        String s2 = "Shin Megami Tensei V | Game | Finished | 90/-- hours | Priority: 3 | Rating: 7/10";
+        String s3 = "Fullmetal Alchemist (manga) | Manga | Reading | 56/108 chapters | Priority: N/A | Rating: N/A";
+        
+        assertEquals(s1, m1.displayMediaInfo());
+        assertEquals(s2, m2.displayMediaInfo());
+        assertEquals(s3, m3.displayMediaInfo());
     }
 }

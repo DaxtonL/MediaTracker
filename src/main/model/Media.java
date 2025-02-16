@@ -65,6 +65,40 @@ public class Media {
         return total;
     }
 
+    // REQUIRES:
+    // MODIFIES:
+    // EFFECTS: returns a list of string with the information about the media in mediaList in a output-ready form
+    // information includes: name, status, logged progress, length, rating, and priority
+    public String displayMediaInfo(){
+        String mType = toProperCase(type.toString()); 
+        String mStatus = mediaTypeStrings().get(0);
+        String mLength;
+        if (length == -1){
+            mLength = "--";
+        } else {
+            mLength = length.toString();
+        }
+        String mProgress = getTotalViewProgess().toString();
+        String mIncrement = mediaTypeStrings().get(1);
+        String mPriorty;
+        if (priority == -1){
+            mPriorty = "N/A";
+        } else {
+            mPriorty = priority.toString();
+        }
+        String mRating;
+        if (rating == -1){
+            mRating = "N/A";
+        }
+        else{
+            mRating = rating.toString()+"/10";
+        }
+        String details = name + " | " + mType + " | " + mStatus + " | "  +
+        mProgress + "/" + mLength + " " + mIncrement + " | Priority: " + mPriorty + 
+        " | Rating: " + mRating;
+        return details;
+    }
+
     public List<ViewLog> getLog(){
         return log;
     }
@@ -116,4 +150,67 @@ public class Media {
     public Integer getRating(){
         return rating;
     }
+
+        // REQUIRES:
+    // MODIFIES: this
+    // EFFECTS: outputs a list of strings based on the media type and status in a display-ready format
+    private List<String> mediaTypeStrings(){
+        List<String> output = new ArrayList<>();
+        switch (type) {
+            case MOVIE:
+                output.add("Watching");
+                output.add("minutes");
+                break;
+            
+            case SHOW:
+                output.add("Watching");
+                output.add("episodes");
+                break;
+            
+            case BOOK:
+                output.add("Reading");
+                output.add("pages");
+                break;
+
+            case MANGA:
+                output.add("Reading");
+                output.add("chapters");
+                break;
+
+            case GAME:
+                output.add("Playing");
+                output.add("hours");
+                break;
+
+            default:
+                output.add("Viewing");
+                output.add("units");
+                break;
+        }
+        if (status != Status.VIEWING) {
+            if (status == Status.ON_HOLD) {
+                output.set(0, "On-hold");
+            }
+            else {
+                output.set(0, toProperCase(status.toString()));
+            }
+        }
+        return output;
+    }
+
+    // REQUIRES s.length > 0
+    // MODIFIES string s
+    // EFFECTS makes first character upper case and all following characters lowercase
+    private String toProperCase(String s){
+        String start = "";
+        String end = "";
+        if (s.length() > 0){
+            start = s.substring(0, 1);
+        }
+        if (s.length() > 1){
+            end = s.substring(1, s.length()).toLowerCase();
+        }
+        
+        return start + end;
+     }
 }   
