@@ -1,6 +1,8 @@
 package model.filters;
 
+import model.Media;
+
 // An abtract class of for filters that can be applied to a list of media
 public abstract class Filter {
-    public abstract boolean applyFilter();
+    public abstract Boolean applyFilter(Media m);
 }

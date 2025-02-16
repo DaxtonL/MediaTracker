@@ -30,24 +30,19 @@ public class MediaTracker {
         return null;
     }
 
-    // REQUIRES: The name of all media in mediaList are unique
-    // MODIFIES: inputed media
-    // EFFECTS: Applies the inputted change to media with given name
-    public void updateMedia(String name, String change){
-        //stub
-    }
-
     // REQUIRES:
     // MODIFIES: this 
-    // EFFECTS: checks if media to add has a distinct name, if it its adds to mediaList otherwise throws an error
-    public void addMedia(Media m){
-        //stub
+    // EFFECTS: checks if media to add has a distinct name,
+    //          returns true if adding was succesful otherwise returns false
+    public Boolean addMedia(Media m){
+        return false;
     }
 
     // REQUIRES: The name of all media in mediaList are unique
     // MODIFIES: this
     // EFFECTS: If there is a media in mediaList with inputted name, removes it from mediaList
-    public void removeMedia(String name){
-        //stub
+    //          returns true if adding was succesful otherwise returns false
+    public Boolean removeMedia(String name){
+        return false;
     }
 }
