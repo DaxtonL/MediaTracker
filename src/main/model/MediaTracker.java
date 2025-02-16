@@ -45,7 +45,7 @@ public class MediaTracker {
     //          returns true if adding was succesful otherwise returns false
     public Boolean addMedia(Media m){
         for (Media thisM : mediaList){
-            if (thisM.getName() == m.getName()){
+            if (thisM.getName().equals(m.getName())){
                 return false;
             }
         }
