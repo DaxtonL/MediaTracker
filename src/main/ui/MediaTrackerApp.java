@@ -174,6 +174,7 @@ public class MediaTrackerApp {
             default:
                 return;
         }
+        System.out.println(m.displayMediaInfo());
         System.out.println("Edit to " + m.getName() + " succesful!");
     }
 
@@ -227,7 +228,7 @@ public class MediaTrackerApp {
                     tryAgain = false;
                     break;
                 case "STATUS":
-                    System.out.println("Input media type (movie, show, book, game, manga)");
+                    System.out.println("Input media status (waitlist, viewing, finished, on-hold, dropped)");
                     Status status = stringToStatus(scanner.nextLine());
                     if (status == null){
                         System.out.println("Invalid status");
