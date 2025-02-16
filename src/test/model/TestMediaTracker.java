@@ -1,18 +1,17 @@
 package model;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import java.util.List;
 import model.enums.MediaType;
 import model.enums.Status;
-
-import java.util.List;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import java.util.ArrayList;
 import model.filters.*;
 
-public class TestMediaList {
+public class TestMediaTracker {
     private MediaTracker testTracker;
     private List<Media> testList;
 
@@ -34,8 +33,11 @@ public class TestMediaList {
         filterList = new ArrayList<>();
 
         m1 = new Media("Neon Genesis Evangelion", MediaType.SHOW, 26, 1);
+        System.out.println(m1.getStatus().toString());
         m1.logViewing(new ViewLog(null, 12));
+        System.out.println(m1.getStatus().toString());
         m1.setStatus(Status.ON_HOLD);
+        System.out.println(m1.getStatus().toString());
 
         m2 = new Media("Shin Megami Tensei V", MediaType.GAME, -1, 3);
         m2.logViewing(new ViewLog(null, 90));
@@ -47,7 +49,7 @@ public class TestMediaList {
         m3.setStatus(Status.VIEWING);
 
         m4 = new Media("Soul Eater", MediaType.SHOW, 51, 2);
-        m1.setStatus(Status.WAITLIST);
+        m4.setStatus(Status.WAITLIST);
 
         m5= new Media("Celeste", MediaType.GAME, -1, -1);
         m5.setStatus(Status.FINISHED);
@@ -117,9 +119,9 @@ public class TestMediaList {
         testTracker.addMedia(m1);
         testTracker.addMedia(m2);
         testTracker.addMedia(m3);
-        private String s1 = "Neon Genesis Evangelion | Show | On-Hold | 12/26 episodes | Priority: 1 | Rating: N/A";
-        private String s2 = "Shin Megami Tensei V | Game | Finished | 90/-- hours | Priority: 3 | Rating: 7/10";
-        private String s3 = "Fullmetal Alchemist (manga) | Manga | Reading | 56/108 chapters | Priority: N/A | Rating: N/A";
+        String s1 = "Neon Genesis Evangelion | Show | On-hold | 12/26 episodes | Priority: 1 | Rating: N/A";
+        String s2 = "Shin Megami Tensei V | Game | Finished | 90/-- hours | Priority: 3 | Rating: 7/10";
+        String s3 = "Fullmetal Alchemist (manga) | Manga | Reading | 56/108 chapters | Priority: N/A | Rating: N/A";
         output.add(s1);
         output.add(s2);
         output.add(s3);
@@ -145,7 +147,7 @@ public class TestMediaList {
         testList.add(m3);
         assertEquals(testList, testTracker.getFilterMedia(null));
     }
-
+    
     @Test 
     void testRemoveMedia(){
         testList.add(m1);
