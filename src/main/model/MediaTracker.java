@@ -59,11 +59,23 @@ public class MediaTracker {
     //          returns true if adding was succesful otherwise returns false
     public Boolean removeMedia(String name){
         for (Media thisM : mediaList){
-            if (thisM.getName() == name){
+            if (thisM.getName().equals(name)){
                 mediaList.remove(thisM);
                 return true;
             }
         }
         return false;
+    }
+
+    // REQUIRES:
+    // MODIFIES:
+    // EFFECTS: returns the media object with inputted name if it is in mediaList
+    public Media getMedia(String name){
+        for (Media thisM : mediaList){
+            if (thisM.getName().equals(name)){
+                return thisM;
+            }
+        }
+        return null;
     }
 }

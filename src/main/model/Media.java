@@ -154,7 +154,7 @@ public class Media {
         // REQUIRES:
     // MODIFIES: this
     // EFFECTS: outputs a list of strings based on the media type and status in a display-ready format
-    private List<String> mediaTypeStrings(){
+    public List<String> mediaTypeStrings(){
         List<String> output = new ArrayList<>();
         switch (type) {
             case MOVIE:
