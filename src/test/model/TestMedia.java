@@ -1,12 +1,12 @@
 package model;
 
 import model.enums.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.*;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class TestMedia {
@@ -19,8 +19,7 @@ public class TestMedia {
     @BeforeEach
     void runBefore(){
         testShow = new Media("Cowboy Bebop", MediaType.SHOW, 26, 1);
-        testManga = new Media("Berserk", MediaType.Manga, 376, 3);
-        testGame = new Media("Persona 3 Portable", MediaType.GAME, -1, -1);
+        testLog = new ArrayList();
         view1 = new ViewLog(LocalDate.of(2024, Month.MARCH, 13), 5);
         view2 = new ViewLog(LocalDate.of(2024, Month.MARCH, 15), 14);
         view3 = new ViewLog(LocalDate.of(2024, Month.MARCH, 16), 7);
@@ -34,6 +33,7 @@ public class TestMedia {
         assertEquals(1, testShow.getPriority());
         assertEquals(testLog, testShow.getLog());
         assertEquals(Status.WAITLIST, testShow.getStatus());
+        assertEquals(-1, testShow.getRating());
     }
 
     @Test
@@ -42,6 +42,7 @@ public class TestMedia {
         assertEquals(testLog, testShow.getLog());
         ViewLog view1 = new ViewLog(LocalDate.of(2025, Month.JANUARY, 13), 12);
         testLog.add(view1);
+        testShow.logViewing(view1);
         assertEquals(Status.VIEWING, testShow.getStatus());
         assertEquals(testLog, testShow.getLog());
     }
@@ -100,5 +101,16 @@ public class TestMedia {
         testShow.removeLog(0);
         assertEquals(testLog, testShow.getLog());
         
+    }
+
+    @Test
+    void testGetTotalViewProgress(){
+        assertEquals(0, testShow.getTotalViewProgess());
+        testShow.logViewing(view1);
+        assertEquals(5, testShow.getTotalViewProgess());
+        testShow.logViewing(view2);
+        assertEquals(19, testShow.getTotalViewProgess());
+        testShow.logViewing(view3);
+        assertEquals(26, testShow.getTotalViewProgess());
     }
 }

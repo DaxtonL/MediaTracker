@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.enums.MediaType;
@@ -19,10 +20,16 @@ public class Media {
 
 
     // MODIFIES: this
-    // EFFECTS: creates a new Media with a specified name, length, priority and an empty log and status set to "WAITLIST"
-    // If priority and/or length is set to -1, this represents that the given field is N/A
+    // EFFECTS: creates a new Media with a specified name, length, priority, an empty log, rating set to -1 and status set to "WAITLIST"
+    // If priority, rating and/or length is set to -1, this represents that the given field is N/A
     public Media(String name, MediaType type, Integer length, Integer priority){
-        //stub
+        this.name = name;
+        this.type = type;
+        this.length = length;
+        this.priority = priority;
+        this.status = Status.WAITLIST;
+        this.rating = -1;
+        this.log = new ArrayList<>();
     }
 
     // REQUIRES:
@@ -30,65 +37,83 @@ public class Media {
     // EFFECTS: adds a new ViewLog to the log, if status is not VIEWING, changes the status of the show to VIEWING unless:
     // the length of the media is not null and the total viewing progress of the log is greater than the length of the meda
     // then changes the status of media to "FINISHED"
-    public void logViewing(ViewLog log){
-        //stub
+    public void logViewing(ViewLog viewing){
+        log.add(viewing);
+        if (length != -1 && getTotalViewProgess() >= length){
+            status = Status.FINISHED;
+        }
+        else if (status != Status.VIEWING) {
+            status = Status.VIEWING;
+        }
     }
 
     // REQUIRES: log.size() > 0, pos <= log.size()
     // MODIFIES: this
     // EFFECTS: removes the ViewLog in log at position "pos" 
     public void removeLog(Integer pos){
-        //stub
+        log.remove(log.get(pos));
     }
 
     // REQUIRES:
     // MODIFIES: this
     // EFFECTS: returns the sum of all the viewProgress of the ViewLogs in the log
     public Integer getTotalViewProgess(){
-        return -1;
+        Integer total = 0;
+        for (ViewLog v : log){
+            total += v.getViewProgress();
+        }
+        return total;
     }
 
     public List<ViewLog> getLog(){
-        return null;
+        return log;
     }
 
     public void setName(String name){
-        //stub
+        this.name = name;
     }
 
     public String getName(){
-        return null;
+        return name;
     }
 
     public void setPriority(Integer priority){
-        //stub
+        this.priority = priority;
     }
 
     public Integer getPriority(){
-        return -1;
+        return priority;
     }
 
     public void setStatus(Status status){
-        //sub
+        this.status = status;
     }
 
     public Status getStatus(){
-        return null;
+        return this.status;
     }
 
     public void setType(MediaType type){
-        //stub
+        this.type = type;
     }
 
     public MediaType getType(){
-        return null;
+        return type;
     }
 
-    public void setLength(){
-        //stub
+    public void setLength(Integer length){
+        this.length = length;
     }
 
     public Integer getLength(){
-        return -1;
+        return length;
+    }
+
+    public void setRating(Integer rating){
+        this.rating = rating;
+    }
+    
+    public Integer getRating(){
+        return rating;
     }
 }   

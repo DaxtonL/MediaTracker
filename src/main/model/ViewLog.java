@@ -8,15 +8,16 @@ public class ViewLog {
     private Integer viewProgress;
 
     public ViewLog(LocalDate date, Integer viewProgress){
-        //stub
+        this.date = date;
+        this.viewProgress = viewProgress;
     }
 
-    public void getDate(){
-        //stub
+    public LocalDate getDate(){
+        return date;
     }
 
-    public void getViewProgress(){
-        //stub
+    public Integer getViewProgress(){
+        return viewProgress;
     }
 
 }
