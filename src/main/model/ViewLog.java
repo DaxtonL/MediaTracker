@@ -1,13 +1,13 @@
 package model;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 // Represents time where the users viewed a piece of media
 // contains the date and how much of the media the consumed.
 public class ViewLog {
-    private LocalDateTime date;
+    private LocalDate date;
     private Integer viewProgress;
 
-    public void ViewLog(LocalDateTime date, Integer viewProgress){
+    public ViewLog(LocalDate date, Integer viewProgress){
         //stub
     }
 
