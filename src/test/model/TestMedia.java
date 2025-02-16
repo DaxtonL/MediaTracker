@@ -80,7 +80,7 @@ public class TestMedia {
         assertEquals(testLog, testShow.getLog());
 
         testLog.remove(0);
-        testShow.removeLog(0);
+        testShow.removeLog();
         assertEquals(testLog, testShow.getLog());
     }
 
@@ -97,11 +97,11 @@ public class TestMedia {
         assertEquals(testLog, testShow.getLog());
 
         testLog.remove(2);
-        testShow.removeLog(2);
+        testShow.removeLog();
         assertEquals(testLog, testShow.getLog());
 
-        testLog.remove(0);
-        testShow.removeLog(0);
+        testLog.remove(1);
+        testShow.removeLog();
         assertEquals(testLog, testShow.getLog());
         
     }

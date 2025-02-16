@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import model.*;
 import model.enums.*;
-import model.enums.MediaType;
 
 public class MediaTrackerApp {
     private Boolean running;
@@ -152,10 +151,16 @@ public class MediaTrackerApp {
         input = scanner.nextLine();
         switch (input.toUpperCase()) {
             case "L+":
-                
+                System.out.println("How many " + m.mediaTypeStrings().getLengthIncrement() + " do you want to log?");
+                input = scanner.nextLine();
+                Integer n = stringToInteger(input);
+                if (n == -1){
+                    return;
+                }
+                m.logViewing(new ViewLog(LocalDate.now(), n));
                 break;
             case "L-":
-                
+                m.removeLog();
                 break;
             case "S":
                 changeMediaValue(m, "STATUS");
@@ -214,17 +219,7 @@ public class MediaTrackerApp {
                 case "LENGTH":
                     System.out.println("Input media length (leave blank for N/A)");
                     input = scanner.nextLine();
-                    Integer length;
-                    try {
-                        if (input.length() > 0){
-                            length = Integer.parseInt(input);
-                        } else {
-                            length = -1;
-                        } 
-                    } catch (NumberFormatException e) {
-                        length = -1;
-                    }
-                    m.setLength(length);
+                    m.setLength(stringToInteger(input));
                     tryAgain = false;
                     break;
                 case "STATUS":
@@ -241,33 +236,13 @@ public class MediaTrackerApp {
                 case "PRIORITY":
                     System.out.println("Input media watchlist priority (leave blank for N/A)");
                     input = scanner.nextLine();
-                    Integer priority;
-                    try {
-                        if (input.length() > 0){
-                            priority = Integer.parseInt(input);
-                        } else {
-                            priority = -1;
-                        } 
-                    } catch (NumberFormatException e) {
-                        priority = -1;
-                    }
-                    m.setPriority(priority);
+                    m.setPriority(stringToInteger(input));
                     tryAgain = false;
                     break;
                 case "RATING":
                     System.out.println("Input media rating (leave blank for N/A)");
                     input = scanner.nextLine();
-                    Integer rating;
-                    try {
-                        if (input.length() > 0){
-                            rating = Integer.parseInt(input);
-                        } else {
-                            rating = -1;
-                        } 
-                    } catch (NumberFormatException e) {
-                        rating = -1;
-                    }
-                    m.setLength(rating);
+                    m.setLength(stringToInteger(input));
                     tryAgain = false;
                     break;
                 default:
@@ -284,6 +259,21 @@ public class MediaTrackerApp {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private Integer stringToInteger(String s){
+        Integer n;
+        try {
+            if (s.length() > 0){
+                n = Integer.parseInt(s);
+                if (n >= 0){
+                    return n;
+                }  
+            }
+            return -1;
+        } catch (NumberFormatException e) {
+            return -1;
         }
     }
 }

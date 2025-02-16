@@ -47,11 +47,13 @@ public class Media {
         }
     }
 
-    // REQUIRES: log.size() > 0, pos <= log.size()
+    // REQUIRES: 
     // MODIFIES: this
-    // EFFECTS: removes the ViewLog in log at position "pos" 
-    public void removeLog(Integer pos){
-        log.remove(log.get(pos));
+    // EFFECTS: removes the newest added viewLog in log
+    public void removeLog(){
+        if (log.size() > 0){
+            log.remove(log.get(log.size() - 1));
+        }
     }
 
     // REQUIRES:
@@ -71,7 +73,7 @@ public class Media {
     // information includes: name, status, logged progress, length, rating, and priority
     public String displayMediaInfo(){
         String mType = toProperCase(type.toString()); 
-        String mStatus = mediaTypeStrings().get(0);
+        String mStatus = mediaTypeStrings().getViewingVerb();
         String mLength;
         if (length == -1){
             mLength = "--";
@@ -79,7 +81,7 @@ public class Media {
             mLength = length.toString();
         }
         String mProgress = getTotalViewProgess().toString();
-        String mIncrement = mediaTypeStrings().get(1);
+        String mIncrement = mediaTypeStrings().getLengthIncrement();
         String mPriorty;
         if (priority == -1){
             mPriorty = "N/A";
@@ -154,7 +156,7 @@ public class Media {
         // REQUIRES:
     // MODIFIES: this
     // EFFECTS: outputs a list of strings based on the media type and status in a display-ready format
-    public List<String> mediaTypeStrings(){
+    public MediaTypeStrings mediaTypeStrings(){
         List<String> output = new ArrayList<>();
         switch (type) {
             case MOVIE:
@@ -195,7 +197,7 @@ public class Media {
                 output.set(0, toProperCase(status.toString()));
             }
         }
-        return output;
+        return new MediaTypeStrings(output.get(0), output.get(1));
     }
 
     // REQUIRES s.length > 0
