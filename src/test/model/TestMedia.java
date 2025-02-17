@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class TestMedia {
     private Media testShow;
     private Media testMovie;
+    private Media testBook;
+    private Media nullMedia;
     private Media m1;
     private Media m2;
     private Media m3;
@@ -24,6 +26,8 @@ public class TestMedia {
     void runBefore(){
         testShow = new Media("Cowboy Bebop", MediaType.SHOW, 26, 1);
         testMovie = new Media("Whieplash", MediaType.MOVIE, 100, 4);
+        testBook = new Media("1984", MediaType.BOOK, 284, -1);
+        nullMedia = new Media(null, null, null, null);
         testLog = new ArrayList();
         view1 = new ViewLog(LocalDate.of(2024, Month.MARCH, 13), 5);
         view2 = new ViewLog(LocalDate.of(2024, Month.MARCH, 15), 14);
@@ -52,6 +56,7 @@ public class TestMedia {
         ViewLog view1 = new ViewLog(LocalDate.of(2025, Month.JANUARY, 13), 12);
         testLog.add(view1);
         testShow.logViewing(view1);
+        assertEquals(LocalDate.of(2025, Month.JANUARY, 13), testShow.getLog().get(0).getDate());
         assertEquals(Status.VIEWING, testShow.getStatus());
         assertEquals(testLog, testShow.getLog());
     }
@@ -109,7 +114,13 @@ public class TestMedia {
         testLog.remove(1);
         testShow.removeLog();
         assertEquals(testLog, testShow.getLog());
-        
+
+        testLog.remove(0);
+        testShow.removeLog();
+        assertEquals(testLog, testShow.getLog());
+
+        testShow.removeLog();
+        assertEquals(testLog, testShow.getLog());
     }
 
     @Test
@@ -150,23 +161,55 @@ public class TestMedia {
     @Test
     void testMediaTypeStrings(){
         assertEquals("Waitlist", testMovie.mediaTypeStrings().getViewingVerb());
+        assertEquals("Waitlist", testBook.mediaTypeStrings().getViewingVerb());
+        assertEquals("Waitlist", nullMedia.mediaTypeStrings().getViewingVerb());
         assertEquals("Waitlist", m1.mediaTypeStrings().getViewingVerb());
         assertEquals("Waitlist", m2.mediaTypeStrings().getViewingVerb());
         assertEquals("Waitlist", m3.mediaTypeStrings().getViewingVerb());
 
         assertEquals("episodes", m1.mediaTypeStrings().getLengthIncrement());
+        assertEquals("pages", testBook.mediaTypeStrings().getLengthIncrement());
+        assertEquals("unit", nullMedia.mediaTypeStrings().getLengthIncrement());
         assertEquals("hours", m2.mediaTypeStrings().getLengthIncrement());
         assertEquals("chapters", m3.mediaTypeStrings().getLengthIncrement());
         assertEquals("minutes", testMovie.mediaTypeStrings().getLengthIncrement());
 
+        nullMedia.setStatus(Status.VIEWING);
         testMovie.setStatus(Status.VIEWING);
+        testBook.setStatus(Status.VIEWING);
         m1.setStatus(Status.VIEWING);
         m2.setStatus(Status.VIEWING);
         m3.setStatus(Status.VIEWING);
 
         assertEquals("Watching", testMovie.mediaTypeStrings().getViewingVerb());
+        assertEquals("Reading", testBook.mediaTypeStrings().getViewingVerb());
+        assertEquals("Viewing", nullMedia.mediaTypeStrings().getViewingVerb());
         assertEquals("Watching", m1.mediaTypeStrings().getViewingVerb());
         assertEquals("Playing", m2.mediaTypeStrings().getViewingVerb());
         assertEquals("Reading", m3.mediaTypeStrings().getViewingVerb());
+    }
+
+    @Test
+    void testSetName(){
+        m3.setName("Wotakoi");
+        assertEquals("Wotakoi", m3.getName());
+    }
+
+    @Test
+    void testSetPriority(){
+        m2.setPriority(-1);
+        assertEquals(-1, m2.getPriority());
+    }
+
+    @Test
+    void testSetLength(){
+        m2.setLength(21);
+        assertEquals(21, m2.getLength());
+    }
+
+    @Test
+    void testSetType(){
+        m1.setType(MediaType.BOOK);
+        assertEquals(MediaType.BOOK, m1.getType());
     }
 }

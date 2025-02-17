@@ -24,6 +24,9 @@ public class TestMediaTracker {
 
     private Filter filterStatus = new FilterStatus(Status.ON_HOLD);
     private Filter filterType = new FilterType(MediaType.SHOW);
+    private Filter filterRating = new FilterRating(true, 5);
+    private Filter filterRatingBelow = new FilterRating(false, 8);
+
     private List<Filter> filterList;
 
     @BeforeEach
@@ -33,23 +36,23 @@ public class TestMediaTracker {
         filterList = new ArrayList<>();
 
         m1 = new Media("Neon Genesis Evangelion", MediaType.SHOW, 26, 1);
-        System.out.println(m1.getStatus().toString());
         m1.logViewing(new ViewLog(null, 12));
-        System.out.println(m1.getStatus().toString());
+        m1.setRating(6);
         m1.setStatus(Status.ON_HOLD);
-        System.out.println(m1.getStatus().toString());
 
         m2 = new Media("Shin Megami Tensei V", MediaType.GAME, -1, 3);
         m2.logViewing(new ViewLog(null, 90));
-        m2.setRating(7);
+        m2.setRating(4);
         m2.setStatus(Status.FINISHED);
 
         m3 = new Media("Fullmetal Alchemist (manga)", MediaType.MANGA, 108, -1);
         m3.logViewing(new ViewLog(null, 56));
+        m3.setRating(10);
         m3.setStatus(Status.VIEWING);
 
         m4 = new Media("Soul Eater", MediaType.SHOW, 51, 2);
-        m4.setStatus(Status.WAITLIST);
+        m4.setRating(4);
+        m4.setStatus(Status.ON_HOLD);
 
         m5= new Media("Celeste", MediaType.GAME, -1, -1);
         m5.setStatus(Status.FINISHED);
@@ -78,9 +81,10 @@ public class TestMediaTracker {
         testTracker.addMedia(m4);
         testTracker.addMedia(m5);
         testTracker.addMedia(m6);
-        assertEquals(testList, testTracker.getFilterMedia(null));        
+        assertEquals(testList, testTracker.getFilterMedia(null));
+        assertEquals(testList, testTracker.getFilterMedia(filterList));        
     }
-
+    
     @Test
     void testGetFilterMediaFiltersOne(){
         filterList.add(filterType);
@@ -101,6 +105,8 @@ public class TestMediaTracker {
     void testGetFilterMediaFiltersMultiple(){
         filterList.add(filterType);
         filterList.add(filterStatus);
+        filterList.add(filterRating);
+        filterList.add(filterRatingBelow);
 
         assertEquals(testList, testTracker.getFilterMedia(null));
         testList.add(m1);
@@ -151,5 +157,14 @@ public class TestMediaTracker {
         assertTrue(testTracker.removeMedia("Fullmetal Alchemist (manga)"));
         testList.remove(1);
         assertEquals(testList, testTracker.getFilterMedia(null));
+    }
+
+    @Test
+    void testGetMedia(){
+        testTracker.addMedia(m1);
+        testTracker.addMedia(m2);
+        testTracker.addMedia(m3);
+        assertEquals(m1, testTracker.getMedia("Neon Genesis Evangelion"));
+        assertEquals(null, testTracker.getMedia("Cowboy Bebop"));
     }
 }

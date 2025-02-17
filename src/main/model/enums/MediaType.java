@@ -6,5 +6,6 @@ public enum MediaType {
     BOOK,
     SHOW,
     GAME,
-    MANGA
+    MANGA,
+    NULL_MEDIA
 }

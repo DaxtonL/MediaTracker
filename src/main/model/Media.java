@@ -158,6 +158,9 @@ public class Media {
     // EFFECTS: outputs a list of strings based on the media type and status in a display-ready format
     public MediaTypeStrings mediaTypeStrings(){
         List<String> output = new ArrayList<>();
+        if (type == null){
+            type = MediaType.NULL_MEDIA;
+        }
         switch (type) {
             case MOVIE:
                 output.add("Watching");
@@ -186,7 +189,7 @@ public class Media {
 
             default:
                 output.add("Viewing");
-                output.add("units");
+                output.add("unit");
                 break;
         }
         if (status != Status.VIEWING) {
@@ -200,18 +203,15 @@ public class Media {
         return new MediaTypeStrings(output.get(0), output.get(1));
     }
 
-    // REQUIRES s.length > 0
+    // REQUIRES s.length > 2
     // MODIFIES string s
     // EFFECTS makes first character upper case and all following characters lowercase
     private String toProperCase(String s){
         String start = "";
         String end = "";
-        if (s.length() > 0){
-            start = s.substring(0, 1);
-        }
-        if (s.length() > 1){
-            end = s.substring(1, s.length()).toLowerCase();
-        }
+        start = s.substring(0, 1);
+        end = s.substring(1, s.length()).toLowerCase();
+
         
         return start + end;
      }
