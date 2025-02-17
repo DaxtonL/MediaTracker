@@ -153,7 +153,7 @@ public class Media {
         return rating;
     }
 
-        // REQUIRES:
+    // REQUIRES:
     // MODIFIES: this
     // EFFECTS: outputs a list of strings based on the media type and status in a display-ready format
     public MediaTypeStrings mediaTypeStrings(){
