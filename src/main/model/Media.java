@@ -58,8 +58,6 @@ public class Media {
         }
     }
 
-    // REQUIRES:
-    // MODIFIES: this
     // EFFECTS: returns the sum of all the viewProgress of the ViewLogs in the log
     public Integer getTotalViewProgess() {
         Integer total = 0;
@@ -69,8 +67,6 @@ public class Media {
         return total;
     }
 
-    // REQUIRES:
-    // MODIFIES:
     // EFFECTS: returns a list of string with the information about the media 
     //          in mediaList in a output-ready form
     // information includes: name, status, logged progress, length, rating, and priority
@@ -103,60 +99,6 @@ public class Media {
         return details;
     }
 
-    public List<ViewLog> getLog() {
-        return log;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Status getStatus() {
-        return this.status;
-    }
-
-    public void setType(MediaType type) {
-        this.type = type;
-    }
-
-    public MediaType getType() {
-        return type;
-    }
-
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-    
-    public Integer getRating() {
-        return rating;
-    }
-
-    // REQUIRES:
-    // MODIFIES: this
     // EFFECTS: outputs a list of strings based on the media type and status in a display-ready format
     public MediaTypeStrings mediaTypeStrings() {
         List<String> output = new ArrayList<>();
@@ -213,7 +155,58 @@ public class Media {
         start = s.substring(0, 1);
         end = s.substring(1, s.length()).toLowerCase();
 
-        
         return start + end;
+    }
+
+    public List<ViewLog> getLog() {
+        return log;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public void setType(MediaType type) {
+        this.type = type;
+    }
+
+    public MediaType getType() {
+        return type;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+    
+    public Integer getRating() {
+        return rating;
     }
 }   

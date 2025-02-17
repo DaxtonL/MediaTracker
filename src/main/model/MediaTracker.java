@@ -9,14 +9,12 @@ import java.util.ArrayList;
 public class MediaTracker {
     private List<Media> mediaList;
 
-    // REQUIRES: 
     // MODIFIES: this
     // EFFECTS: creates a new media tracker with an empty media list
     public MediaTracker() {
         mediaList = new ArrayList<>();
     }
 
-    // REQUIRES:
     // MODIFIES: list of media
     // EFFECTS: applies the filters to the mediaList and returns a new list with the filter applied
     public List<Media> getFilterMedia(List<Filter> filters) {
@@ -39,7 +37,6 @@ public class MediaTracker {
         return filteredList;
     }
 
-    // REQUIRES:
     // MODIFIES: this 
     // EFFECTS: checks if media to add has a distinct name,
     //          returns true if adding was succesful otherwise returns false
@@ -67,8 +64,6 @@ public class MediaTracker {
         return false;
     }
 
-    // REQUIRES:
-    // MODIFIES:
     // EFFECTS: returns the media object with inputted name if it is in mediaList
     public Media getMedia(String name) {
         for (Media thisM : mediaList) {
