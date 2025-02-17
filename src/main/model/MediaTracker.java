@@ -12,27 +12,27 @@ public class MediaTracker {
     // REQUIRES: 
     // MODIFIES: this
     // EFFECTS: creates a new media tracker with an empty media list
-    public MediaTracker(){
+    public MediaTracker() {
         mediaList = new ArrayList<>();
     }
 
     // REQUIRES:
     // MODIFIES: list of media
     // EFFECTS: applies the filters to the mediaList and returns a new list with the filter applied
-    public List<Media> getFilterMedia(List<Filter> filters){
-        if (filters == null || filters.isEmpty() ) {
+    public List<Media> getFilterMedia(List<Filter> filters) {
+        if (filters == null || filters.isEmpty()) {
             return mediaList;
         }
 
         List<Media> filteredList = new ArrayList<>();
-        for (Media m : mediaList){
+        for (Media m : mediaList) {
             Boolean passFilter = true;
-            for (Filter f : filters){
-                if (!f.applyFilter(m)){
+            for (Filter f : filters) {
+                if (!f.applyFilter(m)) {
                     passFilter = false;
                 }
             }
-            if (passFilter){
+            if (passFilter) {
                 filteredList.add(m);
             }
         }
@@ -43,9 +43,9 @@ public class MediaTracker {
     // MODIFIES: this 
     // EFFECTS: checks if media to add has a distinct name,
     //          returns true if adding was succesful otherwise returns false
-    public Boolean addMedia(Media m){
-        for (Media thisM : mediaList){
-            if (thisM.getName().equals(m.getName())){
+    public Boolean addMedia(Media m) {
+        for (Media thisM : mediaList) {
+            if (thisM.getName().equals(m.getName())) {
                 return false;
             }
         }
@@ -57,9 +57,9 @@ public class MediaTracker {
     // MODIFIES: this
     // EFFECTS: If there is a media in mediaList with inputted name, removes it from mediaList
     //          returns true if adding was succesful otherwise returns false
-    public Boolean removeMedia(String name){
-        for (Media thisM : mediaList){
-            if (thisM.getName().equals(name)){
+    public Boolean removeMedia(String name) {
+        for (Media thisM : mediaList) {
+            if (thisM.getName().equals(name)) {
                 mediaList.remove(thisM);
                 return true;
             }
@@ -70,9 +70,9 @@ public class MediaTracker {
     // REQUIRES:
     // MODIFIES:
     // EFFECTS: returns the media object with inputted name if it is in mediaList
-    public Media getMedia(String name){
-        for (Media thisM : mediaList){
-            if (thisM.getName().equals(name)){
+    public Media getMedia(String name) {
+        for (Media thisM : mediaList) {
+            if (thisM.getName().equals(name)) {
                 return thisM;
             }
         }

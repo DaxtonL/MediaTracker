@@ -8,5 +8,25 @@
         "lib/**/*.jar"
     ],
     "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
-    "java.checkstyle.version": "10.2"
+    "java.checkstyle.version": "10.2",
+    "update.mode": "none",
+    "extensions.autoCheckUpdates": false,
+    "java.checkstyle.autocheck": false,
+    "files.autoSave": "afterDelay",
+    "java.debug.settings.stepping.skipClasses": [
+        "$JDK",
+        "$Libraries",
+        "java.lang.ClassLoader"
+    ],
+    "files.exclude": {
+        "**/.*": true
+    },
+    "editor.detectIndentation": false,
+    "editor.minimap.enabled": false,
+    "testing.coverageToolbarEnabled": true,
+    "java.test.config": {
+        "coverage": {
+            "appendResult": false
+        }
+    }
 }

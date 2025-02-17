@@ -1,4 +1,5 @@
 package model;
+
 import java.time.LocalDate;
 
 // Represents time where the users viewed a piece of media
@@ -7,16 +8,16 @@ public class ViewLog {
     private LocalDate date;
     private Integer viewProgress;
 
-    public ViewLog(LocalDate date, Integer viewProgress){
+    public ViewLog(LocalDate date, Integer viewProgress) {
         this.date = date;
         this.viewProgress = viewProgress;
     }
 
-    public LocalDate getDate(){
+    public LocalDate getDate() {
         return date;
     }
 
-    public Integer getViewProgress(){
+    public Integer getViewProgress() {
         return viewProgress;
     }
 

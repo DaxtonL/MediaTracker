@@ -19,8 +19,6 @@ In addition, depending on the work's status the user to be able to track other a
  - Priority in the watch/play/read later list
  - Progress through currently watching/playing/reading works
  - Rating once a work is finished
- - Reason for dropping a work   
-
 
  ## User Stories
  - As a user, I want to be able to specify the media type, name of a work, length of the work, set its status to "waitlist/viewing/finished/on-hold/dropped", specifiy its prioity and add it to my list of media.
