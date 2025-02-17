@@ -139,7 +139,7 @@ public class TestMedia {
         System.out.println(m1.getStatus().toString());
         m1.logViewing(new ViewLog(null, 12));
         System.out.println(m1.getStatus().toString());
-        m1.setStatus(Status.ON_HOLD);
+        m1.setStatus(Status.HOLD);
         System.out.println(m1.getStatus().toString());
 
         m2.logViewing(new ViewLog(null, 90));

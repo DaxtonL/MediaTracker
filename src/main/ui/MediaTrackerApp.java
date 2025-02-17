@@ -75,7 +75,13 @@ public class MediaTrackerApp {
         String input;
         Media m = new Media(null, null, null, null);
         changeMediaValue(m, "NAME");
-        changeMediaValue(m, "TYPE");
+        if (changeMediaValue(m, "TYPE") == false){
+            System.out.println("Cannot complete new media");
+            if (tryAgainInput()){
+                addNewMedia();
+            }
+            return;
+        }
         changeMediaValue(m, "LENGTH");
         changeMediaValue(m, "PRIORITY");
 
@@ -205,7 +211,7 @@ public class MediaTrackerApp {
         }
     }
 
-    private void changeMediaValue(Media m, String s){
+    private Boolean changeMediaValue(Media m, String s){
         s = s.toUpperCase();
         String input;
         Boolean tryAgain = true;
@@ -216,52 +222,59 @@ public class MediaTrackerApp {
                     input = scanner.nextLine();
                     m.setName(input);
                     tryAgain = false;
-                    break;
+                    return true;
                 case "TYPE":
                     System.out.println("Input media type (movie, show, book, game, manga)");
                     MediaType type = stringToMediaType(scanner.nextLine());
                     if (type == null){
                         System.out.println("Invalid media type");
                         tryAgain = tryAgainInput();
+                        if (tryAgain == false){
+                            return false;
+                        }
                         break;
                     }
                     m.setType(type);
                     tryAgain = false;
-                    break;
+                    return true;
                 case "LENGTH":
                     System.out.println("Input media length (leave blank for N/A)");
                     input = scanner.nextLine();
                     m.setLength(stringToInteger(input));
                     tryAgain = false;
-                    break;
+                    return true;
                 case "STATUS":
-                    System.out.println("Input media status (waitlist, viewing, finished, on-hold, dropped)");
+                    System.out.println("Input media status (waitlist, viewing, finished, hold, dropped)");
                     Status status = stringToStatus(scanner.nextLine());
                     if (status == null){
                         System.out.println("Invalid status");
                         tryAgain = tryAgainInput();
+                        if (tryAgain == false){
+                            return false;
+                        }
                         break;
                     }
                     m.setStatus(status);
                     tryAgain = false;
-                    break;
+                    return true;
                 case "PRIORITY":
                     System.out.println("Input media watchlist priority (leave blank for N/A)");
                     input = scanner.nextLine();
                     m.setPriority(stringToInteger(input));
                     tryAgain = false;
-                    break;
+                    return true;
                 case "RATING":
                     System.out.println("Input media rating (leave blank for N/A)");
                     input = scanner.nextLine();
                     m.setRating(stringToInteger(input));
                     tryAgain = false;
-                    break;
+                    return true;
                 default:
                     tryAgain = false;
-                    break;
+                    return true;
             }
         }
+        return false;
     }
 
     private Boolean tryAgainInput() {

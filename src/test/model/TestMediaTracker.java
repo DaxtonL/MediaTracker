@@ -22,7 +22,7 @@ public class TestMediaTracker {
     private Media m5;
     private Media m6;
 
-    private Filter filterStatus = new FilterStatus(Status.ON_HOLD);
+    private Filter filterStatus = new FilterStatus(Status.HOLD);
     private Filter filterType = new FilterType(MediaType.SHOW);
     private Filter filterRating = new FilterRating(true, 5);
     private Filter filterRatingBelow = new FilterRating(false, 8);
@@ -38,7 +38,7 @@ public class TestMediaTracker {
         m1 = new Media("Neon Genesis Evangelion", MediaType.SHOW, 26, 1);
         m1.logViewing(new ViewLog(null, 12));
         m1.setRating(6);
-        m1.setStatus(Status.ON_HOLD);
+        m1.setStatus(Status.HOLD);
 
         m2 = new Media("Shin Megami Tensei V", MediaType.GAME, -1, 3);
         m2.logViewing(new ViewLog(null, 90));
@@ -52,13 +52,13 @@ public class TestMediaTracker {
 
         m4 = new Media("Soul Eater", MediaType.SHOW, 51, 2);
         m4.setRating(4);
-        m4.setStatus(Status.ON_HOLD);
+        m4.setStatus(Status.HOLD);
 
         m5= new Media("Celeste", MediaType.GAME, -1, -1);
         m5.setStatus(Status.FINISHED);
 
         m6 = new Media("Blue Box", MediaType.MANGA, -1, 2);
-        m6.setStatus(Status.ON_HOLD);
+        m6.setStatus(Status.HOLD);
     }
 
     @Test

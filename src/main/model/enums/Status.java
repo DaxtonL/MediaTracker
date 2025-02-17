@@ -5,5 +5,5 @@ public enum Status {
     VIEWING,
     FINISHED,
     DROPPED,
-    ON_HOLD
+    HOLD
 }

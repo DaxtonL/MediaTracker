@@ -193,8 +193,8 @@ public class Media {
                 break;
         }
         if (status != Status.VIEWING) {
-            if (status == Status.ON_HOLD) {
-                output.set(0, "On-hold");
+            if (status == Status.HOLD) {
+                output.set(0, "Hold");
             }
             else {
                 output.set(0, toProperCase(status.toString()));
