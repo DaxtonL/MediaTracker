@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import model.*;
 import model.enums.*;
+import model.exceptions.InvalidInputException;
 import model.filters.*;
 
 // Media tracker application
@@ -183,7 +184,7 @@ public class MediaTrackerApp {
             case "L+":
                 System.out.println("How many " + m.getType().getIncrement() + " do you want to log?");
                 input = scanner.nextLine();
-                Integer n = stringToInteger(input);
+                Integer n = stringToInteger(input, 1, -1);
                 if (n == -1) {
                     return;
                 }
@@ -230,67 +231,42 @@ public class MediaTrackerApp {
     }
 
     // MODIFIES chosen media
-    // EFFECST applies the selected change to a given media's fields
+    // EFFECTS applies the selected change to a given media's fields
+    // returns true if change was succesful
     private Boolean changeMediaValue(Media m, String s) {
         s = s.toUpperCase();
-        Boolean tryAgain = true;
-        while (tryAgain) {
+        try {
             switch (s) {
                 case "NAME":
                     System.out.println("Input media name");
-                    input = scanner.nextLine();
-                    m.setName(input);
-                    tryAgain = false;
-                    return true;
+                    m.setName(scanner.nextLine());
                 case "TYPE":
                     System.out.println("Input media type (movie, show, book, game, manga)");
-                    MediaType type = stringToMediaType(scanner.nextLine());
-                    if (type == null) {
-                        System.out.println("Invalid media type");
-                        tryAgain = tryAgainInput();
-                        if (tryAgain == false) {
-                            return false;
-                        }
-                        break;
-                    }
-                    m.setType(type);
-                    tryAgain = false;
-                    return true;
+                    m.setType(stringToMediaType(scanner.nextLine()));
                 case "LENGTH":
                     System.out.println("Input media length (leave blank for N/A)");
-                    input = scanner.nextLine();
-                    m.setLength(stringToInteger(input));
-                    tryAgain = false;
-                    return true;
+                    m.setLength(stringToInteger(scanner.nextLine(), 1, -1));
                 case "STATUS":
                     System.out.println("Input media status (waitlist, viewing, finished, hold, dropped)");
-                    Status status = stringToStatus(scanner.nextLine());
-                    if (status == null) {
-                        System.out.println("Invalid status");
-                        tryAgain = tryAgainInput();
-                        if (tryAgain == false) {
-                            return false;
-                        }
-                        break;
-                    }
-                    m.setStatus(status);
-                    tryAgain = false;
-                    return true;
+                    m.setStatus(stringToStatus(scanner.nextLine()));
                 case "PRIORITY":
                     System.out.println("Input media watchlist priority (leave blank for N/A)");
-                    input = scanner.nextLine();
-                    m.setPriority(stringToInteger(input));
-                    tryAgain = false;
-                    return true;
+                    m.setPriority(stringToInteger(scanner.nextLine(), 1, -1));
                 case "RATING":
                     System.out.println("Input media rating (leave blank for N/A)");
-                    input = scanner.nextLine();
-                    m.setRating(stringToInteger(input));
-                    tryAgain = false;
-                    return true;
+                    Integer val = stringToInteger(scanner.nextLine(), 0, 10);
+                    if (val == -1) {
+                        throw new InvalidInputException("Input was outside of bounds.");
+                    }
+                    m.setRating(val);
                 default:
-                    tryAgain = false;
-                    return true;
+                    break;
+            }
+            return true;
+        } catch (InvalidInputException e) {
+            System.out.println(e.getError());
+            if (tryAgainInput()) {
+                changeMediaValue(m, s);
             }
         }
         return false;
@@ -310,12 +286,16 @@ public class MediaTrackerApp {
 
     // MODIFIES string
     // EFFECTS changes a string to a integer accepted by other methods
-    private Integer stringToInteger(String s) {
+    // if cannot be changed to a integer return -1 (-1 represents a null integer in
+    // the code)
+    private Integer stringToInteger(String s, int min, int max) {
         Integer n;
         try {
             if (s.length() > 0) {
                 n = Integer.parseInt(s);
-                if (n >= 0) {
+                if (max < min && n > min) {
+                    return n;
+                } else if (n > max && n < min) {
                     return n;
                 }
             }
@@ -326,23 +306,25 @@ public class MediaTrackerApp {
     }
 
     // MODIFIES string
-    // EFFECTS changes a string to a media type
-    private MediaType stringToMediaType(String s) {
+    // EFFECTS changes a string to a media type if a valid one exists
+    // else return null
+    private MediaType stringToMediaType(String s) throws InvalidInputException {
         for (MediaType m : mediaTypes) {
             if (s.equals(m.getName())) {
                 return m;
             }
         }
-        return null;
+        throw new InvalidInputException("Invalid media type inputted");
     }
 
     // MODIFIES string
-    // EFFECTS changes a string to a status
-    private Status stringToStatus(String s) {
+    // EFFECTS changes a string to a status if there is a valid one
+    // else returns null
+    private Status stringToStatus(String s) throws InvalidInputException {
         try {
             return Status.valueOf(s.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return null;
+            throw new InvalidInputException("Invalid status inputted");
         }
     }
 
@@ -350,58 +332,42 @@ public class MediaTrackerApp {
     // EFFECTS changes a string to a filter
     private Filter stringToFilter(String s) {
         s = s.toUpperCase();
-        switch (s) {
-            case "STATUS":
-                System.out
-                .println("What status do you want to filter for? (waitlist, viewing, finished, hold, dropped)");
-                input = scanner.nextLine();
-                Status status = stringToStatus(input);
-                if (status == null) {
-                    if (tryAgainInput()) {
-                        stringToFilter(s);
+        try {
+            switch (s) {
+                case "STATUS":
+                    System.out
+                            .println("What status do you want to filter for?"
+                            + "(waitlist, viewing, finished, hold, dropped)");
+                    return new FilterStatus(stringToStatus(scanner.nextLine()));
+                case "TYPE":
+                    System.out.println("What media type do you want to filter for? (movie, book, game, show, manga)");
+                    return new FilterType(stringToMediaType(scanner.nextLine()));
+                case "RATING":
+                    Boolean above;
+                    System.out.println("What rating value do you want to filter for? [0-10]");
+                    Integer n = stringToInteger(scanner.nextLine(), 0, 10);
+                    if (n == -1) {
+                        throw new InvalidInputException("Input outside of bounds.");
                     }
-                    return null;
-                }
-                return new FilterStatus(status);
-            case "TYPE":
-                System.out.println("What media type do you want to filter for? (movie, book, game, show, manga)");
-                input = scanner.nextLine();
-                MediaType type = stringToMediaType(input);
-                if (type == null) {
-                    if (tryAgainInput()) {
-                        stringToFilter(s);
+                    System.out.println("Do you want to filter for media above a certain rating? (y/n)");
+                    input = scanner.nextLine();
+                    if (input.equals("y")) {
+                        above = true;
+                    } else if (input.equals("n")) {
+                        above = false;
+                    } else {
+                        throw new InvalidInputException("That is not one of the options.");
                     }
+                    return new FilterRating(above, n);
+                default:
                     return null;
-                }
-                return new FilterType(type);
-            case "RATING":
-                Boolean above;
-                System.out.println("What rating value do you want to filter for? [0-10]");
-                input = scanner.nextLine();
-                Integer n = stringToInteger(input);
-                if (n < 0 || n > 10) {
-                    System.out.println("That value is out of range");
-                    if (tryAgainInput()) {
-                        stringToFilter(s);
-                    }
-                    return null;
-                }
-                System.out.println("Do you want to filter for media above a certain rating? (y/n)");
-                input = scanner.nextLine();
-                if (input.equals("y")) {
-                    above = true;
-                } else if (input.equals("n")) {
-                    above = false;
-                } else {
-                    System.out.println("That is not one of the options");
-                    if (tryAgainInput()) {
-                        stringToFilter(s);
-                    }
-                    return null;
-                }
-                return new FilterRating(above, n);
-            default:
-                return null;
+            }
+        } catch (InvalidInputException e) {
+            System.out.println(e.getError());
+            if (tryAgainInput()) {
+                stringToFilter(s);
+            }
         }
+        return null;
     }
 }
