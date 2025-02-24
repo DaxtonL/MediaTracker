@@ -22,52 +22,58 @@ public class TestMediaTracker {
     private Media m5;
     private Media m6;
 
+    private MediaType movie = new MediaType("movie", "Watching", "minutes");
+    private MediaType book = new MediaType("book", "Reading", "pages");
+    private MediaType game = new MediaType("game", "Watching", "hours");
+    private MediaType manga = new MediaType("manga", "Reading", "chapters");
+    private MediaType show = new MediaType("show", "Watching", "episodes");
+
     private Filter filterStatus = new FilterStatus(Status.HOLD);
-    private Filter filterType = new FilterType(MediaType.SHOW);
+    private Filter filterType = new FilterType(show);
     private Filter filterRating = new FilterRating(true, 5);
     private Filter filterRatingBelow = new FilterRating(false, 8);
 
     private List<Filter> filterList;
 
     @BeforeEach
-    void runBefore(){
+    void runBefore() {
         testTracker = new MediaTracker();
         testList = new ArrayList<>();
         filterList = new ArrayList<>();
 
-        m1 = new Media("Neon Genesis Evangelion", MediaType.SHOW, 26, 1);
+        m1 = new Media("Neon Genesis Evangelion", show, 26, 1);
         m1.logViewing(new ViewLog(null, 12));
         m1.setRating(6);
         m1.setStatus(Status.HOLD);
 
-        m2 = new Media("Shin Megami Tensei V", MediaType.GAME, -1, 3);
+        m2 = new Media("Shin Megami Tensei V", game, -1, 3);
         m2.logViewing(new ViewLog(null, 90));
         m2.setRating(4);
         m2.setStatus(Status.FINISHED);
 
-        m3 = new Media("Fullmetal Alchemist (manga)", MediaType.MANGA, 108, -1);
+        m3 = new Media("Fullmetal Alchemist (manga)", manga, 108, -1);
         m3.logViewing(new ViewLog(null, 56));
         m3.setRating(10);
         m3.setStatus(Status.VIEWING);
 
-        m4 = new Media("Soul Eater", MediaType.SHOW, 51, 2);
+        m4 = new Media("Soul Eater", show, 51, 2);
         m4.setRating(4);
         m4.setStatus(Status.HOLD);
 
-        m5= new Media("Celeste", MediaType.GAME, -1, -1);
+        m5 = new Media("Celeste", game, -1, -1);
         m5.setStatus(Status.FINISHED);
 
-        m6 = new Media("Blue Box", MediaType.MANGA, -1, 2);
+        m6 = new Media("Blue Box", game, -1, 2);
         m6.setStatus(Status.HOLD);
     }
 
     @Test
-    void testConstructor(){
+    void testConstructor() {
         assertEquals(testList, testTracker.getFilterMedia(null));
     }
 
     @Test
-    void testGetFilterMediaNoFilter(){
+    void testGetFilterMediaNoFilter() {
         assertEquals(testList, testTracker.getFilterMedia(null));
         testList.add(m1);
         testList.add(m2);
@@ -82,11 +88,11 @@ public class TestMediaTracker {
         testTracker.addMedia(m5);
         testTracker.addMedia(m6);
         assertEquals(testList, testTracker.getFilterMedia(null));
-        assertEquals(testList, testTracker.getFilterMedia(filterList));        
+        assertEquals(testList, testTracker.getFilterMedia(filterList));
     }
-    
+
     @Test
-    void testGetFilterMediaFiltersOne(){
+    void testGetFilterMediaFiltersOne() {
         filterList.add(filterType);
 
         assertEquals(testList, testTracker.getFilterMedia(null));
@@ -98,11 +104,11 @@ public class TestMediaTracker {
         testTracker.addMedia(m4);
         testTracker.addMedia(m5);
         testTracker.addMedia(m6);
-        assertEquals(testList, testTracker.getFilterMedia(filterList));  
+        assertEquals(testList, testTracker.getFilterMedia(filterList));
     }
 
     @Test
-    void testGetFilterMediaFiltersMultiple(){
+    void testGetFilterMediaFiltersMultiple() {
         filterList.add(filterType);
         filterList.add(filterStatus);
         filterList.add(filterRating);
@@ -116,11 +122,11 @@ public class TestMediaTracker {
         testTracker.addMedia(m4);
         testTracker.addMedia(m5);
         testTracker.addMedia(m6);
-        assertEquals(testList, testTracker.getFilterMedia(filterList));  
+        assertEquals(testList, testTracker.getFilterMedia(filterList));
     }
 
     @Test
-    void testAddMedia(){
+    void testAddMedia() {
         assertEquals(testList, testTracker.getFilterMedia(null));
 
         assertTrue(testTracker.addMedia(m1));
@@ -138,9 +144,9 @@ public class TestMediaTracker {
         testList.add(m3);
         assertEquals(testList, testTracker.getFilterMedia(null));
     }
-    
-    @Test 
-    void testRemoveMedia(){
+
+    @Test
+    void testRemoveMedia() {
         testList.add(m1);
         testList.add(m2);
         testList.add(m3);
@@ -160,7 +166,7 @@ public class TestMediaTracker {
     }
 
     @Test
-    void testGetMedia(){
+    void testGetMedia() {
         testTracker.addMedia(m1);
         testTracker.addMedia(m2);
         testTracker.addMedia(m3);

@@ -70,80 +70,40 @@ public class Media {
     // EFFECTS: returns a list of string with the information about the media 
     //          in mediaList in a output-ready form
     // information includes: name, status, logged progress, length, rating, and priority
-    public String displayMediaInfo() {
-        String mediaType = toProperCase(type.toString()); 
-        String mediaStatus = mediaTypeStrings().getViewingVerb();
-        String mediaLength;
-        if (length == -1) {
-            mediaLength = "--";
-        } else {
-            mediaLength = length.toString();
-        }
+    public String displayMedia() {
+        String mediaType = toProperCase(type.getName());
+        String mediaStatus = mediaTypeStrings();
+        String mediaLength = mediaNumToString(length, "--");
         String progress = getTotalViewProgess().toString();
-        String increment = mediaTypeStrings().getLengthIncrement();
-        String mediaPriority;
-        if (priority == -1) {
-            mediaPriority = "N/A";
-        } else {
-            mediaPriority = priority.toString();
-        }
-        String mediaRating;
-        if (rating == -1) {
-            mediaRating = "N/A";
-        } else {
-            mediaRating = rating.toString() + "/10";
-        }
+        String increment = type.getIncrement().toLowerCase();
+        String mediaPriority = mediaNumToString(priority, "N/A");
+        String mediaRating = mediaNumToString(rating, "--") + "/10";
         String details = name + " | " + mediaType + " | " + mediaStatus + " | "
                 + progress + "/" + mediaLength + " " + increment + " | Priority: " 
                 + mediaPriority + " | Rating: " + mediaRating;
         return details;
     }
 
-    // EFFECTS: outputs a list of strings based on the media type and status in a display-ready format
-    public MediaTypeStrings mediaTypeStrings() {
-        List<String> output = new ArrayList<>();
-        if (type == null) {
-            type = MediaType.NULL_MEDIA;
+    // EFFECTS: outputs a string based on the media type and status in a display-ready format
+    private String mediaTypeStrings() {
+        if (status == Status.VIEWING) {
+            return toProperCase(type.getViewingVerb());
+        } else if (status == Status.HOLD) {
+            return "On-hold";
+        } else {
+            return toProperCase(status.toString());
         }
-        switch (type) {
-            case MOVIE:
-                output.add("Watching");
-                output.add("minutes");
-                break;
-            
-            case SHOW:
-                output.add("Watching");
-                output.add("episodes");
-                break;
-            
-            case BOOK:
-                output.add("Reading");
-                output.add("pages");
-                break;
+    }
 
-            case MANGA:
-                output.add("Reading");
-                output.add("chapters");
-                break;
-
-            case GAME:
-                output.add("Playing");
-                output.add("hours");
-                break;
-
-            default:
-                output.add("Viewing");
-                output.add("unit");
-                break;
+    // REQUIRES: n >= -1
+    // EFFECTS returns a string in ready to display form
+    //         if n == -1, return the "nullString" string, else returns n as a string
+    private String mediaNumToString(Integer n, String nullString) {
+        if (n == -1) {
+            return nullString;
+        } else {
+            return n.toString();
         }
-        if (status != Status.VIEWING) {
-            if (status == Status.HOLD) {
-                output.set(0, "Hold");
-            } else {
-                output.set(0, toProperCase(status.toString()));
-            }
-        }
-        return new MediaTypeStrings(output.get(0), output.get(1));
     }
 
     // REQUIRES s.length > 2
@@ -152,7 +112,7 @@ public class Media {
     private String toProperCase(String s) {
         String start = "";
         String end = "";
-        start = s.substring(0, 1);
+        start = s.substring(0, 1).toUpperCase();
         end = s.substring(1, s.length()).toLowerCase();
 
         return start + end;

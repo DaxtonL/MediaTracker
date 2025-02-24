@@ -13,6 +13,15 @@ public class MediaTrackerApp {
     private Boolean running;
     private MediaTracker tracker;
     Scanner scanner;
+    String input;
+
+    private List<MediaType> mediaTypes = new ArrayList();
+
+    private MediaType movie = new MediaType("movie", "Watching", "minutes");
+    private MediaType book = new MediaType("book", "Reading", "pages");
+    private MediaType game = new MediaType("game", "Watching", "hours");
+    private MediaType manga = new MediaType("manga", "Reading", "chapters");
+    private MediaType show = new MediaType("show", "Watching", "episodes");
 
     // EFFECTS: starts the media tracker application
     public MediaTrackerApp() {
@@ -21,13 +30,17 @@ public class MediaTrackerApp {
         tracker = new MediaTracker();
         scanner = new Scanner(System.in);
 
+        mediaTypes.add(movie);
+        mediaTypes.add(book);
+        mediaTypes.add(game);
+        mediaTypes.add(manga);
+        mediaTypes.add(show);
+
         run();
     }
 
     // EFFECTS: main loop of the program
     private void run() {
-        String input;
-
         System.out.println("Welcome to your media tracker!");
 
         while (running) {
@@ -80,7 +93,6 @@ public class MediaTrackerApp {
     // EFFECTS: creates a new media and adds it to the tracker mediaList as
     // as long as there is no media already with the same name
     private void addNewMedia() {
-        String input;
         Media m = new Media(null, null, null, null);
         changeMediaValue(m, "NAME");
         if (changeMediaValue(m, "TYPE") == false) {
@@ -92,10 +104,8 @@ public class MediaTrackerApp {
         }
         changeMediaValue(m, "LENGTH");
         changeMediaValue(m, "PRIORITY");
-
-        System.out.println(m.displayMediaInfo());
+        System.out.println(m.displayMedia());
         System.out.println("Is this peice of media correct? (y/n)");
-
         input = scanner.nextLine();
         if (input.equals("y")) {
             if (tracker.addMedia(m)) {
@@ -112,13 +122,10 @@ public class MediaTrackerApp {
 
     // EFFECTS: prints out a list of media based on filters specified by user
     private void listMedia() {
-
         List<Filter> filters = new ArrayList();
         Boolean ask = true;
-        String input;
         while (ask) {
             System.out.println("What filters do you want to apply (status, type, rating) (leave blank for none)");
-
             input = scanner.nextLine();
             Filter f = stringToFilter(input);
             if (f == null) {
@@ -137,7 +144,7 @@ public class MediaTrackerApp {
         System.out.println("Media:");
         System.out.println("---");
         for (Media m : filteredList) {
-            System.out.println(m.displayMediaInfo());
+            System.out.println(m.displayMedia());
         }
         System.out.println("---");
     }
@@ -168,13 +175,13 @@ public class MediaTrackerApp {
             }
             return;
         }
-        System.out.println(m.displayMediaInfo());
+        System.out.println(m.displayMedia());
         System.out.println("What edit do you want to make?");
         showEdits();
         input = scanner.nextLine();
         switch (input.toUpperCase()) {
             case "L+":
-                System.out.println("How many " + m.mediaTypeStrings().getLengthIncrement() + " do you want to log?");
+                System.out.println("How many " + m.getType().getIncrement() + " do you want to log?");
                 input = scanner.nextLine();
                 Integer n = stringToInteger(input);
                 if (n == -1) {
@@ -202,7 +209,7 @@ public class MediaTrackerApp {
             default:
                 return;
         }
-        System.out.println(m.displayMediaInfo());
+        System.out.println(m.displayMedia());
         System.out.println("Edit to " + m.getName() + " succesful!");
     }
 
@@ -226,7 +233,6 @@ public class MediaTrackerApp {
     // EFFECST applies the selected change to a given media's fields
     private Boolean changeMediaValue(Media m, String s) {
         s = s.toUpperCase();
-        String input;
         Boolean tryAgain = true;
         while (tryAgain) {
             switch (s) {
@@ -290,7 +296,8 @@ public class MediaTrackerApp {
         return false;
     }
 
-    // EFFECTS prompts a user if they want to try again and returns true if they input "y"
+    // EFFECTS prompts a user if they want to try again and returns true if they
+    // input "y"
     private Boolean tryAgainInput() {
         System.out.println("Do you want to try again? (y/n)");
         String input = scanner.nextLine();
@@ -321,11 +328,12 @@ public class MediaTrackerApp {
     // MODIFIES string
     // EFFECTS changes a string to a media type
     private MediaType stringToMediaType(String s) {
-        try {
-            return MediaType.valueOf(s.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return null;
+        for (MediaType m : mediaTypes) {
+            if (s.equals(m.getName())) {
+                return m;
+            }
         }
+        return null;
     }
 
     // MODIFIES string
@@ -342,11 +350,10 @@ public class MediaTrackerApp {
     // EFFECTS changes a string to a filter
     private Filter stringToFilter(String s) {
         s = s.toUpperCase();
-        String input;
         switch (s) {
             case "STATUS":
                 System.out
-                        .println("What status do you want to filter for? (waitlist, viewing, finished, hold, dropped)");
+                .println("What status do you want to filter for? (waitlist, viewing, finished, hold, dropped)");
                 input = scanner.nextLine();
                 Status status = stringToStatus(input);
                 if (status == null) {

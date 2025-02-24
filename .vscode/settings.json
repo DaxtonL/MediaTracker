@@ -28,5 +28,6 @@
         "coverage": {
             "appendResult": false
         }
-    }
+    },
+    "java.debug.settings.showQualifiedNames": false
 }
