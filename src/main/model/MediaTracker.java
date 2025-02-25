@@ -1,7 +1,6 @@
 package model;
 
 import model.filters.*;
-import model.enums.*;
 import java.util.List;
 import java.util.ArrayList;
 
