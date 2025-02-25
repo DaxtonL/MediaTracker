@@ -2,11 +2,13 @@ package ui;
 
 import java.time.LocalDate;
 import java.util.Scanner;
+
+import exceptions.InvalidInputException;
+
 import java.util.List;
 import java.util.ArrayList;
 import model.*;
 import model.enums.*;
-import model.exceptions.InvalidInputException;
 import model.filters.*;
 
 // Media tracker application
@@ -206,7 +208,7 @@ public class MediaTrackerApp {
                     changeMediaValue(m, "Length");
                     break;
                 default:
-                    return;
+                    throw new InvalidInputException("That is not a recognized command.");
             }
             System.out.println(m.displayMedia());
             System.out.println("Edit to " + m.getName() + " succesful!");

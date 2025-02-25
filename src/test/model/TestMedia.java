@@ -156,7 +156,7 @@ public class TestMedia {
 
         String s1 = "Neon Genesis Evangelion | Show | On-hold | 12/26 episodes | Priority: 1 | Rating: --/10";
         String s2 = "Shin Megami Tensei V | Game | Finished | 90/-- hours | Priority: 3 | Rating: 7/10";
-        String s3 = "Fullmetal Alchemist (manga) | Manga | Reading | 56/108 chapters | Priority: N/A | Rating: --/10";
+        String s3 = "Fullmetal Alchemist (manga) | Manga | Reading | 56/108 chapters | Priority: -- | Rating: --/10";
 
         assertEquals(s1, m1.displayMedia());
         assertEquals(s2, m2.displayMedia());

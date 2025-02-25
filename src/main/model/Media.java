@@ -76,7 +76,7 @@ public class Media {
         String mediaLength = mediaNumToString(length, "--");
         String progress = getTotalViewProgess().toString();
         String increment = type.getIncrement().toLowerCase();
-        String mediaPriority = mediaNumToString(priority, "N/A");
+        String mediaPriority = mediaNumToString(priority, "--");
         String mediaRating = mediaNumToString(rating, "--") + "/10";
         String details = name + " | " + mediaType + " | " + mediaStatus + " | "
                 + progress + "/" + mediaLength + " " + increment + " | Priority: " 
