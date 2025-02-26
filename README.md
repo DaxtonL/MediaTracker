@@ -30,3 +30,5 @@ In addition, depending on the work's status the user to be able to track other a
  - As a user, I want to be able to give a work I liked a rating of 8/10 after change its status to "finished"
  - As a user, I want to be able to change a work's status to "on hold"
  - As a user, I want the status of my media to reflect the type of media it is (ie "watching" for tv shows, "playing" for games)
+ - As a user, I want to be able to save my list of media (if I so choose)
+ - As a user, I want to be able to load my list of meida fromm file (if I so choose)
