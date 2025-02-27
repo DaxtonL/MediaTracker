@@ -1,4 +1,4 @@
-package model.enums;
+package model;
 
 // Represents different types of media
 // Contains the media name, verb used for when user is "viewing" the media and units of increment for the media

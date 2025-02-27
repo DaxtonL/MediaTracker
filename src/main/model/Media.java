@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.enums.MediaType;
 import model.enums.Status;
 
 // Represents a piece of media having a name, list of times the user viewed the media,

@@ -1,15 +1,16 @@
 package ui;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import exceptions.InvalidInputException;
-
-import java.util.List;
-import java.util.ArrayList;
 import model.*;
 import model.enums.*;
 import model.filters.*;
+
+import exceptions.FailureToCompleteOperationException;
+import exceptions.InvalidInputException;
 
 // Media tracker application
 public class MediaTrackerApp {
@@ -163,28 +164,21 @@ public class MediaTrackerApp {
     // EFFCTS: allows user to apply edits to chose media
     @SuppressWarnings("methodlength")
     private void editMedia() {
-        System.out.println("Input the name of the peice of media you want to edit");
-        String input = scanner.nextLine();
-        Media m = tracker.getMedia(input);
-        if (m == null) {
-            System.out.println("Could not find media with that name");
-            System.out.println("Do you want to try again? (y/n)");
-            input = scanner.nextLine();
-            if (input.equals("y")) {
-                editMedia();
-            }
-            return;
-        }
-        System.out.println(m.displayMedia());
-        System.out.println("What edit do you want to make?");
-        showEdits();
-        input = scanner.nextLine();
         try {
-            switch (input.toUpperCase()) {
+            System.out.println("Input the name of the peice of media you want to edit");
+            Media m = tracker.getMedia(scanner.nextLine());
+            if (m == null) {
+                throw new InvalidInputException("Could not find media with that name");
+            }
+            System.out.println(m.displayMedia());
+            System.out.println("What edit do you want to make?");
+            showEdits();
+            input = scanner.nextLine().toUpperCase();
+            switch (input) {
                 case "L+":
                     System.out.println("How many " + m.getType().getIncrement() + " do you want to log?");
                     input = scanner.nextLine();
-                    Integer n = stringToInteger(input, 1, -1);
+                    Integer n = strToPositiveIntRange(input, 1, -1);
                     if (n == -1) {
                         return;
                     }
@@ -212,8 +206,8 @@ public class MediaTrackerApp {
             }
             System.out.println(m.displayMedia());
             System.out.println("Edit to " + m.getName() + " succesful!");
-        } catch (InvalidInputException e) {
-            System.out.println(e.getError());
+        } catch (FailureToCompleteOperationException | InvalidInputException e) {
+            System.out.println(e.getMessage());
             if (tryAgainInput()) {
                 editMedia();
             }
@@ -241,7 +235,7 @@ public class MediaTrackerApp {
     // EFFECTS applies the selected change to a given media's fields
     // returns true if change was succesful
     @SuppressWarnings("methodlength")
-    private void changeMediaValue(Media m, String s) throws InvalidInputException {
+    private void changeMediaValue(Media m, String s) throws FailureToCompleteOperationException {
         s = s.toUpperCase();
         try {
             switch (s) {
@@ -255,7 +249,7 @@ public class MediaTrackerApp {
                     return;
                 case "LENGTH":
                     System.out.println("Input media length (leave blank for N/A)");
-                    m.setLength(stringToInteger(scanner.nextLine(), 1, -1));
+                    m.setLength(strToPositiveIntRange(scanner.nextLine(), 1, -1));
                     return;
                 case "STATUS":
                     System.out.println("Input media status (waitlist, viewing, finished, hold, dropped)");
@@ -263,11 +257,11 @@ public class MediaTrackerApp {
                     return;
                 case "PRIORITY":
                     System.out.println("Input media watchlist priority (leave blank for N/A)");
-                    m.setPriority(stringToInteger(scanner.nextLine(), 1, -1));
+                    m.setPriority(strToPositiveIntRange(scanner.nextLine(), 1, -1));
                     return;
                 case "RATING":
                     System.out.println("Input media rating (leave blank for N/A)");
-                    Integer val = stringToInteger(scanner.nextLine(), 0, 10);
+                    Integer val = strToPositiveIntRange(scanner.nextLine(), 0, 10);
                     if (val == -1) {
                         throw new InvalidInputException("Input was outside of bounds.");
                     }
@@ -275,12 +269,12 @@ public class MediaTrackerApp {
                     return;
             }
         } catch (InvalidInputException e) {
-            System.out.println(e.getError());
+            System.out.println(e.getMessage());
             if (tryAgainInput()) {
                 changeMediaValue(m, s);
             }
         }
-        throw new InvalidInputException("Could not complete the change.");
+        throw new FailureToCompleteOperationException("Could not complete the change.");
     }
 
     // EFFECTS prompts a user if they want to try again and returns true if they
@@ -299,14 +293,14 @@ public class MediaTrackerApp {
     // EFFECTS changes a string to a integer accepted by other methods
     // if cannot be changed to a integer return -1 (-1 represents a null integer in
     // the code)
-    private Integer stringToInteger(String s, int min, int max) {
+    private Integer strToPositiveIntRange(String s, int min, int max) {
         Integer n;
         try {
             if (s.length() > 0) {
                 n = Integer.parseInt(s);
-                if (max < min && n > min) {
+                if (max < min && n >= min) {
                     return n;
-                } else if (n < max && n > min) {
+                } else if (n <= max && n >= min) {
                     return n;
                 }
             }
@@ -318,24 +312,24 @@ public class MediaTrackerApp {
 
     // MODIFIES string
     // EFFECTS changes a string to a media type if a valid one exists
-    // else return null
+    // else throws IllegalArgumentException
     private MediaType stringToMediaType(String s) throws InvalidInputException {
         for (MediaType m : mediaTypes) {
             if (s.equals(m.getName())) {
                 return m;
             }
         }
-        throw new InvalidInputException("Invalid media type inputted");
+        throw new InvalidInputException("Could not find media type with that name");
     }
 
     // MODIFIES string
     // EFFECTS changes a string to a status if there is a valid one
-    // else returns null
+    // else throws IllegalArgumentException
     private Status stringToStatus(String s) throws InvalidInputException {
         try {
             return Status.valueOf(s.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new InvalidInputException("Invalid status inputted");
+            throw new InvalidInputException("Could not find status with that name");
         }
     }
 
@@ -357,7 +351,7 @@ public class MediaTrackerApp {
                 case "RATING":
                     Boolean above;
                     System.out.println("What rating value do you want to filter for? [0-10]");
-                    Integer n = stringToInteger(scanner.nextLine(), 0, 10);
+                    Integer n = strToPositiveIntRange(scanner.nextLine(), 0, 10);
                     if (n == -1) {
                         throw new InvalidInputException("Input outside of bounds.");
                     }
@@ -375,7 +369,7 @@ public class MediaTrackerApp {
                     return null;
             }
         } catch (InvalidInputException e) {
-            System.out.println(e.getError());
+            System.out.println(e.getMessage());
             if (tryAgainInput()) {
                 stringToFilter(s);
             }
