@@ -31,7 +31,7 @@ public class MediaTrackerApp {
     public MediaTrackerApp() {
         this.running = true;
 
-        tracker = new MediaTracker();
+        tracker = new MediaTracker("My media tracker");
         scanner = new Scanner(System.in);
 
         mediaTypes.add(movie);

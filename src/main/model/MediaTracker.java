@@ -1,16 +1,24 @@
 package model;
 
 import model.filters.*;
+import netscape.javascript.JSObject;
+import persistence.Writeable;
+
 import java.util.List;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 // Represents a list of media
-public class MediaTracker {
+public class MediaTracker implements Writeable {
+    private String name;
     private List<Media> mediaList;
 
     // MODIFIES: this
     // EFFECTS: creates a new media tracker with an empty media list
-    public MediaTracker() {
+    public MediaTracker(String name) {
+        this.name = name;
         mediaList = new ArrayList<>();
     }
 
@@ -70,6 +78,16 @@ public class MediaTracker {
                 return thisM;
             }
         }
+        return null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    // EFFECTS: returns the media trackker as a writeable json file
+    public JSONObject toJson() {
         return null;
     }
 }

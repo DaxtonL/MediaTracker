@@ -25,18 +25,18 @@ public class JsonReader {
 
     // EFFECTS: reads workroom from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public WorkRoom read() throws IOException {
-        // stub
+    public MediaTracker read() throws IOException {
+        return null;
     }
 
     // EFFECTS: reads source file as string and returns it
     private String readFile(String source) throws IOException {
-        // stub
+        return null;
     }
 
     // EFFECTS: parses a MediaTracker from JSON object and returns it
     private MediaTracker parseMediaTracker(JSONObject jsonObject) {
-        // stub
+        return null;
     }
 
     // MODIFIES: wr

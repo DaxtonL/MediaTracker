@@ -37,7 +37,7 @@ public class TestMediaTracker {
 
     @BeforeEach
     void runBefore() {
-        testTracker = new MediaTracker();
+        testTracker = new MediaTracker("My media tracker");
         testList = new ArrayList<>();
         filterList = new ArrayList<>();
 
