@@ -3,6 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import model.enums.MediaType;
 import model.enums.Status;
 
 // Represents a piece of media having a name, list of times the user viewed the media,
@@ -70,7 +74,7 @@ public class Media {
     //          in mediaList in a output-ready form
     // information includes: name, status, logged progress, length, rating, and priority
     public String displayMedia() {
-        String mediaType = toProperCase(type.getName());
+        String mediaType = toProperCase(type.toString());
         String mediaStatus = mediaTypeStrings();
         String mediaLength = mediaNumToString(length, "--");
         String progress = getTotalViewProgess().toString();
@@ -115,6 +119,26 @@ public class Media {
         end = s.substring(1, s.length()).toLowerCase();
 
         return start + end;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("type", type);
+        json.put("length", length.toString());
+        json.put("status", status);
+        json.put("priority", priority.toString());
+        json.put("rating", rating.toString());
+        JSONArray jsonArray = new JSONArray();
+        for (ViewLog l : log) {
+            JSONObject localJson = new JSONObject();
+            localJson.put("year", l.getDate().getYear());
+            localJson.put("month", l.getDate().getMonthValue());
+            localJson.put("day", l.getDate().getDayOfYear());
+            localJson.put("viewProgress", l.getViewProgress());   
+        }
+        json.put("log", jsonArray);
+        return json;
     }
 
     public List<ViewLog> getLog() {

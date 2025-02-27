@@ -3,13 +3,16 @@
     "mediaList": [
         {
             "name": "Celeste",
-            "type": "game",
+            "type": "GAME",
+            "length": "-1",
             "status": "VIEWING",
             "priority": "2",
             "rating": "-1",
             "log": [
                 {
-                    "date": "2025, JANUARY, 13",
+                    "year": "2025", 
+                    "month": "JANUARY", 
+                    "day": "13",
                     "viewProgress": "99"
                 }
             ]
@@ -17,14 +20,17 @@
         },
         {
             "name": "Cowboy Bebop",
-            "type": "show",
+            "type": "SHOW",
+            "length": "26",
             "status": "FINISHED",
             "priority": "-1",
             "rating": "9",
             "log": [
                 {
-                    "date": "2025, JANUARY, 13",
-                    "viewProgress": "99"
+                    "year": "2025", 
+                    "month": "JANUARY", 
+                    "day": "13",
+                    "viewProgress": "26"
                 }
             ]
 

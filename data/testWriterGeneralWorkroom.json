@@ -1,0 +1,23 @@
+{
+    "mediaList": [
+        {
+            "log": [],
+            "name": "Celeste",
+            "length": "-1",
+            "rating": "-1",
+            "type": "GAME",
+            "priority": "2",
+            "status": "WAITLIST"
+        },
+        {
+            "log": [],
+            "name": "Whiplash",
+            "length": "120",
+            "rating": "-1",
+            "type": "MOVIE",
+            "priority": "-1",
+            "status": "WAITLIST"
+        }
+    ],
+    "name": "My work room"
+}

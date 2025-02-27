@@ -6,6 +6,7 @@ import persistence.Writeable;
 
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -88,6 +89,19 @@ public class MediaTracker implements Writeable {
     @Override
     // EFFECTS: returns the media trackker as a writeable json file
     public JSONObject toJson() {
-        return null;
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("mediaList", mediaToJson());
+        return json;
+    }
+
+    private JSONArray mediaToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Media m : mediaList) {
+            jsonArray.put(m.toJson());
+        }
+
+        return jsonArray;
     }
 }

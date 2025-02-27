@@ -19,26 +19,12 @@ public class MediaTrackerApp {
     Scanner scanner;
     String input;
 
-    private List<MediaType> mediaTypes = new ArrayList();
-
-    private MediaType movie = new MediaType("movie", "Watching", "minutes");
-    private MediaType book = new MediaType("book", "Reading", "pages");
-    private MediaType game = new MediaType("game", "Playing", "hours");
-    private MediaType manga = new MediaType("manga", "Reading", "chapters");
-    private MediaType show = new MediaType("show", "Watching", "episodes");
-
     // EFFECTS: starts the media tracker application
     public MediaTrackerApp() {
         this.running = true;
 
         tracker = new MediaTracker("My media tracker");
         scanner = new Scanner(System.in);
-
-        mediaTypes.add(movie);
-        mediaTypes.add(book);
-        mediaTypes.add(game);
-        mediaTypes.add(manga);
-        mediaTypes.add(show);
 
         run();
     }
@@ -314,12 +300,11 @@ public class MediaTrackerApp {
     // EFFECTS changes a string to a media type if a valid one exists
     // else throws IllegalArgumentException
     private MediaType stringToMediaType(String s) throws InvalidInputException {
-        for (MediaType m : mediaTypes) {
-            if (s.equals(m.getName())) {
-                return m;
-            }
+        try {
+            return MediaType.valueOf(s.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException("Could not find status with that name");
         }
-        throw new InvalidInputException("Could not find media type with that name");
     }
 
     // MODIFIES string

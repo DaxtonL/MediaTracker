@@ -1,7 +1,7 @@
 package model.filters;
 
 import model.Media;
-import model.MediaType;
+import model.enums.MediaType;
 
 // Represents a filter based on a media's type
 public class FilterType extends Filter {
