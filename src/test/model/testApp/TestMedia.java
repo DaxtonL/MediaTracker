@@ -11,10 +11,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class TestMedia {
+    @SuppressWarnings("checkstyle:all")
+
     private Media testShow;
-    private Media testMovie;
-    private Media testBook;
-    private Media nullMedia;
+    //private Media testMovie;
+    //private Media testBook;
+    //private Media nullMedia;
     private Media m1;
     private Media m2;
     private Media m3;
@@ -22,14 +24,14 @@ public class TestMedia {
     private ViewLog view1;
     private ViewLog view2;
     private ViewLog view3;
-
+    
     @BeforeEach
     public void runBefore() {
         testShow = new Media("Cowboy Bebop", MediaType.SHOW, 26, 1);
-        testMovie = new Media("Whieplash", MediaType.MOVIE, 100, 4);
-        testBook = new Media("1984", MediaType.BOOK, 284, -1);
-        nullMedia = new Media(null, null, null, null);
-        testLog = new ArrayList();
+        //testMovie = new Media("Whieplash", MediaType.MOVIE, 100, 4);
+        //testBook = new Media("1984", MediaType.BOOK, 284, -1);
+        // = new Media(null, null, null, null);
+        testLog = new ArrayList<>();
         view1 = new ViewLog(LocalDate.of(2024, Month.MARCH, 13), 5);
         view2 = new ViewLog(LocalDate.of(2024, Month.MARCH, 15), 14);
         view3 = new ViewLog(LocalDate.of(2024, Month.MARCH, 16), 7);

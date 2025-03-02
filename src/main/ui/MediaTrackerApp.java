@@ -114,6 +114,7 @@ public class MediaTrackerApp {
 
     // MODIFIES: this
     // EFFECTS: executes the user command based on inputted string
+    @SuppressWarnings("methodlength")
     private void parseCommands(String s) {
         s = s.toUpperCase();
         switch (s) {
@@ -176,7 +177,7 @@ public class MediaTrackerApp {
 
     // EFFECTS: prints out a list of media based on filters specified by user
     private void listMedia() {
-        List<Filter> filters = new ArrayList();
+        List<Filter> filters = new ArrayList<Filter>();
         Boolean ask = true;
         while (ask) {
             System.out.println("What filters do you want to apply (status, type, rating) (leave blank for none)");
@@ -413,7 +414,8 @@ public class MediaTrackerApp {
 
     // EFFECTS creates a new rating filter based on user input and returns it
     private FilterRating inputRatingFilter() throws InvalidInputException {
-        Boolean above;System.out.println("What rating value do you want to filter for? [0-10]");
+        Boolean above;
+        System.out.println("What rating value do you want to filter for? [0-10]");
         Integer n = strToPositiveIntRange(scanner.nextLine(), 0, 10);
         if (n == -1) {
             throw new InvalidInputException("Input outside of bounds.");

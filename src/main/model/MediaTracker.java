@@ -1,7 +1,6 @@
 package model;
 
 import model.filters.*;
-import netscape.javascript.JSObject;
 import persistence.Writeable;
 
 import java.util.List;
