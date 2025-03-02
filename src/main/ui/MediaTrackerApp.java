@@ -2,13 +2,15 @@ package ui;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 import model.*;
 import model.enums.*;
 import model.filters.*;
-
+import persistence.JsonReader;
+import persistence.JsonWriter;
 import exceptions.FailureToCompleteOperationException;
 import exceptions.InvalidInputException;
 
@@ -22,9 +24,27 @@ public class MediaTrackerApp {
     // EFFECTS: starts the media tracker application
     public MediaTrackerApp() {
         this.running = true;
-
-        tracker = new MediaTracker("My media tracker");
         scanner = new Scanner(System.in);
+        Boolean loop = true;
+        while (loop) {
+            if (yesNoInput("Do you want to load a saved media tracker?")) {
+                System.out.println("Input the name of the media tracker you want to load");
+                tracker = loadMediaTracker(scanner.nextLine());
+                if (tracker == null) {
+                    System.out.println("Could not find media tracker with that name");
+                    if (yesNoInput("Do you want to try again?")) {
+                        return;
+                    }
+                }
+            }
+            loop = false;
+        }
+        
+
+        if (tracker == null) {
+            System.out.println("Input the name of your media tracker");
+            tracker = new MediaTracker(scanner.nextLine());
+        }
 
         run();
     }
@@ -51,6 +71,42 @@ public class MediaTrackerApp {
         System.out.println("Q: Quit program");
     }
 
+    private MediaTracker loadMediaTracker(String name) {
+        JsonReader reader = new JsonReader("./data/" + name + ".json");
+        try {
+            return reader.read();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private boolean saveMediaTracker() {
+        JsonWriter writer = new JsonWriter("./data/" + tracker.getName() + ".json");
+        try {
+            writer.open();
+            writer.write(tracker);
+            writer.close();
+            System.out.println("Succesfully saved media tracker!");
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private void quitApplication() {
+        if (yesNoInput("Do you want to save this media tracker before you quit?")) {
+            if (saveMediaTracker() == false) {
+                System.out.println("Could not save media tracker");
+                if (!yesNoInput("Do you still want to quit?")) {
+                    return;
+                }
+            }
+        }
+        System.out.println("Application ended");
+        running = false;
+    }
+
+
     // MODIFIES: this
     // EFFECTS: executes the user command based on inputted string
     private void parseCommands(String s) {
@@ -69,8 +125,7 @@ public class MediaTrackerApp {
                 removeMedia();
                 break;
             case "Q":
-                System.out.println("Application ended");
-                running = false;
+                quitApplication();
                 break;
             default:
                 System.out.println("Command not recognized.");
@@ -102,7 +157,7 @@ public class MediaTrackerApp {
             }
         } catch (Exception e) {
             System.out.println("Could not finish making the new media");
-            if (tryAgainInput()) {
+            if (yesNoInput("Do you want to try again?")) {
                 addNewMedia();
             }
         }
@@ -194,7 +249,7 @@ public class MediaTrackerApp {
             System.out.println("Edit to " + m.getName() + " succesful!");
         } catch (FailureToCompleteOperationException | InvalidInputException e) {
             System.out.println(e.getMessage());
-            if (tryAgainInput()) {
+            if (yesNoInput("Do you want to try again?")) {
                 editMedia();
             }
         }
@@ -211,7 +266,7 @@ public class MediaTrackerApp {
             return;
         } else {
             System.out.println("Could not find media with that name");
-            if (tryAgainInput()) {
+            if (yesNoInput("Do you want to try again?")) {
                 removeMedia();
             }
         }
@@ -256,7 +311,7 @@ public class MediaTrackerApp {
             }
         } catch (InvalidInputException e) {
             System.out.println(e.getMessage());
-            if (tryAgainInput()) {
+            if (yesNoInput("Do you want to try again?")) {
                 changeMediaValue(m, s);
             }
         }
@@ -265,10 +320,9 @@ public class MediaTrackerApp {
 
     // EFFECTS prompts a user if they want to try again and returns true if they
     // input "y"
-    private Boolean tryAgainInput() {
-        System.out.println("Do you want to try again? (y/n)");
-        String input = scanner.nextLine();
-        if (input.equals("y")) {
+    private Boolean yesNoInput(String question) {
+        System.out.println(question + " (y/n)");
+        if (scanner.nextLine().equalsIgnoreCase("y")) {
             return true;
         } else {
             return false;
@@ -355,7 +409,7 @@ public class MediaTrackerApp {
             }
         } catch (InvalidInputException e) {
             System.out.println(e.getMessage());
-            if (tryAgainInput()) {
+            if (yesNoInput("Do you want to try again?")) {
                 stringToFilter(s);
             }
         }
