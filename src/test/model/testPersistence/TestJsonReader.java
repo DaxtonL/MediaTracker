@@ -1,12 +1,12 @@
 package model.testPersistence;
 
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
 import persistence.JsonReader;
 import model.Media;
 import model.MediaTracker;

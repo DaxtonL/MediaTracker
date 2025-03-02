@@ -1,0 +1,33 @@
+{
+    "mediaList": [
+        {
+            "log": [{
+                "month": "FEBRUARY",
+                "year": "2025",
+                "viewProgress": "80",
+                "day": "28"
+            }],
+            "name": "Celeste",
+            "length": "-1",
+            "rating": "-1",
+            "type": "GAME",
+            "priority": "2",
+            "status": "VIEWING"
+        },
+        {
+            "log": [{
+                "month": "MARCH",
+                "year": "2025",
+                "viewProgress": "120",
+                "day": "13"
+            }],
+            "name": "Whiplash",
+            "length": "120",
+            "rating": "-1",
+            "type": "MOVIE",
+            "priority": "-1",
+            "status": "FINISHED"
+        }
+    ],
+    "name": "My work room"
+}

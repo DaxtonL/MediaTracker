@@ -1,14 +1,17 @@
 package model.testPersistence;
 
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
-import org.junit.Test;
 
 import model.Media;
 import model.MediaTracker;
+import model.ViewLog;
 import model.enums.MediaType;
 import model.enums.Status;
 import persistence.JsonReader;
@@ -50,20 +53,24 @@ public class TestJsonWriter extends JsonTest {
     public void testWriterGeneralWorkroom() {
         try {
             MediaTracker mt = new MediaTracker("My work room");
-            mt.addMedia(new Media("Celeste", MediaType.GAME, -1, 2));
-            mt.addMedia(new Media("Whiplash", MediaType.MOVIE, 120, -1));
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralWorkroom.json");
+            Media m1 = new Media("Celeste", MediaType.GAME, -1, 2);
+            Media m2 = new Media("Whiplash", MediaType.MOVIE, 120, -1);
+            m1.logViewing(new ViewLog(LocalDate.of(2025, Month.FEBRUARY, 28), 80));
+            m2.logViewing(new ViewLog(LocalDate.of(2025, Month.MARCH, 13), 120));
+            mt.addMedia(m1);
+            mt.addMedia(m2);
+            JsonWriter writer = new JsonWriter("./data/testWriterGeneralMediaTracker.json");
             writer.open();
             writer.write(mt);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralWorkroom.json");
+            JsonReader reader = new JsonReader("./data/testWriterGeneralMediaTracker.json");
             mt = reader.read();
             assertEquals("My work room", mt.getName());
             List<Media> thingies = mt.getFilterMedia(new ArrayList<>());
             assertEquals(2, thingies.size());
-            checkMedia("Celeste", MediaType.GAME, -1, Status.WAITLIST, 2, -1, 0, thingies.get(0));
-            checkMedia("Whiplash", MediaType.MOVIE, 120, Status.WAITLIST, -1, -1, 0, thingies.get(1));
+            checkMedia("Celeste", MediaType.GAME, -1, Status.VIEWING, 2, -1, 80, thingies.get(0));
+            checkMedia("Whiplash", MediaType.MOVIE, 120, Status.FINISHED, -1, -1, 120, thingies.get(1));
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");

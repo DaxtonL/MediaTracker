@@ -132,10 +132,11 @@ public class Media {
         JSONArray jsonArray = new JSONArray();
         for (ViewLog l : log) {
             JSONObject localJson = new JSONObject();
-            localJson.put("year", l.getDate().getYear());
-            localJson.put("month", l.getDate().getMonthValue());
-            localJson.put("day", l.getDate().getDayOfYear());
-            localJson.put("viewProgress", l.getViewProgress());   
+            localJson.put("year", Integer.toString(l.getDate().getYear()));
+            localJson.put("month", l.getDate().getMonth());
+            localJson.put("day", Integer.toString(l.getDate().getDayOfMonth()));
+            localJson.put("viewProgress", Integer.toString(l.getViewProgress())); 
+            jsonArray.put(localJson);  
         }
         json.put("log", jsonArray);
         return json;
