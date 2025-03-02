@@ -217,7 +217,7 @@ public class MediaTrackerApp {
     @SuppressWarnings("methodlength")
     private void editMedia() {
         try {
-            System.out.println("Input the name of the peice of media you want to edit");
+            System.out.println("Input the name of the piece of media you want to edit");
             Media m = tracker.getMedia(scanner.nextLine());
             if (m == null) {
                 throw new InvalidInputException("Could not find media with that name");
@@ -385,7 +385,6 @@ public class MediaTrackerApp {
 
     // MODIFIES string
     // EFFECTS changes a string to a filter
-    @SuppressWarnings("methodlength")
     private Filter stringToFilter(String s) {
         s = s.toUpperCase();
         try {
@@ -399,22 +398,7 @@ public class MediaTrackerApp {
                     System.out.println("What media type do you want to filter for? (movie, book, game, show, manga)");
                     return new FilterType(stringToMediaType(scanner.nextLine()));
                 case "RATING":
-                    Boolean above;
-                    System.out.println("What rating value do you want to filter for? [0-10]");
-                    Integer n = strToPositiveIntRange(scanner.nextLine(), 0, 10);
-                    if (n == -1) {
-                        throw new InvalidInputException("Input outside of bounds.");
-                    }
-                    System.out.println("Do you want to filter for media above a certain rating? (y/n)");
-                    input = scanner.nextLine();
-                    if (input.equals("y")) {
-                        above = true;
-                    } else if (input.equals("n")) {
-                        above = false;
-                    } else {
-                        throw new InvalidInputException("That is not one of the options.");
-                    }
-                    return new FilterRating(above, n);
+                    return inputRatingFilter();
                 default:
                     return null;
             }
@@ -425,5 +409,24 @@ public class MediaTrackerApp {
             }
         }
         return null;
+    }
+
+    // EFFECTS creates a new rating filter based on user input and returns it
+    private FilterRating inputRatingFilter() throws InvalidInputException {
+        Boolean above;System.out.println("What rating value do you want to filter for? [0-10]");
+        Integer n = strToPositiveIntRange(scanner.nextLine(), 0, 10);
+        if (n == -1) {
+            throw new InvalidInputException("Input outside of bounds.");
+        }
+        System.out.println("Do you want to filter for media above a certain rating? (y/n)");
+        input = scanner.nextLine();
+        if (input.equals("y")) {
+            above = true;
+        } else if (input.equals("n")) {
+            above = false;
+        } else {
+            throw new InvalidInputException("That is not one of the options.");
+        }
+        return new FilterRating(above, n);
     }
 }
