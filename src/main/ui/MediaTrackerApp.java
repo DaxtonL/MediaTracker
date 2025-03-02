@@ -25,22 +25,10 @@ public class MediaTrackerApp {
     public MediaTrackerApp() {
         this.running = true;
         scanner = new Scanner(System.in);
-        Boolean loop = true;
-        while (loop) {
-            if (yesNoInput("Do you want to load a saved media tracker?")) {
-                System.out.println("Input the name of the media tracker you want to load");
-                tracker = loadMediaTracker(scanner.nextLine());
-                if (tracker == null) {
-                    System.out.println("Could not find media tracker with that name");
-                    if (yesNoInput("Do you want to try again?")) {
-                        return;
-                    }
-                }
-            }
-            loop = false;
+        if (yesNoInput("Do you want to load a saved media tracker?")) {
+            askLoadTracker();
         }
         
-
         if (tracker == null) {
             System.out.println("Input the name of your media tracker");
             tracker = new MediaTracker(scanner.nextLine());
@@ -68,9 +56,13 @@ public class MediaTrackerApp {
         System.out.println("L: Get a filtered list of media");
         System.out.println("E: Edit a piece of media");
         System.out.println("R: Remove a peice of media");
+        System.out.println("S: Save your media tracker");
+        System.out.println("O: Open a saved media tracker");
         System.out.println("Q: Quit program");
     }
 
+    // EFFECTS loads the media tracker with the inputted name
+    //         returns null if media tracker cannot be found
     private MediaTracker loadMediaTracker(String name) {
         JsonReader reader = new JsonReader("./data/" + name + ".json");
         try {
@@ -80,6 +72,18 @@ public class MediaTrackerApp {
         }
     }
 
+    private void askLoadTracker() {
+        System.out.println("Input the name of the media tracker you want to load");
+        tracker = loadMediaTracker(scanner.nextLine());
+        if (tracker == null) {
+            System.out.println("Could not find media tracker with that name");
+            if (yesNoInput("Do you want to try again?")) {
+                askLoadTracker();;
+            }
+        }
+    }
+
+    // EFFECTS saves the current media tracker, returns true if succesfull
     private boolean saveMediaTracker() {
         JsonWriter writer = new JsonWriter("./data/" + tracker.getName() + ".json");
         try {
@@ -89,14 +93,15 @@ public class MediaTrackerApp {
             System.out.println("Succesfully saved media tracker!");
             return true;
         } catch (IOException e) {
+            System.out.println("Could not save media tracker!");
             return false;
         }
     }
 
+    // EFFECTS checks if user wants to save before quitting, then quits the application
     private void quitApplication() {
         if (yesNoInput("Do you want to save this media tracker before you quit?")) {
             if (saveMediaTracker() == false) {
-                System.out.println("Could not save media tracker");
                 if (!yesNoInput("Do you still want to quit?")) {
                     return;
                 }
@@ -123,6 +128,12 @@ public class MediaTrackerApp {
                 break;
             case "R":
                 removeMedia();
+                break;
+            case "S":
+                saveMediaTracker();
+                break;
+            case "O":
+                askLoadTracker();
                 break;
             case "Q":
                 quitApplication();
@@ -190,7 +201,7 @@ public class MediaTrackerApp {
         System.out.println("---");
     }
 
-    // prints out possible edits user can make to data
+    // EFFECTS: prints out possible edits user can make to data
     private void showEdits() {
         System.out.println("Edits:");
         System.out.println("L+: log a viewing");

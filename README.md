@@ -32,5 +32,8 @@ In addition, depending on the work's status the user to be able to track other a
  - As a user, I want to be able to change a work's status to "on hold"
  - As a user, I want the status of my media to reflect the type of media it is (ie "watching" for tv shows, "playing" for games)
  - As a user, I want to be able to save my list of media (if I so choose)
- - As a user, I want to be prompted and given the option to save my list of media when i quit the application
+ - As a user, I want to be prompted and given the option to save my list of media when I quit the application
+ - As a user, I want to be prompted and given the option to load my list of media when I open the application
  - As a user, I want to be able to load my list of media from file (if I so choose)
+ - As a user, I want to be able to save my list of media to file (if I so choose)
+
