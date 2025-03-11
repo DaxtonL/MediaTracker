@@ -156,7 +156,7 @@ public class MediaTrackerApp {
             changeMediaValue(m, "TYPE");
             changeMediaValue(m, "LENGTH");
             changeMediaValue(m, "PRIORITY");
-            System.out.println(m.displayMedia());
+            System.out.println(displayMedia(m));
             System.out.println("Is this peice of media correct? (y/n)");
             if (scanner.nextLine().equals("y")) {
                 if (tracker.addMedia(m)) {
@@ -197,9 +197,17 @@ public class MediaTrackerApp {
         System.out.println("Media:");
         System.out.println("---");
         for (Media m : filteredList) {
-            System.out.println(m.displayMedia());
+            System.out.println(displayMedia(m));
         }
         System.out.println("---");
+    }
+
+    private String displayMedia(Media m) {
+        List<String> details = m.mediaInfo();
+        String s =  details.get(0) + " | " + details.get(1) + " | " + details.get(2) + " | "
+                    + details.get(3) + "/" + details.get(4) + " " + details.get(5) + " | Priority: " 
+                    + details.get(6) + " | Rating: " + details.get(7);
+        return s;
     }
 
     // EFFECTS: prints out possible edits user can make to data
@@ -223,7 +231,7 @@ public class MediaTrackerApp {
             if (m == null) {
                 throw new InvalidInputException("Could not find media with that name");
             }
-            System.out.println(m.displayMedia());
+            System.out.println(displayMedia(m));
             System.out.println("What edit do you want to make?");
             showEdits();
             input = scanner.nextLine().toUpperCase();
@@ -257,7 +265,7 @@ public class MediaTrackerApp {
                 default:
                     throw new InvalidInputException("That is not a recognized command.");
             }
-            System.out.println(m.displayMedia());
+            System.out.println(displayMedia(m));
             System.out.println("Edit to " + m.getName() + " succesful!");
         } catch (FailureToCompleteOperationException | InvalidInputException e) {
             System.out.println(e.getMessage());

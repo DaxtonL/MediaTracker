@@ -73,17 +73,27 @@ public class Media {
     // EFFECTS: returns a list of string with the information about the media 
     //          in mediaList in a output-ready form
     // information includes: name, status, logged progress, length, rating, and priority
-    public String displayMedia() {
+    public List<String> mediaInfo() {
+        List<String> details = new ArrayList<String>();
         String mediaType = toProperCase(type.toString());
         String mediaStatus = mediaTypeStrings();
-        String mediaLength = mediaNumToString(length, "--");
         String progress = getTotalViewProgess().toString();
+        String mediaLength = mediaNumToString(length, "--");
         String increment = type.getIncrement().toLowerCase();
         String mediaPriority = mediaNumToString(priority, "--");
         String mediaRating = mediaNumToString(rating, "--") + "/10";
-        String details = name + " | " + mediaType + " | " + mediaStatus + " | "
-                + progress + "/" + mediaLength + " " + increment + " | Priority: " 
-                + mediaPriority + " | Rating: " + mediaRating;
+        // String details = name + " | " + mediaType + " | " + mediaStatus + " | "
+        //         + progress + "/" + mediaLength + " " + increment + " | Priority: " 
+        //         + mediaPriority + " | Rating: " + mediaRating;
+        details.add(name);
+        details.add(mediaType);
+        details.add(mediaStatus);
+        details.add(progress);
+        details.add(mediaLength);
+        details.add(increment);
+        details.add(mediaPriority);
+        details.add(mediaRating);
+
         return details;
     }
 
