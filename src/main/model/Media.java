@@ -72,8 +72,8 @@ public class Media {
 
     // EFFECTS: returns a list of string with the information about the media 
     //          in mediaList in a output-ready form
-    // information includes: name, status, logged progress, length, rating, and priority
-    public List<String> mediaInfo() {
+    // information includes: name, type, status, progress, length, increment, priority, rating
+    public List<String> listMediaInfo() {
         List<String> details = new ArrayList<String>();
         String mediaType = toProperCase(type.toString());
         String mediaStatus = mediaTypeStrings();

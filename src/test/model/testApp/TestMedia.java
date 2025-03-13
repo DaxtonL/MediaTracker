@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.time.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 
 public class TestMedia {
     @SuppressWarnings("checkstyle:all")
@@ -152,15 +154,17 @@ public class TestMedia {
         m3.logViewing(new ViewLog(null, 56));
         m3.setStatus(Status.VIEWING);
 
-        String s1 = "Neon Genesis Evangelion | Show | On-hold | 12/26 episodes | Priority: 1 | Rating: --/10";
-        String s2 = "Shin Megami Tensei V | Game | Finished | 90/-- hours | Priority: 3 | Rating: 7/10";
-        String s3 = "Fullmetal Alchemist (manga) | Manga | Reading | 56/108 chapters | Priority: -- | Rating: --/10";
-
-        assertEquals(s1, m1.displayMedia());
-        assertEquals(s2, m2.displayMedia());
-        assertEquals(s3, m3.displayMedia());
+        List<String> s1 = new ArrayList<String>(Arrays.asList("Neon Genesis Evangelion", 
+                "Show", "On-hold", "12", "26", "episodes", "1", "--/10"));
+        List<String> s2 = new ArrayList<String>(Arrays.asList("Shin Megami Tensei V", 
+                "Game", "Finished", "90", "--", "hours", "3", "7/10"));
+        List<String> s3 = new ArrayList<String>(Arrays.asList("Fullmetal Alchemist (manga)", 
+                "Manga", "Reading", "56", "108", "chapters", "--", "--/10"));
+        assertEquals(s1, m1.listMediaInfo());
+        assertEquals(s2, m2.listMediaInfo());
+        assertEquals(s3, m3.listMediaInfo());
     }
-
+ 
     @Test
     public void testSetName() {
         m3.setName("Wotakoi");

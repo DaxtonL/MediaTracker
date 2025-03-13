@@ -1,0 +1,221 @@
+package ui.MediaTrackerPanels;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+
+import exceptions.FailureToCompleteOperationException;
+import model.enums.MediaType;
+import model.Media;
+import ui.MediaTrackerGUI;
+
+public class AddMediaPanel extends JPanel implements ItemListener, ActionListener{
+    MediaTrackerGUI handler;
+    
+    private JTextField nameField;
+    private JComboBox<String> typeField;
+    private JFormattedTextField lengthField;
+    private JCheckBox lengthBox;
+    private JPanel lengthPanel;
+    private JFormattedTextField priorityField;
+    private JCheckBox priorityBox;
+    private JPanel priortyPanel;
+
+    public AddMediaPanel(MediaTrackerGUI handler) {
+        this.handler = handler;
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        add(makeNamePanel());
+        add(makeTypePanel());
+        lengthPanel = makeLengthPanel();
+        add(lengthPanel);
+        priortyPanel = makePriorityPanel();
+        add(priortyPanel);
+        add(makeMenuPanel());
+    }
+    
+    private JPanel makeNamePanel() {
+        JPanel p = new JPanel();
+        p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        p.setPreferredSize(new Dimension(350, 40)); // Reduce height to remove excess space
+        p.setMaximumSize(new Dimension(350, 40)); // Prevent stretching
+
+        JLabel nameText = new JLabel("Name");
+        nameField = new JTextField(20);
+        p.add(nameText);
+        p.add(nameField);
+        
+        return p;
+    }
+
+    private JPanel makeTypePanel() {
+        JPanel p = new JPanel();
+
+        p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        p.setPreferredSize(new Dimension(350, 40)); // Reduce height to remove excess space
+        p.setMaximumSize(new Dimension(350, 40)); // Prevent stretching
+
+
+        List<MediaType> types = new ArrayList<MediaType>(Arrays.asList(MediaType.values()));
+        String[] typesArray = new String[types.size()];
+        for (Integer i = 0; i < types.size(); i++) {
+            String s = types.get(i).toString();
+            typesArray[i] = s.substring(0, 1) + s.substring(1, s.length()).toLowerCase();
+        }
+
+        JLabel typeText = new JLabel("Media Type");
+        typeField = new JComboBox<String>(typesArray);
+        p.add(typeText);
+        p.add(typeField);
+
+        return p;
+    }
+
+    private JPanel makeLengthPanel() {
+        NumberFormat longFormat = NumberFormat.getIntegerInstance();
+
+        NumberFormatter numberFormatter = new NumberFormatter(longFormat);
+        numberFormatter.setValueClass(Long.class); //optional, ensures you will always get a long value
+        numberFormatter.setMinimum(1); //Optional
+        numberFormatter.setAllowsInvalid(false); //this is the key!!
+
+        JPanel p = new JPanel();
+
+        p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        p.setPreferredSize(new Dimension(350, 40)); // Reduce height to remove excess space
+        p.setMaximumSize(new Dimension(350, 40)); // Prevent stretching
+
+
+        lengthBox = new JCheckBox("Length");
+        lengthBox.addItemListener(this);
+        lengthField = new JFormattedTextField(longFormat);
+        lengthField.setColumns(5);
+
+        p.add(lengthBox);
+        //p.add(lengthField);
+
+        return p;
+    }
+
+    private JPanel makePriorityPanel() {
+        NumberFormat longFormat = NumberFormat.getIntegerInstance();
+
+        NumberFormatter numberFormatter = new NumberFormatter(longFormat);
+        numberFormatter.setValueClass(Long.class); //optional, ensures you will always get a long value
+        numberFormatter.setMinimum(1); //Optional
+        numberFormatter.setAllowsInvalid(false); //this is the key!!
+
+        JPanel p = new JPanel();
+
+        p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        p.setPreferredSize(new Dimension(350, 40)); // Reduce height to remove excess space
+        p.setMaximumSize(new Dimension(350, 40)); // Prevent stretching
+
+
+        priorityBox = new JCheckBox("Priority");
+        priorityBox.addItemListener(this);
+        priorityField = new JFormattedTextField(longFormat);
+        priorityField.setColumns(5);
+
+        p.add(priorityBox);
+        //p.add(lengthField);
+
+        return p;
+    }
+
+    private JPanel makeMenuPanel() {
+        JPanel p = new JPanel();
+        p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        p.setPreferredSize(new Dimension(350, 40)); // Reduce height to remove excess space
+        p.setMaximumSize(new Dimension(350, 40)); // Prevent stretching
+        JButton back = new JButton("Back");
+        back.setActionCommand("add back");
+        back.addActionListener(handler);
+        JButton done = new JButton("Done");
+        done.setActionCommand("add done");
+        done.addActionListener(handler);
+
+        p.add(back);
+        p.add(done);
+
+        return p;
+    }
+
+    public Media tryDone() throws FailureToCompleteOperationException {
+        Boolean namePass = !nameField.getText().trim().isEmpty();
+        Boolean lengthPass = (!lengthField.getText().trim().isEmpty() 
+                        && Integer.parseInt(lengthField.getText().trim()) > 0)
+                        || !lengthBox.isSelected();
+        Boolean priorityPass = (!priorityField.getText().trim().isEmpty() 
+                        && Integer.parseInt(priorityField.getText().trim()) > 0)
+                        || !priorityBox.isSelected();
+        
+        if (namePass && lengthPass && priorityPass) {
+            return new Media(nameField.getText(), 
+                MediaType.valueOf(typeField.getSelectedItem().toString().toUpperCase()), 
+                lengthBox.isSelected() ? Integer.parseInt(lengthField.getText().trim()) : -1, 
+                priorityBox.isSelected() ? Integer.parseInt(priorityField.getText().trim()) : -1);
+        } else {
+            changeFieldColors(namePass, lengthPass, priorityPass);
+            throw new FailureToCompleteOperationException("Not all fields are valid");
+        }
+    }
+
+    private void changeFieldColors(Boolean namePass, Boolean lengthPass, Boolean priorityPass) {
+        nameField.setBackground(!namePass ? Color.decode("#ffb09c") 
+                        : UIManager.getColor("TextField.background"));
+        lengthField.setBackground(!lengthPass ? Color.decode("#ffb09c") 
+                    : UIManager.getColor("TextField.background"));
+        priorityField.setBackground(!priorityPass ? Color.decode("#ffb09c") 
+                    : UIManager.getColor("TextField.background"));
+
+        handler.refreshFrame();
+        Timer timer = new Timer(800, e -> {
+            nameField.setBackground(UIManager.getColor("TextField.background"));
+            lengthField.setBackground(UIManager.getColor("TextField.background"));
+            priorityField.setBackground(UIManager.getColor("TextField.background"));
+            handler.refreshFrame();
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    //This is the method that is called when the the JButton btn is clicked
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource() == lengthBox) {
+            if (e.getStateChange() == 1) {
+                lengthPanel.add(lengthField);
+                handler.refreshFrame();
+            } else {
+                lengthPanel.remove(lengthField);
+                handler.refreshFrame();
+            }
+        } else if (e.getSource() == priorityBox) {
+            if (e.getStateChange() == 1) {
+                priortyPanel.add(priorityField);
+                handler.refreshFrame();
+            } else {
+                priortyPanel.remove(priorityField);
+                handler.refreshFrame();
+            }
+        }
+    }
+
+    //This is the method that is called when the the JButton btn is clicked
+    public void actionPerformed(ActionEvent e) {
+        //stub
+    }
+}

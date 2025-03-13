@@ -203,7 +203,7 @@ public class MediaTrackerApp {
     }
 
     private String displayMedia(Media m) {
-        List<String> details = m.mediaInfo();
+        List<String> details = m.listMediaInfo();
         String s =  details.get(0) + " | " + details.get(1) + " | " + details.get(2) + " | "
                     + details.get(3) + "/" + details.get(4) + " " + details.get(5) + " | Priority: " 
                     + details.get(6) + " | Rating: " + details.get(7);
