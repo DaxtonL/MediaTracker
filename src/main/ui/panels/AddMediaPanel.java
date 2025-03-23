@@ -1,4 +1,4 @@
-package ui.MediaTrackerPanels;
+package ui.panels;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -17,37 +17,54 @@ import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
 import exceptions.FailureToCompleteOperationException;
+import exceptions.InvalidInputException;
 import model.enums.MediaType;
 import model.Media;
-import ui.MediaTrackerGUI;
 
-public class AddMediaPanel extends JPanel implements ItemListener, ActionListener{
-    MediaTrackerGUI handler;
-    
-    private JTextField nameField;
-    private JComboBox<String> typeField;
-    private JFormattedTextField lengthField;
-    private JCheckBox lengthBox;
+public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionListener {    
+    protected JTextField nameField;
+    protected JComboBox<String> typeField;
+    protected JFormattedTextField lengthField;
+    protected JCheckBox lengthBox;
     private JPanel lengthPanel;
-    private JFormattedTextField priorityField;
-    private JCheckBox priorityBox;
+    protected JFormattedTextField priorityField;
+    protected JCheckBox priorityBox;
     private JPanel priortyPanel;
 
-    public AddMediaPanel(MediaTrackerGUI handler) {
-        this.handler = handler;
+    private String confirmID;
+    protected Media media;
+
+    public AddMediaPanel(ActionListener handler, JFrame window, String confirmID) {
+        super(handler, window);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+        this.confirmID = confirmID;
         add(makeNamePanel());
         add(makeTypePanel());
+        addComponents();
+        add(makeMenuPanel());
+    }
+
+    public AddMediaPanel(ActionListener handler, JFrame window, String confirmID, Media m) {
+        super(handler, window);
+        media = m;
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.confirmID = confirmID;
+        add(makeNamePanel());
+        add(makeTypePanel());
+        addComponents();
+        add(makeMenuPanel());
+    }
+    
+    protected void addComponents() {
         lengthPanel = makeLengthPanel();
         add(lengthPanel);
         priortyPanel = makePriorityPanel();
         add(priortyPanel);
-        add(makeMenuPanel());
     }
-    
-    private JPanel makeNamePanel() {
+
+    protected JPanel makeNamePanel() {
         JPanel p = new JPanel();
         p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         p.setPreferredSize(new Dimension(350, 40)); // Reduce height to remove excess space
@@ -61,7 +78,7 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
         return p;
     }
 
-    private JPanel makeTypePanel() {
+    protected JPanel makeTypePanel() {
         JPanel p = new JPanel();
 
         p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
@@ -84,7 +101,7 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
         return p;
     }
 
-    private JPanel makeLengthPanel() {
+    protected JPanel makeLengthPanel() {
         NumberFormat longFormat = NumberFormat.getIntegerInstance();
 
         NumberFormatter numberFormatter = new NumberFormatter(longFormat);
@@ -105,12 +122,13 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
         lengthField.setColumns(5);
 
         p.add(lengthBox);
-        //p.add(lengthField);
+        p.add(lengthField);
+        lengthField.setVisible(false);
 
         return p;
     }
 
-    private JPanel makePriorityPanel() {
+    protected JPanel makePriorityPanel() {
         NumberFormat longFormat = NumberFormat.getIntegerInstance();
 
         NumberFormatter numberFormatter = new NumberFormatter(longFormat);
@@ -131,7 +149,8 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
         priorityField.setColumns(5);
 
         p.add(priorityBox);
-        //p.add(lengthField);
+        p.add(priorityField);
+        priorityField.setVisible(false);
 
         return p;
     }
@@ -142,10 +161,10 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
         p.setPreferredSize(new Dimension(350, 40)); // Reduce height to remove excess space
         p.setMaximumSize(new Dimension(350, 40)); // Prevent stretching
         JButton back = new JButton("Back");
-        back.setActionCommand("add back");
+        back.setActionCommand("back");
         back.addActionListener(handler);
         JButton done = new JButton("Done");
-        done.setActionCommand("add done");
+        done.setActionCommand(confirmID);
         done.addActionListener(handler);
 
         p.add(back);
@@ -154,27 +173,27 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
         return p;
     }
 
-    public Media tryDone() throws FailureToCompleteOperationException {
-        Boolean namePass = !nameField.getText().trim().isEmpty();
-        Boolean lengthPass = (!lengthField.getText().trim().isEmpty() 
-                        && Integer.parseInt(lengthField.getText().trim()) > 0)
-                        || !lengthBox.isSelected();
-        Boolean priorityPass = (!priorityField.getText().trim().isEmpty() 
-                        && Integer.parseInt(priorityField.getText().trim()) > 0)
-                        || !priorityBox.isSelected();
+    // public Media tryDone() throws FailureToCompleteOperationException {
+    //     Boolean namePass = !nameField.getText().trim().isEmpty();
+    //     Boolean lengthPass = (!lengthField.getText().trim().isEmpty() 
+    //                     && Integer.parseInt(lengthField.getText().trim()) > 0)
+    //                     || !lengthBox.isSelected();
+    //     Boolean priorityPass = (!priorityField.getText().trim().isEmpty() 
+    //                     && Integer.parseInt(priorityField.getText().trim()) > 0)
+    //                     || !priorityBox.isSelected();
         
-        if (namePass && lengthPass && priorityPass) {
-            return new Media(nameField.getText(), 
-                MediaType.valueOf(typeField.getSelectedItem().toString().toUpperCase()), 
-                lengthBox.isSelected() ? Integer.parseInt(lengthField.getText().trim()) : -1, 
-                priorityBox.isSelected() ? Integer.parseInt(priorityField.getText().trim()) : -1);
-        } else {
-            changeFieldColors(namePass, lengthPass, priorityPass);
-            throw new FailureToCompleteOperationException("Not all fields are valid");
-        }
-    }
+    //     if (namePass && lengthPass && priorityPass) {
+    //         return new Media(nameField.getText(), 
+    //             MediaType.valueOf(typeField.getSelectedItem().toString().toUpperCase()), 
+    //             lengthBox.isSelected() ? Integer.parseInt(lengthField.getText().trim()) : -1, 
+    //             priorityBox.isSelected() ? Integer.parseInt(priorityField.getText().trim()) : -1);
+    //     } else {
+    //         changeFieldColors(namePass, lengthPass, priorityPass);
+    //         throw new FailureToCompleteOperationException("Not all fields are valid");
+    //     }
+    // }
 
-    private void changeFieldColors(Boolean namePass, Boolean lengthPass, Boolean priorityPass) {
+    protected void changeFieldColors(Boolean namePass, Boolean lengthPass, Boolean priorityPass) {
         nameField.setBackground(!namePass ? Color.decode("#ffb09c") 
                         : UIManager.getColor("TextField.background"));
         lengthField.setBackground(!lengthPass ? Color.decode("#ffb09c") 
@@ -182,12 +201,12 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
         priorityField.setBackground(!priorityPass ? Color.decode("#ffb09c") 
                     : UIManager.getColor("TextField.background"));
 
-        handler.refreshFrame();
+        refreshFrame();
         Timer timer = new Timer(800, e -> {
             nameField.setBackground(UIManager.getColor("TextField.background"));
             lengthField.setBackground(UIManager.getColor("TextField.background"));
             priorityField.setBackground(UIManager.getColor("TextField.background"));
-            handler.refreshFrame();
+            refreshFrame();
         });
         timer.setRepeats(false);
         timer.start();
@@ -197,19 +216,19 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == lengthBox) {
             if (e.getStateChange() == 1) {
-                lengthPanel.add(lengthField);
-                handler.refreshFrame();
+                lengthField.setVisible(true);
+                refreshFrame();
             } else {
-                lengthPanel.remove(lengthField);
-                handler.refreshFrame();
+                lengthField.setVisible(false);
+                refreshFrame();
             }
         } else if (e.getSource() == priorityBox) {
             if (e.getStateChange() == 1) {
-                priortyPanel.add(priorityField);
-                handler.refreshFrame();
+                priorityField.setVisible(true);
+                refreshFrame();
             } else {
-                priortyPanel.remove(priorityField);
-                handler.refreshFrame();
+                priorityField.setVisible(false);
+                refreshFrame();
             }
         }
     }
@@ -217,5 +236,49 @@ public class AddMediaPanel extends JPanel implements ItemListener, ActionListene
     //This is the method that is called when the the JButton btn is clicked
     public void actionPerformed(ActionEvent e) {
         //stub
+    }
+
+    @Override
+    public List<String> closePanel() throws InvalidInputException {
+        Boolean namePass = namePass();
+        Boolean lengthPass = lengthPass();
+        Boolean priorityPass = priorityPass();
+        
+        if (namePass && lengthPass && priorityPass) { 
+            return outputVal();
+        } else {
+            changeFieldColors(namePass, lengthPass, priorityPass);
+            throw new InvalidInputException("Not all fields are valid");
+        }
+    }
+
+    protected List<String> outputVal() {
+        List<String> l = new ArrayList<String>();
+        l.add(nameField.getText());
+        l.add(typeField.getSelectedItem().toString().toUpperCase()); 
+        l.add(Integer.toString(lengthBox.isSelected() ? Integer.parseInt(lengthField.getText().trim()) : -1));
+        l.add(Integer.toString(priorityBox.isSelected() ? Integer.parseInt(priorityField.getText().trim()) : -1));
+        return l;
+    }
+
+    private Boolean namePass() {
+        return !nameField.getText().trim().isEmpty();
+    }
+
+    private Boolean lengthPass() {
+        return (!lengthField.getText().trim().isEmpty() 
+            && Integer.parseInt(lengthField.getText().trim()) > 0)
+            || !lengthBox.isSelected();
+    }
+
+    private Boolean priorityPass() {
+        return (!priorityField.getText().trim().isEmpty() 
+            && Integer.parseInt(priorityField.getText().trim()) > 0)
+            || !priorityBox.isSelected();
+    }
+
+    protected void refreshFrame() {
+        window.repaint();
+        window.revalidate();
     }
 }

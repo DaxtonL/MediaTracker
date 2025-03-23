@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "ui.Main",
+            "projectName": "project-g7x1q_618a56a7"
+        },
+        {
+            "type": "java",
+            "name": "LabelChanger",
+            "request": "launch",
+            "mainClass": "ui.panels.LabelChanger",
+            "projectName": "project-g7x1q_618a56a7"
+        }
+    ]
+}

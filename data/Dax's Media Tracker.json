@@ -1,0 +1,32 @@
+{
+    "mediaList": [
+        {
+            "log": [],
+            "name": "Celeste",
+            "length": "-1",
+            "rating": "-1",
+            "type": "GAME",
+            "priority": "2",
+            "status": "WAITLIST"
+        },
+        {
+            "log": [],
+            "name": "The End of Evangelion",
+            "length": "128",
+            "rating": "-1",
+            "type": "MOVIE",
+            "priority": "-1",
+            "status": "WAITLIST"
+        },
+        {
+            "log": [],
+            "name": "Soul Eater",
+            "length": "56",
+            "rating": "-1",
+            "type": "SHOW",
+            "priority": "5",
+            "status": "WAITLIST"
+        }
+    ],
+    "name": "Dax's Media Tracker"
+}
