@@ -24,12 +24,25 @@ public class MediaPanel extends AppPanelUI {
 
     private Media media;
 
-    public MediaPanel(ActionListener handler, JFrame window, String confirmID, Media m) {
+    public MediaPanel(ActionListener handler, JFrame window, String editID, String logID, Media m) {
         super(handler, window);
-        setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        setPreferredSize(new Dimension(900, 40)); // Reduce height to remove excess space
-        setMaximumSize(new Dimension(900, 40)); // Prevent stretching
-        List<String> mediaInfo = m.listMediaInfo();
+        this.media = m;
+        setPreferences();
+        
+        addLabels();
+
+        this.edit = new JButton("Edit");
+        edit.setActionCommand(editID + "%" + m.getName());
+        edit.addActionListener(handler);
+        add(edit);
+        this.log = new JButton("Log");
+        log.setActionCommand(logID + "%" + m.getName());
+        log.addActionListener(handler);
+        add(log);
+    }
+
+    private void addLabels() {
+        List<String> mediaInfo = media.listMediaInfo();
         this.name = new Label(mediaInfo.get(0));
         add(name);
         this.type = new Label(mediaInfo.get(1));
@@ -42,16 +55,12 @@ public class MediaPanel extends AppPanelUI {
         add(priority);
         this.rating = new Label("Rating" + mediaInfo.get(7));
         add(rating);
+    }
 
-        this.edit = new JButton("Edit");
-        edit.setActionCommand(confirmID + "%" + m.getName());
-        edit.addActionListener(handler);
-        add(edit);
-        this.log = new JButton("Log");
-        log.setActionCommand("log media");
-        log.addActionListener(handler);
-        add(log);
-        this.media = m;
+    private void setPreferences() {
+        setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        setPreferredSize(new Dimension(900, 40)); // Reduce height to remove excess space
+        setMaximumSize(new Dimension(900, 40)); // Prevent stretching
     }
 
     @Override

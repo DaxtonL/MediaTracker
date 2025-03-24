@@ -26,16 +26,19 @@ import model.filters.*;
 
 public class MainPanel extends AppPanelUI implements ActionListener {
     private MediaTracker tracker;
-    private String mediaConfirmID;
+    private String mediaEditID;
+    private String mediaLogID;
     private JComboBox filterType;
     private JScrollPane listMediaPanel;
 
-    public MainPanel(ActionListener handler, JFrame window, MediaTracker tracker, String mediaConfirmID) {
+    public MainPanel(ActionListener handler, JFrame window, 
+            MediaTracker tracker, String mediaConfirmID, String mediaLogID) {
         super(handler, window);
         setLayout(new BorderLayout());
 
         this.tracker = tracker;
-        this.mediaConfirmID = mediaConfirmID;
+        this.mediaEditID = mediaConfirmID;
+        this.mediaLogID = mediaLogID;
 
         add(makeTopPanel(), BorderLayout.PAGE_START);
         listMediaPanel = listMedia();
@@ -84,7 +87,7 @@ public class MainPanel extends AppPanelUI implements ActionListener {
         for (Integer i = 0; i < mediaList.size(); i++) {
             Media m = mediaList.get(i);
             //panelsArray[i] = new MediaPanel(handler, window, m);
-            list.add(new MediaPanel(handler, window, mediaConfirmID, m));
+            list.add(new MediaPanel(handler, window, mediaEditID, mediaLogID, m));
         }
 
         JScrollPane scrJPanel = new JScrollPane(list);
@@ -107,7 +110,7 @@ public class MainPanel extends AppPanelUI implements ActionListener {
         for (Integer i = 0; i < mediaList.size(); i++) {
             Media m = mediaList.get(i);
             //panelsArray[i] = new MediaPanel(handler, window, m);
-            list.add(new MediaPanel(handler, window, mediaConfirmID, m));
+            list.add(new MediaPanel(handler, window, mediaEditID, mediaLogID, m));
         }
 
         JScrollPane scrJPanel = new JScrollPane(list);

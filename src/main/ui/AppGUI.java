@@ -19,6 +19,7 @@ import ui.panels.AddMediaPanel;
 import ui.panels.AppPanelUI;
 import ui.panels.EditMediaPanel;
 import ui.panels.LoadMediaPanel;
+import ui.panels.LogViewingPanel;
 import ui.panels.MainPanel;
 import ui.panels.MediaPanel;
 import ui.panels.TextFieldPanel;
@@ -40,7 +41,9 @@ public class AppGUI implements ActionListener {
     final String yesNoPanelString = "yes no panel";
     final String loadPanelString = "load panel";
 
-    final String mediaConfirmID = "edit";
+    final String mediaEditID = "edit";
+    final String mediaLogID = "log";
+
 
 
 
@@ -99,7 +102,7 @@ public class AppGUI implements ActionListener {
     }
 
     private AppPanelUI getMainPanel() {
-        return new MainPanel(this, window, tracker, mediaConfirmID);
+        return new MainPanel(this, window, tracker, mediaEditID, mediaLogID);
     }
 
     @Override
@@ -152,6 +155,10 @@ public class AppGUI implements ActionListener {
             Media m = tracker.getMedia(splitE[1]);
             AppPanelUI p = new EditMediaPanel(this, window, "edit media", m);
             switchPanel(p, "edit media");
+        }   else if (splitE[0].equals("log")) {
+            Media m = tracker.getMedia(splitE[1]);
+            AppPanelUI p = new LogViewingPanel(this, window, "log media", m);
+            switchPanel(p, "log media");
         } else if (e.getActionCommand().equals("edit media")) {
             try {
                 System.out.println("trying to edit media");
