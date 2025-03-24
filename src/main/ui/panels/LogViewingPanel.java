@@ -86,34 +86,40 @@ public class LogViewingPanel extends AppPanelUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().toString().equals("new log")) {
-            remove(topPanel);
             addPanel = makeNewLog();
-            add(addPanel, BorderLayout.PAGE_START);
-            window.repaint();
-            window.revalidate();
+            switchTopPanel(topPanel, addPanel);
+            refreshWindow();
         } else if (e.getActionCommand().toString().equals("cancel")) {
-            remove(addPanel);
-            add(topPanel, BorderLayout.PAGE_START);
-            window.repaint();
-            window.revalidate();
+            switchTopPanel(addPanel, topPanel);
+            refreshWindow();
         } else if (e.getActionCommand().toString().equals("add log")) {
             ViewLog l = new ViewLog(LocalDate.now(), Integer.parseInt(amountField.getText()));
             media.logViewing(l);
-            remove(listLog);
-            listLog = listLog();
-            add(listLog, BorderLayout.CENTER);
+            relistLog();
             remove(addPanel);
-            add(topPanel, BorderLayout.PAGE_START);
-            window.repaint();
-            window.revalidate();
+            switchTopPanel(addPanel, topPanel);
+            refreshWindow();
         } else if (e.getActionCommand().toString().equals("delete log")) {
             media.removeLog();
-            remove(listLog);
-            listLog = listLog();
-            add(listLog, BorderLayout.CENTER);
-            window.repaint();
-            window.revalidate();
+            relistLog();
+            refreshWindow();
         }
+    }
+
+    private void relistLog() {
+        remove(listLog);
+        listLog = listLog();
+        add(listLog, BorderLayout.CENTER);
+    }
+
+    private void switchTopPanel(JPanel oldPanel, JPanel newPanel) {
+        remove(oldPanel);
+        add(newPanel, BorderLayout.PAGE_START);
+    }
+
+    private void refreshWindow() {
+        window.repaint();
+        window.revalidate();
     }
 
     private JPanel makeNewLog() {

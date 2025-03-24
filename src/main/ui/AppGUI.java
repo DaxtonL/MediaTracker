@@ -21,7 +21,6 @@ import ui.panels.EditMediaPanel;
 import ui.panels.LoadMediaPanel;
 import ui.panels.LogViewingPanel;
 import ui.panels.MainPanel;
-import ui.panels.MediaPanel;
 import ui.panels.TextFieldPanel;
 import ui.panels.YesNoPanel;
 
@@ -106,42 +105,21 @@ public class AppGUI implements ActionListener {
     }
 
     @Override
+    @SuppressWarnings("methodlength")
     public void actionPerformed(ActionEvent e) {
         String[] splitE = e.getActionCommand().split("[%]");
         if (e.getActionCommand().equals("yes load tracker")) {
             AppPanelUI p = new LoadMediaPanel(this, window, "load");
             switchPanel(p, "load panel");
         } else if (e.getActionCommand().equals("load")) {
-            try {
-                tracker = getMediaTracker(currentPanel.closePanel().get(0));
-                AppPanelUI p = getMainPanel();
-                switchPanel(p, "main panel");
-            } catch (Exception exception) {
-                return;
-            }
+            loadTracker();
         } else if (e.getActionCommand().equals("no load tracker")) {
             AppPanelUI p = new TextFieldPanel(this, window, "Input tracker name", "done tracker name");
             switchPanel(p, "tracker name");
         } else if (e.getActionCommand().equals("done tracker name")) {
-            try {
-                String s = currentPanel.closePanel().get(0);
-                tracker = new MediaTracker(s);
-                AppPanelUI p = getMainPanel();
-                switchPanel(p, "main panel");
-            } catch (Exception exception) {
-                return;
-            }
+            setTrackerName();
         } else if (e.getActionCommand().equals("add media")) {
-            try {
-                List<String> l = currentPanel.closePanel();
-                Media m = new Media(l.get(0), MediaType.valueOf(l.get(1)), 
-                        Integer.parseInt(l.get(2)), Integer.parseInt(l.get(3)));
-                tracker.addMedia(m);
-                AppPanelUI p = getMainPanel();
-                switchPanel(p, "main panel");
-            } catch (Exception exception) {
-                return;
-            }
+            addMedia();
         } else if (e.getActionCommand().equals("add")) {
             AppPanelUI p = new AddMediaPanel(this, window, "add media");
             switchPanel(p, "add media");
@@ -151,7 +129,6 @@ public class AppGUI implements ActionListener {
         } else if (e.getActionCommand().equals("save")) {
             saveMediaTracker();
         } else if (splitE[0].equals("edit")) {
-            System.out.println(splitE[1]);
             Media m = tracker.getMedia(splitE[1]);
             AppPanelUI p = new EditMediaPanel(this, window, "edit media", m);
             switchPanel(p, "edit media");
@@ -160,22 +137,62 @@ public class AppGUI implements ActionListener {
             AppPanelUI p = new LogViewingPanel(this, window, "log media", m);
             switchPanel(p, "log media");
         } else if (e.getActionCommand().equals("edit media")) {
-            try {
-                System.out.println("trying to edit media");
-                List<String> l = currentPanel.closePanel();
-                Media m = tracker.getMedia(l.get(6));
-                m.setName(l.get(0));
-                m.setType(MediaType.valueOf(l.get(1)));
-                m.setLength(Integer.parseInt(l.get(2)));
-                m.setPriority((Integer.parseInt(l.get(3))));
-                m.setStatus(Status.valueOf(l.get(4)));
-                m.setRating(Integer.parseInt(l.get(5)));
-                AppPanelUI p = getMainPanel();
-                switchPanel(p, "main panel");   
-            } catch (Exception exception) {
-                return;
-            }
-            
+            editMedia();
+        }
+    }
+
+    private void loadTracker() {
+        try {
+            tracker = getMediaTracker(currentPanel.closePanel().get(0));
+            AppPanelUI p = getMainPanel();
+            switchPanel(p, "main panel");
+        } catch (Exception exception) {
+            return;
+        }
+    }
+
+    private void editMedia() {
+        try {
+            List<String> l = currentPanel.closePanel();
+            updateMedia(l);
+            AppPanelUI p = getMainPanel();
+            switchPanel(p, "main panel");   
+        } catch (Exception exception) {
+            return;
+        }
+    }
+
+    private void setTrackerName() {
+        try {
+            String s = currentPanel.closePanel().get(0);
+            tracker = new MediaTracker(s);
+            AppPanelUI p = getMainPanel();
+            switchPanel(p, "main panel");
+        } catch (Exception exception) {
+            return;
+        }
+    }
+
+    private void updateMedia(List<String> l) {
+        Media m = tracker.getMedia(l.get(6));
+        m.setName(l.get(0));
+        m.setType(MediaType.valueOf(l.get(1)));
+        m.setLength(Integer.parseInt(l.get(2)));
+        m.setPriority((Integer.parseInt(l.get(3))));
+        m.setStatus(Status.valueOf(l.get(4)));
+        m.setRating(Integer.parseInt(l.get(5)));
+    }
+
+    private void addMedia() {
+        try {
+            List<String> l = currentPanel.closePanel();
+            Media m = new Media(l.get(0), MediaType.valueOf(l.get(1)), 
+                    Integer.parseInt(l.get(2)), Integer.parseInt(l.get(3)));
+            tracker.addMedia(m);
+            AppPanelUI p = getMainPanel();
+            switchPanel(p, "main panel");
+        } catch (Exception exception) {
+            return;
         }
     }
 }

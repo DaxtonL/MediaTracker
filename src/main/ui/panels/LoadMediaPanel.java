@@ -8,10 +8,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import exceptions.InvalidInputException;
-import ui.MediaTrackerGUI;
 
 public class LoadMediaPanel extends AppPanelUI {
     private JComboBox<String> fileList;

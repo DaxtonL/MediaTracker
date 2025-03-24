@@ -59,6 +59,17 @@ public class MainPanel extends AppPanelUI implements ActionListener {
         b3.setActionCommand("save");
         b3.addActionListener(handler);
 
+        makeFilterPanel();
+
+        p.add(mediaBtn);
+        p.add(b2);
+        p.add(b3);
+        p.add(filterType);
+
+        return p;
+    }
+
+    private void makeFilterPanel() {
         List<MediaType> types = new ArrayList<MediaType>(Arrays.asList(MediaType.values()));
         String[] typesArray = new String[types.size() + 1];
         typesArray[0] = "All Types";
@@ -69,13 +80,6 @@ public class MainPanel extends AppPanelUI implements ActionListener {
         filterType = new JComboBox<String>(typesArray);
         filterType.setActionCommand("changed filter");
         filterType.addActionListener(this);
-
-        p.add(mediaBtn);
-        p.add(b2);
-        p.add(b3);
-        p.add(filterType);
-
-        return p;
     }
 
     private JScrollPane listMedia() {
