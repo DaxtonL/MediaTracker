@@ -16,6 +16,8 @@ import model.enums.MediaType;
 import model.Media;
 import model.enums.Status;
 import java.time.*;
+import java.util.List;
+import java.util.ArrayList;
 
 // Represents a JSON reader
 // Based on CPSC 210 implementation of READ/WRITE Json files:
@@ -72,13 +74,11 @@ public class JsonReader {
         MediaType type = MediaType.valueOf(jsonObject.getString("type"));
         Integer length = Integer.parseInt(jsonObject.getString("length"));
         Integer priority = Integer.parseInt(jsonObject.getString("priority"));
-
-        Media m = new Media(name, type, length, priority);
         Status status = Status.valueOf(jsonObject.getString("status"));
         Integer rating = Integer.parseInt(jsonObject.getString("rating"));
-        m.setStatus(status);
-        m.setRating(rating);
+
         JSONArray jsonArray = jsonObject.getJSONArray("log");
+        List<ViewLog> views = new ArrayList<ViewLog>();
         for (Object json : jsonArray) {
             JSONObject thisJson = (JSONObject) json;
             Integer year = Integer.parseInt(thisJson.getString("year"));
@@ -87,8 +87,9 @@ public class JsonReader {
             LocalDate d = LocalDate.of(year, month, day);
             Integer viewProgress = Integer.parseInt(thisJson.getString("viewProgress"));
             ViewLog viewLog = new ViewLog(d, viewProgress);
-            m.logViewing(viewLog);
+            views.add(viewLog);
         }        
+        Media m = new Media(name, type, length, status, priority, rating, views);
         wt.addMedia(m);
     }
 }

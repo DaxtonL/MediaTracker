@@ -38,18 +38,19 @@ public class Media {
         EventLog.getInstance().logEvent(new Event("Created new media"));
     }
 
+    // REQUIRES: to be called only when loading previously created media
     // MODIFIES: this
-    // EFFECTS: creates a new Media with a specified name, length, priority, 
-    // an empty log, rating set to -1 and status set to "WAITLIST"
-    // If priority, rating and/or length is set to -1, this represents that the given field is N/A
-    public Media(String name, MediaType type, Integer length, Status status, Integer priority, Integer rating) {
+    // EFFECTS: Constructor used for loading media, creates a Media with previously specified name, length, priority, 
+    //          rating, status, and log
+    public Media(String name, MediaType type, Integer length, Status status, 
+                    Integer priority, Integer rating, List<ViewLog> log) {
         this.name = name;
         this.type = type;
         this.length = length;
         this.status = status;
         this.priority = priority;
         this.rating = rating;
-        this.log = new ArrayList<>();
+        this.log = log;
     }
 
     // REQUIRES:

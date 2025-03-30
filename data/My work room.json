@@ -1,21 +1,13 @@
 {
     "mediaList": [
         {
-            "log": [
-                {
-                    "month": "FEBRUARY",
-                    "year": "2025",
-                    "viewProgress": "80",
-                    "day": "28"
-                },
-                {
-                    "month": "MARCH",
-                    "year": "2025",
-                    "viewProgress": "5",
-                    "day": "23"
-                }
-            ],
-            "name": "Celeste",
+            "log": [{
+                "month": "FEBRUARY",
+                "year": "2025",
+                "viewProgress": "80",
+                "day": "28"
+            }],
+            "name": "Super Celeste",
             "length": "-1",
             "rating": "-1",
             "type": "GAME",

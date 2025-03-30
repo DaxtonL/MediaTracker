@@ -178,14 +178,35 @@ public class AppGUI implements ActionListener, WindowListener {
         }
     }
 
+    @SuppressWarnings("methodlength")
     private void updateMedia(List<String> l) {
         Media m = tracker.getMedia(l.get(6));
-        m.setName(l.get(0));
-        m.setType(MediaType.valueOf(l.get(1)));
-        m.setLength(Integer.parseInt(l.get(2)));
-        m.setPriority((Integer.parseInt(l.get(3))));
-        m.setStatus(Status.valueOf(l.get(4)));
-        m.setRating(Integer.parseInt(l.get(5)));
+
+        String newName = l.get(0);
+        MediaType newType = MediaType.valueOf(l.get(1));
+        Integer newLength = Integer.parseInt(l.get(2));
+        Integer newPriority = Integer.parseInt(l.get(3));
+        Status newStatus = Status.valueOf(l.get(4));
+        Integer newRating = Integer.parseInt(l.get(5));
+
+        if (!m.getName().equals(newName)) {
+            m.setName(newName);
+        }
+        if (!m.getType().equals(newType)) {
+            m.setType(newType);
+        }
+        if (!m.getLength().equals(newLength)) {
+            m.setLength(newLength);
+        }
+        if (!m.getPriority().equals(newPriority)) {
+            m.setPriority(newPriority);
+        }
+        if (!m.getStatus().equals(newStatus)) {
+            m.setStatus(newStatus);
+        }
+        if (!m.getRating().equals(newRating)) {
+            m.setRating(newRating);
+        }
     }
 
     private void addMedia() {

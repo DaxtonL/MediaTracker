@@ -55,6 +55,18 @@ public class TestMedia {
     }
 
     @Test
+    public void testLoadConstructor() {
+        Media testGame = new Media("Celeste", MediaType.GAME, -1, Status.VIEWING, 3, 8, testLog);
+        assertEquals("Celeste", testGame.getName());
+        assertEquals(MediaType.GAME, testGame.getType());
+        assertEquals(-1, testGame.getLength());
+        assertEquals(3, testGame.getPriority());
+        assertEquals(testLog, testGame.getLog());
+        assertEquals(Status.VIEWING, testGame.getStatus());
+        assertEquals(8, testGame.getRating());
+    }
+
+    @Test
     public void testLogViewingOnce() {
         assertEquals(Status.WAITLIST, testShow.getStatus());
         assertEquals(testLog, testShow.getLog());
