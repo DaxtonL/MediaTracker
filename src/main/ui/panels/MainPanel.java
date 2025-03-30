@@ -28,7 +28,7 @@ public class MainPanel extends AppPanelUI implements ActionListener {
     private MediaTracker tracker;
     private String mediaEditID;
     private String mediaLogID;
-    private JComboBox filterType;
+    private JComboBox<String> filterType;
     private JScrollPane listMediaPanel;
 
     public MainPanel(ActionListener handler, JFrame window, 
@@ -132,7 +132,6 @@ public class MainPanel extends AppPanelUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("changed filter")) {
             String s = filterType.getSelectedItem().toString().toUpperCase();
-            System.out.println(s);
             if (s.equals("ALL TYPES")) {
                 remove(listMediaPanel);
                 listMediaPanel = listMedia();

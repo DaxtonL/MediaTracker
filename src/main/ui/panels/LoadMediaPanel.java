@@ -42,7 +42,6 @@ public class LoadMediaPanel extends AppPanelUI {
                     String name = listOfFiles[i].getName();
                     if (name.contains(".json")) {
                         fileNames.add(listOfFiles[i].getName());
-                        System.out.println(name);
                     }
                 }
             }

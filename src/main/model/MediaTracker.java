@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import logging.*;
 
 // Represents a list of media
 public class MediaTracker implements Writeable {
@@ -20,6 +21,7 @@ public class MediaTracker implements Writeable {
     public MediaTracker(String name) {
         this.name = name;
         mediaList = new ArrayList<>();
+        EventLog.getInstance().logEvent(new Event("Created new media tracker"));
     }
 
     // MODIFIES: list of media
@@ -54,6 +56,7 @@ public class MediaTracker implements Writeable {
             }
         }
         mediaList.add(m);
+        EventLog.getInstance().logEvent(new Event("Added media to tracker"));
         return true;
     }
 
@@ -65,6 +68,7 @@ public class MediaTracker implements Writeable {
         for (Media thisM : mediaList) {
             if (thisM.getName().equals(name)) {
                 mediaList.remove(thisM);
+                EventLog.getInstance().logEvent(new Event("Removed media from tracker"));
                 return true;
             }
         }

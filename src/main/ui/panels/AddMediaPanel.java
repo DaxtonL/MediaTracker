@@ -16,7 +16,6 @@ import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
-import exceptions.FailureToCompleteOperationException;
 import exceptions.InvalidInputException;
 import model.enums.MediaType;
 import model.Media;

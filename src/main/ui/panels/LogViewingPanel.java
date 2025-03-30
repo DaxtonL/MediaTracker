@@ -1,7 +1,6 @@
 package ui.panels;
 
 import java.awt.BorderLayout;
-import java.awt.PageAttributes.MediaType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
@@ -14,7 +13,6 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 
 import exceptions.InvalidInputException;
@@ -22,7 +20,7 @@ import model.Media;
 import model.ViewLog;
 
 public class LogViewingPanel extends AppPanelUI implements ActionListener {
-    private String confirmID;
+    //private String confirmID;
     private Media media;
     private JScrollPane listLog;
     private JFormattedTextField amountField;
@@ -32,7 +30,7 @@ public class LogViewingPanel extends AppPanelUI implements ActionListener {
     public LogViewingPanel(ActionListener handler, JFrame window, String confirmID, Media m) {
         super(handler, window);
         setLayout(new BorderLayout());
-        this.confirmID = confirmID;
+        //this.confirmID = confirmID;
         media = m;
         listLog = listLog();
         topPanel = topPanel();
@@ -64,7 +62,7 @@ public class LogViewingPanel extends AppPanelUI implements ActionListener {
         JPanel list = new JPanel();
         list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
         
-        LogPanel[] panelsArray = new LogPanel[log.size()];
+       // LogPanel[] panelsArray = new LogPanel[log.size()];
         for (Integer i = 0; i < log.size(); i++) {
             ViewLog v = log.get(i);
             //panelsArray[i] = new LogPanel(handler, window, v, media.getType());
@@ -79,7 +77,6 @@ public class LogViewingPanel extends AppPanelUI implements ActionListener {
 
     @Override
     public List<String> closePanel() throws InvalidInputException {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'closePanel'");
     }
 

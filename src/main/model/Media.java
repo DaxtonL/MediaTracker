@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import model.enums.MediaType;
 import model.enums.Status;
+import logging.*;
 
 // Represents a piece of media having a name, list of times the user viewed the media,
 // the length of the media, the status of the media (WAITLIST, VIEWING, FINISHED, DROPPED, ON-HOLD),
@@ -33,6 +34,21 @@ public class Media {
         this.priority = priority;
         this.status = Status.WAITLIST;
         this.rating = -1;
+        this.log = new ArrayList<>();
+        EventLog.getInstance().logEvent(new Event("Created new media"));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates a new Media with a specified name, length, priority, 
+    // an empty log, rating set to -1 and status set to "WAITLIST"
+    // If priority, rating and/or length is set to -1, this represents that the given field is N/A
+    public Media(String name, MediaType type, Integer length, Status status, Integer priority, Integer rating) {
+        this.name = name;
+        this.type = type;
+        this.length = length;
+        this.status = status;
+        this.priority = priority;
+        this.rating = rating;
         this.log = new ArrayList<>();
     }
 
@@ -158,6 +174,7 @@ public class Media {
 
     public void setName(String name) {
         this.name = name;
+        EventLog.getInstance().logEvent(new Event("Changed name for a piece of media"));
     }
 
     public String getName() {
@@ -166,6 +183,7 @@ public class Media {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+        EventLog.getInstance().logEvent(new Event("Changed priority for a piece of media"));
     }
 
     public Integer getPriority() {
@@ -174,6 +192,7 @@ public class Media {
 
     public void setStatus(Status status) {
         this.status = status;
+        EventLog.getInstance().logEvent(new Event("Changed status for a piece of media"));
     }
 
     public Status getStatus() {
@@ -182,6 +201,7 @@ public class Media {
 
     public void setType(MediaType type) {
         this.type = type;
+        EventLog.getInstance().logEvent(new Event("Changed type for a piece of media"));
     }
 
     public MediaType getType() {
@@ -190,6 +210,7 @@ public class Media {
 
     public void setLength(Integer length) {
         this.length = length;
+        EventLog.getInstance().logEvent(new Event("Changed length for a piece of media"));
     }
 
     public Integer getLength() {
@@ -198,6 +219,7 @@ public class Media {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+        EventLog.getInstance().logEvent(new Event("Changed rating for a piece of media"));
     }
     
     public Integer getRating() {

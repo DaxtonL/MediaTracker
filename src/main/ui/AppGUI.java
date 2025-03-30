@@ -3,12 +3,15 @@ package ui;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import logging.*;
 import model.Media;
 import model.MediaTracker;
 import model.enums.MediaType;
@@ -23,9 +26,9 @@ import ui.panels.LogViewingPanel;
 import ui.panels.MainPanel;
 import ui.panels.TextFieldPanel;
 import ui.panels.YesNoPanel;
+import java.awt.event.WindowListener;
 
-
-public class AppGUI implements ActionListener {
+public class AppGUI implements ActionListener, WindowListener {
     JFrame window;
     final int windowX = 800;
     final int windowY = 400;
@@ -43,15 +46,17 @@ public class AppGUI implements ActionListener {
     final String mediaEditID = "edit";
     final String mediaLogID = "log";
 
-
-
-
+    // MODIFIES: this
+    // EFFECTS: creates a new AppGui with a window, 
+    // and sets the main panel to the ask user if they want to load a tracker
     public AppGUI() {
         // Initalizes the frame
+        EventLog.getInstance().clear();
         window = new JFrame("Media Tracker");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(windowX, windowY);
         window.setResizable(false);
+        window.addWindowListener(this);
 
         masterPanel = new JPanel(new CardLayout());
         YesNoPanel p = new YesNoPanel(this, window, "Do you want to load a tracker?", 
@@ -92,10 +97,10 @@ public class AppGUI implements ActionListener {
             writer.open();
             writer.write(tracker);
             writer.close();
-            System.out.println("Succesfully saved media tracker!");
+            //System.out.println("Succesfully saved media tracker!");
             return true;
         } catch (IOException e) {
-            System.out.println("Could not save media tracker!");
+            //System.out.println("Could not save media tracker!");
             return false;
         }
     }
@@ -194,5 +199,47 @@ public class AppGUI implements ActionListener {
         } catch (Exception exception) {
             return;
         }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        // stub
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        Iterator<Event> it = EventLog.getInstance().iterator();
+        while (it.hasNext()) {
+            Event event = it.next();
+            System.out.println(event.getDescription());
+        }
+        System.out.println("Closed app");
+        // stub
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        
+        // stub
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        // stub
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        // stub
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        // stub
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        // stub
     }
 }

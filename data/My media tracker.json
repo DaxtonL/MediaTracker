@@ -1,0 +1,17 @@
+{
+    "mediaList": [{
+        "log": [{
+            "month": "MARCH",
+            "year": "2025",
+            "viewProgress": "5",
+            "day": "29"
+        }],
+        "name": "dfsgsdfg",
+        "length": "2",
+        "rating": "-1",
+        "type": "MOVIE",
+        "priority": "2",
+        "status": "FINISHED"
+    }],
+    "name": "My media tracker"
+}

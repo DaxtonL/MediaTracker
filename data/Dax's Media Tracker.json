@@ -19,32 +19,76 @@
                     "year": "2025",
                     "viewProgress": "50",
                     "day": "23"
+                },
+                {
+                    "month": "MARCH",
+                    "year": "2025",
+                    "viewProgress": "30",
+                    "day": "30"
                 }
             ],
-            "name": "Super Celeste",
+            "name": "Celeste",
             "length": "-1",
-            "rating": "-1",
+            "rating": "6",
             "type": "GAME",
             "priority": "2",
             "status": "VIEWING"
         },
         {
-            "log": [],
+            "log": [{
+                "month": "MARCH",
+                "year": "2025",
+                "viewProgress": "128",
+                "day": "30"
+            }],
             "name": "The End of Evangelion",
             "length": "128",
-            "rating": "-1",
+            "rating": "10",
             "type": "MOVIE",
             "priority": "-1",
-            "status": "WAITLIST"
+            "status": "FINISHED"
         },
         {
-            "log": [],
+            "log": [{
+                "month": "MARCH",
+                "year": "2025",
+                "viewProgress": "3",
+                "day": "29"
+            }],
             "name": "Soul Eater",
             "length": "56",
             "rating": "-1",
             "type": "SHOW",
             "priority": "5",
-            "status": "WAITLIST"
+            "status": "VIEWING"
+        },
+        {
+            "log": [{
+                "month": "MARCH",
+                "year": "2025",
+                "viewProgress": "5",
+                "day": "30"
+            }],
+            "name": "Animal Crossing",
+            "length": "-1",
+            "rating": "-1",
+            "type": "GAME",
+            "priority": "3",
+            "status": "VIEWING"
+        },
+        {
+            "log": [{
+                "month": "MARCH",
+                "year": "2025",
+                "viewProgress": "35",
+                "day": "30"
+            }],
+            "name": "Wotakoi",
+            "length": "56",
+            "rating": "9",
+            "type": "MANGA",
+            "priority": "5",
+            "status": "VIEWING"
         }
     ],
     "name": "Dax's Media Tracker"
