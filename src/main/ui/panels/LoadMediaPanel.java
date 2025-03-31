@@ -16,6 +16,7 @@ public class LoadMediaPanel extends AppPanelUI {
     private JButton back;
     private JButton load;
 
+    //EFFECTS: creates a loadMediaPanel with handler, window, and confirm id
     public LoadMediaPanel(ActionListener handler, JFrame window, String confirmID) {
         super(handler, window);
         this.handler = handler;
@@ -32,6 +33,7 @@ public class LoadMediaPanel extends AppPanelUI {
         add(fileList);
     }
 
+    //EFFECTS: returns a list of the names of json files in the data folder
     private String[] getSavedFileNames() {
         List<String> fileNames = new ArrayList<>();
         File folder = new File("./data/");
@@ -51,11 +53,13 @@ public class LoadMediaPanel extends AppPanelUI {
         return fileArray;
     }
 
+    //EFFECTS: returns the string of the selected file in the JComboBox
     public String getSelectedFile() {
         return fileList.getSelectedItem().toString();
     }
 
     @Override
+    //EFFECTS returns the string of the selected file
     public List<String> closePanel() throws InvalidInputException {
         List<String> l = new ArrayList<String>();
         l.add(fileList.getSelectedItem().toString());

@@ -23,6 +23,7 @@ public class MediaPanel extends AppPanelUI {
 
     private Media media;
 
+    // Creates a media panel to represent the inputted media
     public MediaPanel(ActionListener handler, JFrame window, String editID, String logID, Media m) {
         super(handler, window);
         this.media = m;
@@ -40,6 +41,7 @@ public class MediaPanel extends AppPanelUI {
         add(log);
     }
 
+    //EFFECTS: adds all the relavant labels to this panel
     private void addLabels() {
         List<String> mediaInfo = media.listMediaInfo();
         this.name = new Label(mediaInfo.get(0));
@@ -56,6 +58,8 @@ public class MediaPanel extends AppPanelUI {
         add(rating);
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets the layout preferences for this panel
     private void setPreferences() {
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         setPreferredSize(new Dimension(900, 40)); // Reduce height to remove excess space
@@ -63,6 +67,7 @@ public class MediaPanel extends AppPanelUI {
     }
 
     @Override
+    //EFFECTS: this panel does not contain any data to return so throws exception if called
     public List<String> closePanel() throws InvalidInputException {
         throw new InvalidInputException("No valid data");
     }

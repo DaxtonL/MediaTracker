@@ -20,13 +20,13 @@ import model.Media;
 import model.ViewLog;
 
 public class LogViewingPanel extends AppPanelUI implements ActionListener {
-    //private String confirmID;
     private Media media;
     private JScrollPane listLog;
     private JFormattedTextField amountField;
     private JPanel addPanel;
     private JPanel topPanel;
 
+    //EFFECTS: creates a log viewing panel with a handler, window, confirmID and media
     public LogViewingPanel(ActionListener handler, JFrame window, String confirmID, Media m) {
         super(handler, window);
         setLayout(new BorderLayout());
@@ -38,6 +38,7 @@ public class LogViewingPanel extends AppPanelUI implements ActionListener {
         add(listLog, BorderLayout.CENTER);
     }
 
+    //EFFECT: creates and returns the "top panel" of this panel with relevant buttons and labels
     private JPanel topPanel() {
         JPanel p = new JPanel();
         JButton back = new JButton("Back");
@@ -57,6 +58,7 @@ public class LogViewingPanel extends AppPanelUI implements ActionListener {
         return p;
     }
 
+    //EFFECTS: returns a JScrollPane with a list of the viewings of the selected media
     private JScrollPane listLog() {
         List<ViewLog> log = media.getLog();
         JPanel list = new JPanel();
@@ -76,11 +78,13 @@ public class LogViewingPanel extends AppPanelUI implements ActionListener {
     }
 
     @Override
+    //EFFECTS this panel does not have any data to return so throws exception if this method is called
     public List<String> closePanel() throws InvalidInputException {
         throw new UnsupportedOperationException("Unimplemented method 'closePanel'");
     }
 
     @Override
+    //EFFECTS handles the events when buttons are pressed
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().toString().equals("new log")) {
             addPanel = makeNewLog();
@@ -103,22 +107,26 @@ public class LogViewingPanel extends AppPanelUI implements ActionListener {
         }
     }
 
+    //EFFECTS: updates the list of views
     private void relistLog() {
         remove(listLog);
         listLog = listLog();
         add(listLog, BorderLayout.CENTER);
     }
 
+    //EFFECTS switches the Borderlayout.TOP panel from old panel to new panel
     private void switchTopPanel(JPanel oldPanel, JPanel newPanel) {
         remove(oldPanel);
         add(newPanel, BorderLayout.PAGE_START);
     }
 
+    //EFFECTS repaints the window
     private void refreshWindow() {
         window.repaint();
         window.revalidate();
     }
 
+    //EFFECTS: creates and returns a new panel used for creating a new viewing log
     private JPanel makeNewLog() {
         JPanel p = new JPanel();
         NumberFormat longFormat = NumberFormat.getIntegerInstance();

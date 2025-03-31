@@ -9,7 +9,8 @@ import javax.swing.JLabel;
 
 import exceptions.InvalidInputException;
 
-public class YesNoPanel extends AppPanelUI {    
+public class YesNoPanel extends AppPanelUI {
+    // EFFECTS: creates a new yes no panel with a handler, window, question, yesID and noID    
     public YesNoPanel(ActionListener handler, JFrame window, String question, String yesID, String noID) {
         super(handler, window);
         add(new JLabel(question));
@@ -25,6 +26,7 @@ public class YesNoPanel extends AppPanelUI {
     }
 
     @Override
+    // EFFECTS: the this panel does not return any data so returns invalid input exception if called
     public List<String> closePanel() throws InvalidInputException {
         throw new InvalidInputException("No return data");
     }
