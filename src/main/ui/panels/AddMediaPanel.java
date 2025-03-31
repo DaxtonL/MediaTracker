@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -20,7 +19,7 @@ import exceptions.InvalidInputException;
 import model.enums.MediaType;
 import model.Media;
 
-public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionListener {    
+public class AddMediaPanel extends AppPanelUI implements ItemListener {    
     protected JTextField nameField;
     protected JComboBox<String> typeField;
     protected JFormattedTextField lengthField;
@@ -33,6 +32,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
     private String confirmID;
     protected Media media;
 
+    //EFFECTS: Creates a new media panel with a handlder, window and confirm ID 
     public AddMediaPanel(ActionListener handler, JFrame window, String confirmID) {
         super(handler, window);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -44,6 +44,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
         add(makeMenuPanel());
     }
 
+    //EFFECTS: overloaded constructor that additionally takes in a media m
     public AddMediaPanel(ActionListener handler, JFrame window, String confirmID, Media m) {
         super(handler, window);
         media = m;
@@ -56,6 +57,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
         add(makeMenuPanel());
     }
     
+    //EFFECS: protected field for adding components to the panel
     protected void addComponents() {
         lengthPanel = makeLengthPanel();
         add(lengthPanel);
@@ -63,6 +65,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
         add(priortyPanel);
     }
 
+    //EFFECTS: creates and returns a panel with a label and appropriate field to input the name value
     protected JPanel makeNamePanel() {
         JPanel p = new JPanel();
         p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
@@ -77,6 +80,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
         return p;
     }
 
+    //EFFECTS: creates and returns a panel with a label and appropriate field to input the type value
     protected JPanel makeTypePanel() {
         JPanel p = new JPanel();
 
@@ -100,6 +104,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
         return p;
     }
 
+    //EFFECTS: creates and returns a panel with a label and appropriate field to input the length value
     protected JPanel makeLengthPanel() {
         NumberFormat longFormat = NumberFormat.getIntegerInstance();
 
@@ -154,6 +159,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
         return p;
     }
 
+    //EFFECTS: creates and returns a panel buttons for confirming and going back
     private JPanel makeMenuPanel() {
         JPanel p = new JPanel();
         p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
@@ -192,6 +198,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
     //     }
     // }
 
+    //EFFECTS: changes the colour of text fields that do not have valid data within them
     protected void changeFieldColors(Boolean namePass, Boolean lengthPass, Boolean priorityPass) {
         nameField.setBackground(!namePass ? Color.decode("#ffb09c") 
                         : UIManager.getColor("TextField.background"));
@@ -211,7 +218,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
         timer.start();
     }
 
-    //This is the method that is called when the the JButton btn is clicked
+    //EFFECTS: handles the event that a checkbox is toggled to either show or hide the relevent textfield
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == lengthBox) {
             if (e.getStateChange() == 1) {
@@ -230,11 +237,6 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
                 refreshFrame();
             }
         }
-    }
-
-    //This is the method that is called when the the JButton btn is clicked
-    public void actionPerformed(ActionEvent e) {
-        //stub
     }
 
     @Override
@@ -270,12 +272,15 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener, ActionLis
             || !lengthBox.isSelected();
     }
 
+    //EFFECTS: returns true if the priority field has valid data, false otherwise
     private Boolean priorityPass() {
         return (!priorityField.getText().trim().isEmpty() 
             && Integer.parseInt(priorityField.getText().trim()) > 0)
             || !priorityBox.isSelected();
     }
 
+    //MODIES: window
+    //EFFECTS: repaints the winodw to display updated info
     protected void refreshFrame() {
         window.repaint();
         window.revalidate();
