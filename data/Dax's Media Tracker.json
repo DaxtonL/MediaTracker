@@ -89,6 +89,28 @@
             "type": "MANGA",
             "priority": "5",
             "status": "VIEWING"
+        },
+        {
+            "log": [
+                {
+                    "month": "MARCH",
+                    "year": "2025",
+                    "viewProgress": "15",
+                    "day": "30"
+                },
+                {
+                    "month": "MARCH",
+                    "year": "2025",
+                    "viewProgress": "115",
+                    "day": "30"
+                }
+            ],
+            "name": "OKSI",
+            "length": "130",
+            "rating": "8",
+            "type": "BOOK",
+            "priority": "5",
+            "status": "FINISHED"
         }
     ],
     "name": "Dax's Media Tracker"

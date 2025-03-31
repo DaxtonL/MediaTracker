@@ -37,3 +37,33 @@ In addition, depending on the work's status the user to be able to track other a
  - As a user, I want to be able to load my list of media from file (if I so choose)
  - As a user, I want to be able to save my list of media to file (if I so choose)
 
+## Sample EventLog
+Event log cleared.
+Created new media tracker
+Added media to tracker
+Added media to tracker
+Added media to tracker
+Added media to tracker
+Added media to tracker
+--This section is from when a tracker is loaded and media is added to the tracker--
+Created new media
+Added media to tracker
+Logged a viewing for a piece of media
+Logged a viewing for a piece of media
+Changed rating for a piece of media
+Changed status for a piece of media
+
+
+## Reflection
+Looking at my UML diagram and even while writting my GUI, I have a lot of classes that extend the "AppPanelUI" class that had a lot of repeated code between them.
+This made it harder to debug when I made changes and overall made it harder quickly code the panels I wanted. To improve my code, I would create and abstract more
+methods and place them in the AppPanel UI interface. Almost all my UI panels had a "back" and "confirm" button that I could probaly include in the field and
+construtor of the AppPanelUI class. Adding elements such as buttons are also very repetitve, as the only variance points are often the name and actionID of the button
+while 3-4 lines of the code are repeated a lot. I could likely create a "createButton" method and add that to the abstract class as well.
+
+Another issue in my UI is that currently all classes that extend from AppPanelUI return a list of strings as their data type for the "closePanel" method. However,
+the data they convey needs to be parsed from a list of string making it harder to debug and increasing the chance of the code crashing if the wrong data-type is parsed.
+This is less of an issue since this is a method that will never be user-facing but, could still be improved for debugging and ease of use. One solution could be creating
+a new class to store this data and include an identifier that conveys what kind of information should be expected in the list of strings. Additionally, when calling a
+"get data" method from this class, if the expected data does not matched the identifed data type an exception could be thrown and handled making it easier to avoid
+invalid data-type crashes.

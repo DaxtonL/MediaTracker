@@ -67,6 +67,7 @@ public class Media {
         } else if (status != Status.VIEWING) {
             status = Status.VIEWING;
         }
+        EventLog.getInstance().logEvent(new Event("Logged a viewing for a piece of media"));
     }
 
     // REQUIRES: 
@@ -75,6 +76,7 @@ public class Media {
     public void removeLog() {
         if (log.size() > 0) {
             log.remove(log.get(log.size() - 1));
+            EventLog.getInstance().logEvent(new Event("Removed a viewing from a piece of media"));
         }
     }
 

@@ -1,11 +1,25 @@
 {
     "mediaList": [{
-        "log": [{
-            "month": "MARCH",
-            "year": "2025",
-            "viewProgress": "5",
-            "day": "29"
-        }],
+        "log": [
+            {
+                "month": "MARCH",
+                "year": "2025",
+                "viewProgress": "5",
+                "day": "29"
+            },
+            {
+                "month": "MARCH",
+                "year": "2025",
+                "viewProgress": "3",
+                "day": "30"
+            },
+            {
+                "month": "MARCH",
+                "year": "2025",
+                "viewProgress": "3",
+                "day": "30"
+            }
+        ],
         "name": "dfsgsdfg",
         "length": "2",
         "rating": "-1",

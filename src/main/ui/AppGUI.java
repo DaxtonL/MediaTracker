@@ -69,6 +69,8 @@ public class AppGUI implements ActionListener, WindowListener {
         window.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: switches the currently displayed panel to inputted panel p
     private void switchPanel(AppPanelUI p, String s) {
         masterPanel.add(p, s);
         CardLayout cl = (CardLayout)(masterPanel.getLayout());
@@ -79,6 +81,7 @@ public class AppGUI implements ActionListener, WindowListener {
         currentPanel = p;
     }
 
+    // EFFECTS: returns media tracker with inputted name if it exists else returns null
     private MediaTracker getMediaTracker(String path) {
         JsonReader reader = new JsonReader("./data/" + path);
         MediaTracker tracker;
@@ -91,6 +94,7 @@ public class AppGUI implements ActionListener, WindowListener {
         return tracker;
     }
 
+    // EFFECTS: saves current mediaTracker to JSON file with the name of the tracker
     private Boolean saveMediaTracker() {
         JsonWriter writer = new JsonWriter("./data/" + tracker.getName() + ".json");
         try {
@@ -105,12 +109,16 @@ public class AppGUI implements ActionListener, WindowListener {
         }
     }
 
+    //EFFECTS: returns a new mainPanel with specified fields
+    //         abstracted to make changing the values easier
     private AppPanelUI getMainPanel() {
         return new MainPanel(this, window, tracker, mediaEditID, mediaLogID);
     }
 
     @Override
     @SuppressWarnings("methodlength")
+    //MODIFIES: this
+    //EFFECTS: handles UI events depending on the action event value
     public void actionPerformed(ActionEvent e) {
         String[] splitE = e.getActionCommand().split("[%]");
         if (e.getActionCommand().equals("yes load tracker")) {
@@ -146,6 +154,8 @@ public class AppGUI implements ActionListener, WindowListener {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: tries to load a mediaTracker and then switches the panel back to main panel
     private void loadTracker() {
         try {
             tracker = getMediaTracker(currentPanel.closePanel().get(0));
@@ -156,6 +166,10 @@ public class AppGUI implements ActionListener, WindowListener {
         }
     }
 
+    //REQUIRES: the currentPanel should be of subtype editMediaPanel to get the correct list of strings
+    //MODIFIES: media in mediaTracker
+    //EFFECTS: tries to get a list of strings from the current panel then calls the "update media" method
+    //         then switches to the main panel
     private void editMedia() {
         try {
             List<String> l = currentPanel.closePanel();
@@ -167,6 +181,9 @@ public class AppGUI implements ActionListener, WindowListener {
         }
     }
 
+    //REQUIRES: the currentPanel should be of subtype textField to get the correct list of strings
+    //MODIFIES: tracker
+    //EFFECTS: sets the tracker name to the returned name from the list of strings
     private void setTrackerName() {
         try {
             String s = currentPanel.closePanel().get(0);
@@ -179,6 +196,10 @@ public class AppGUI implements ActionListener, WindowListener {
     }
 
     @SuppressWarnings("methodlength")
+    //REQUIRES: inputted list of strings has a size of 7 and contains media-relevant data
+    //MODIFIES: selected media
+    //EFFECTS: splits the inputted list to get the media that should be edited and updates
+    //         all the media values to match the list of values
     private void updateMedia(List<String> l) {
         Media m = tracker.getMedia(l.get(6));
 
@@ -209,6 +230,9 @@ public class AppGUI implements ActionListener, WindowListener {
         }
     }
 
+    //REQUIRES: the currentPanel should be of subtype editMediaPanel to get the correct list of strings
+    //MODIFIES: tracker
+    //EFFECTS: adds a new media to tracker based on values from list of string from closePanel()
     private void addMedia() {
         try {
             List<String> l = currentPanel.closePanel();
@@ -222,11 +246,15 @@ public class AppGUI implements ActionListener, WindowListener {
         }
     }
 
+    //MODIFIES: NONE
+    //EFFECTS: Method is required for the WindowEvent interface but is not used
+    //         therefore has no effect
     @Override
     public void windowOpened(WindowEvent e) {
         // stub
     }
 
+    //EFFECTS: Prints out the EventLog as the window is closing
     @Override
     public void windowClosing(WindowEvent e) {
         Iterator<Event> it = EventLog.getInstance().iterator();
@@ -234,31 +262,45 @@ public class AppGUI implements ActionListener, WindowListener {
             Event event = it.next();
             System.out.println(event.getDescription());
         }
-        System.out.println("Closed app");
         // stub
     }
 
+    //MODIFIES: NONE
+    //EFFECTS: Method is required for the WindowEvent interface but is not used
+    //         therefore has no effect
     @Override
     public void windowClosed(WindowEvent e) {
         
         // stub
     }
 
+    //MODIFIES: NONE
+    //EFFECTS: Method is required for the WindowEvent interface but is not used
+    //         therefore has no effect
     @Override
     public void windowIconified(WindowEvent e) {
         // stub
     }
 
+    //MODIFIES: NONE
+    //EFFECTS: Method is required for the WindowEvent interface but is not used
+    //         therefore has no effect
     @Override
     public void windowDeiconified(WindowEvent e) {
         // stub
     }
 
+    //MODIFIES: NONE
+    //EFFECTS: Method is required for the WindowEvent interface but is not used
+    //         therefore has no effect
     @Override
     public void windowActivated(WindowEvent e) {
         // stub
     }
 
+    //MODIFIES: NONE
+    //EFFECTS: Method is required for the WindowEvent interface but is not used
+    //         therefore has no effect
     @Override
     public void windowDeactivated(WindowEvent e) {
         // stub
