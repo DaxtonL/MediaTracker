@@ -28,11 +28,13 @@ public class EditMediaPanel extends AddMediaPanel {
     private JPanel statusPanel;
     private JComboBox<String> satusSelector;
 
+    //EFFECTS: creates an editmediapanel with a handler, window and confirmid
     public EditMediaPanel(ActionListener handler, JFrame window, String confirmID, Media m) {
         super(handler, window, confirmID, m);
     }
 
     @Override
+    //EFFECTS: adds components to the panel
     protected void addComponents() {
         statusPanel = makeStatusPanel();
         add(statusPanel);
@@ -42,6 +44,7 @@ public class EditMediaPanel extends AddMediaPanel {
     }
 
     @Override
+    //EFFECTS: creates the panel for editing the media name
     protected JPanel makeNamePanel() {
         JPanel p = super.makeNamePanel();
         nameField.setText(media.getName());
@@ -49,6 +52,7 @@ public class EditMediaPanel extends AddMediaPanel {
     }
 
     @Override
+    //EFFECTS: creates the panel for editing the media type
     protected JPanel makeTypePanel() {
         JPanel p = super.makeTypePanel();
         List<MediaType> types = new ArrayList<MediaType>(Arrays.asList(MediaType.values()));
@@ -64,6 +68,7 @@ public class EditMediaPanel extends AddMediaPanel {
     }
 
     @Override
+    //EFFECTS: creates the panel for editing the media length
     protected JPanel makeLengthPanel() {
         JPanel p = super.makeLengthPanel();
         if (media.getLength() != -1) {
@@ -74,6 +79,7 @@ public class EditMediaPanel extends AddMediaPanel {
     }
 
     @Override
+    //EFFECTS: creates the panel for editing the media priority
     protected JPanel makePriorityPanel() {
         JPanel p = super.makePriorityPanel();
         if (media.getPriority() != -1) {
@@ -83,6 +89,7 @@ public class EditMediaPanel extends AddMediaPanel {
         return p;
     }
 
+    //EFFECTS: creates the panel for editing the media rating
     private JPanel makeRatingPanel() {
         JPanel p = new JPanel();
         editLayout(p);
@@ -116,6 +123,7 @@ public class EditMediaPanel extends AddMediaPanel {
         return p;
     }
 
+    //EFFECTS: creates the panel for editing the media status
     private JPanel makeStatusPanel() {
         JPanel p = new JPanel();
 
@@ -142,6 +150,7 @@ public class EditMediaPanel extends AddMediaPanel {
     }
 
     @Override
+    //EFFECTS: handles when the checkboxes are selected or unselected and displays or hides the relevant field
     public void itemStateChanged(ItemEvent e) {
         super.itemStateChanged(e);
         if (e.getSource() == ratingBox) {
@@ -158,6 +167,7 @@ public class EditMediaPanel extends AddMediaPanel {
     }
 
     @Override
+    //EFFECTS: returns the new data for a peice of media based on the fields
     protected List<String> outputVal() {
         List<String> l = super.outputVal();
         l.add(satusSelector.getSelectedItem().toString().toUpperCase());  
@@ -166,6 +176,7 @@ public class EditMediaPanel extends AddMediaPanel {
         return l;
     }
 
+    //EFFECTS: changes the layout preferences for inputted panel p
     protected void editLayout(JPanel p) {
         p.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         p.setPreferredSize(new Dimension(350, 40)); // Reduce height to remove excess space
