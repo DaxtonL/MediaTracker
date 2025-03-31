@@ -31,6 +31,7 @@ public class MainPanel extends AppPanelUI implements ActionListener {
     private JComboBox<String> filterType;
     private JScrollPane listMediaPanel;
 
+    //EFFECTS: creates a new main panel with handler and window
     public MainPanel(ActionListener handler, JFrame window, 
             MediaTracker tracker, String mediaConfirmID, String mediaLogID) {
         super(handler, window);
@@ -44,7 +45,8 @@ public class MainPanel extends AppPanelUI implements ActionListener {
         listMediaPanel = listMedia();
         add(listMediaPanel, BorderLayout.CENTER);
     }
- 
+    
+    //EFFECTS: creates and returns a panel with relevant buttons for the "top" of this panel
     private JPanel makeTopPanel() {
         JPanel p = new JPanel();
         JButton mediaBtn = new JButton("Add Media");
@@ -69,6 +71,7 @@ public class MainPanel extends AppPanelUI implements ActionListener {
         return p;
     }
 
+    //EFFECTS: creates the filter panel
     private void makeFilterPanel() {
         List<MediaType> types = new ArrayList<MediaType>(Arrays.asList(MediaType.values()));
         String[] typesArray = new String[types.size() + 1];
@@ -82,6 +85,7 @@ public class MainPanel extends AppPanelUI implements ActionListener {
         filterType.addActionListener(this);
     }
 
+    //EFFECTS: creates and returns a JScrollPane containing all the media in the inputted tracker
     private JScrollPane listMedia() {
         List<Media> mediaList = tracker.getFilterMedia(null);
         JPanel list = new JPanel();
@@ -100,6 +104,7 @@ public class MainPanel extends AppPanelUI implements ActionListener {
         return scrJPanel;
     }
 
+    //EFFECTS: creates and returns a JScrollPane containing all the media that match the type in the inputted tracker
     private JScrollPane listMedia(MediaType type) {
         FilterType f1 = new FilterType(type);
         List<Filter> filters = new ArrayList<Filter>();
@@ -124,11 +129,13 @@ public class MainPanel extends AppPanelUI implements ActionListener {
     }
 
     @Override
+    //EFFECTS: this panel does not have any data to return so throws invalid excpetion if called
     public List<String> closePanel() throws InvalidInputException {
         throw new InvalidInputException("No return data");
     }
 
     @Override
+    //EFFECTS: refreshes the panel and displays the correct list of media depending on if there is a filter
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("changed filter")) {
             String s = filterType.getSelectedItem().toString().toUpperCase();

@@ -132,6 +132,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener {
         return p;
     }
 
+    //EFFECTS: creates and returns a panel with a label and appropriate field to input the priority value
     protected JPanel makePriorityPanel() {
         NumberFormat longFormat = NumberFormat.getIntegerInstance();
 
@@ -240,6 +241,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener {
     }
 
     @Override
+    //EFFECTS: tries to close this panel, if the fields are invalid, throws invalid input exception instead
     public List<String> closePanel() throws InvalidInputException {
         Boolean namePass = namePass();
         Boolean lengthPass = lengthPass();
@@ -253,6 +255,7 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener {
         }
     }
 
+    //EFFECTS: returns the relevant data inputted in the fields
     protected List<String> outputVal() {
         List<String> l = new ArrayList<String>();
         l.add(nameField.getText());
@@ -262,10 +265,12 @@ public class AddMediaPanel extends AppPanelUI implements ItemListener {
         return l;
     }
 
+    //EFFECTS: returns true if the name field has valid data, false otherwise
     private Boolean namePass() {
         return !nameField.getText().trim().isEmpty();
     }
 
+    //EFFECTS: returns true if the length field has valid data, false otherwise
     private Boolean lengthPass() {
         return (!lengthField.getText().trim().isEmpty() 
             && Integer.parseInt(lengthField.getText().trim()) > 0)

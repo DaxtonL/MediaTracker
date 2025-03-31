@@ -17,6 +17,7 @@ import model.enums.MediaType;
 
 public class LogPanel extends AppPanelUI {
 
+    //EFFCTS: creates a new LogPanel with a handler, window, viewlog and mediaType
     public LogPanel(ActionListener handler, JFrame window, ViewLog v, MediaType type) {
         super(handler, window);
         setPreferences();
@@ -31,10 +32,13 @@ public class LogPanel extends AppPanelUI {
     }
 
     @Override
+    //EFFECT: This panel does not have relevant data so throws invalid input excpetion if this method is called
     public List<String> closePanel() throws InvalidInputException {
         throw new InvalidInputException("No valid data");
     }
 
+    //MODIFIES: date
+    //EFFECTS: returns a string from the inputted date
     private String dateToString(LocalDate d) {
         String year = Integer.toString(d.getYear());
         String month = Integer.toString(d.getMonthValue());
@@ -42,6 +46,8 @@ public class LogPanel extends AppPanelUI {
         return year + ", " + month + ", " + day;
     }
 
+    //MODIFIES: this
+    //EFFECTS: specifies formatting settings for this panel 
     private void setPreferences() {
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         setPreferredSize(new Dimension(900, 40)); // Reduce height to remove excess space
