@@ -111,6 +111,29 @@
             "type": "BOOK",
             "priority": "5",
             "status": "FINISHED"
+        },
+        {
+            "log": [],
+            "name": "Test Movie",
+            "length": "3",
+            "rating": "8",
+            "type": "MOVIE",
+            "priority": "-1",
+            "status": "FINISHED"
+        },
+        {
+            "log": [{
+                "month": "APRIL",
+                "year": "2025",
+                "viewProgress": "501",
+                "day": "5"
+            }],
+            "name": "Uhhhhhh",
+            "length": "500",
+            "rating": "4",
+            "type": "BOOK",
+            "priority": "17",
+            "status": "FINISHED"
         }
     ],
     "name": "Dax's Media Tracker"
