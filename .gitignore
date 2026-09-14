@@ -1,1 +1,12 @@
 *.class
+# Compiled Java files
+*.class
+bin/
+
+# Personal Media Tracker data
+data/Dax's Media Tracker.json
+data/My media tracker.json
+data/My work room.json
+
+# macOS
+.DS_Store
