@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface TrackerRepository extends JpaRepository<Tracker, Long> {
     Optional<Tracker> findByName(String name);
+    boolean existsByName(String name);
 }
