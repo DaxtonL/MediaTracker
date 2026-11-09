@@ -28,4 +28,9 @@ public class TrackerController {
     public List<TrackerResponse> findAll() {
         return trackerService.findAll();
     }
+
+    @GetMapping("/{id}")
+    public TrackerResponse findById(@PathVariable Long id) {
+        return trackerService.findById(id);
+    }
 }

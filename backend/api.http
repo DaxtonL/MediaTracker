@@ -36,3 +36,12 @@ DELETE http://localhost:8080/api/media/1
 
 ### Check the tracker's media count dropped
 GET http://localhost:8080/api/trackers
+
+### Get one tracker (expect 200)
+GET http://localhost:8080/api/trackers/1
+
+### Get a tracker that doesn't exist (expect 404)
+GET http://localhost:8080/api/trackers/999
+
+### Non-numeric ID (expect 400)
+GET http://localhost:8080/api/trackers/abc

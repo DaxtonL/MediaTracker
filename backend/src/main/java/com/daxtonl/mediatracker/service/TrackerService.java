@@ -36,4 +36,12 @@ public class TrackerService {
                 .map(TrackerResponse::from)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public TrackerResponse findById(Long id) {
+        Tracker tracker = trackerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Tracker " + id + " not found"));
+        return TrackerResponse.from(tracker);
+    }
 }
