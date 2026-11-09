@@ -1,0 +1,29 @@
+### Create a tracker
+POST http://localhost:8080/api/trackers
+Content-Type: application/json
+
+{ "name": "Games" }
+
+### Add media (201)
+POST http://localhost:8080/api/trackers/1/media
+Content-Type: application/json
+
+{ "name": "Celeste", "type": "GAME", "length": null, "priority": 2 }
+
+### Same name again (409)
+POST http://localhost:8080/api/trackers/1/media
+Content-Type: application/json
+
+{ "name": "Celeste", "type": "GAME" }
+
+### Tracker doesn't exist (404)
+POST http://localhost:8080/api/trackers/999/media
+Content-Type: application/json
+
+{ "name": "Hades", "type": "GAME" }
+
+### Invalid type (400)
+POST http://localhost:8080/api/trackers/1/media
+Content-Type: application/json
+
+{ "name": "Hades", "type": "PODCAST" }
