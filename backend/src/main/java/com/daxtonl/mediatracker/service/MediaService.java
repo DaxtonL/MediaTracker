@@ -21,6 +21,12 @@ public class MediaService {
         this.trackerRepository = trackerRepository;
     }
 
+    private Media getOrThrow(Long id) {
+        return mediaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Media " + id + " not found"));
+    }
+
     @Transactional
     public MediaResponse create(Long trackerId, MediaRequest request) {
         // 1. Load: the tracker must exist
@@ -42,5 +48,10 @@ public class MediaService {
 
         // 4. Return a DTO
         return MediaResponse.from(saved);
+    }
+
+    @Transactional 
+    public void delete(Long id) {
+        mediaRepository.delete(getOrThrow(id));
     }
 }

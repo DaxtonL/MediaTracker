@@ -27,3 +27,12 @@ POST http://localhost:8080/api/trackers/1/media
 Content-Type: application/json
 
 { "name": "Hades", "type": "PODCAST" }
+
+### Delete media 1 (expect 204)
+DELETE http://localhost:8080/api/media/1
+
+### Delete it again (expect 404)
+DELETE http://localhost:8080/api/media/1
+
+### Check the tracker's media count dropped
+GET http://localhost:8080/api/trackers

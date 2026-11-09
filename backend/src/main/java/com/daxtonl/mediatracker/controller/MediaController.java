@@ -21,4 +21,11 @@ public class MediaController {
                                 @Valid @RequestBody MediaRequest request) {
         return mediaService.create(trackerId, request);
     }
+
+    @DeleteMapping("/api/media/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        mediaService.delete(id);
+    }
+
 }
