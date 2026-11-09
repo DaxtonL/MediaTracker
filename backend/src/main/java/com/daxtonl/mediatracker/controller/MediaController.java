@@ -1,4 +1,5 @@
 package com.daxtonl.mediatracker.controller;
+import java.util.List;
 
 import com.daxtonl.mediatracker.dto.MediaRequest;
 import com.daxtonl.mediatracker.dto.MediaResponse;
@@ -28,4 +29,8 @@ public class MediaController {
         mediaService.delete(id);
     }
 
+    @GetMapping("/api/trackes/{trackerId}/media")
+    public List<MediaResponse> findByTracker(@PathVariable Long trackerId) {
+        return mediaService.findByTracker(trackerId);
+    }
 }

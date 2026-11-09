@@ -1,5 +1,6 @@
 package com.daxtonl.mediatracker.service;
 
+import java.util.List;
 import com.daxtonl.mediatracker.dto.MediaRequest;
 import com.daxtonl.mediatracker.dto.MediaResponse;
 import com.daxtonl.mediatracker.model.Media;
@@ -53,5 +54,17 @@ public class MediaService {
     @Transactional 
     public void delete(Long id) {
         mediaRepository.delete(getOrThrow(id));
+    }
+
+    // MediaService
+    @Transactional(readOnly = true)
+    public List<MediaResponse> findByTracker(Long trackerId) {
+        if (!trackerRepository.existsById(trackerId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Tracker " + trackerId + " not found");
+        }
+        return mediaRepository.findByTrackerId(trackerId).stream()
+                .map(MediaResponse::from)
+                .toList();
     }
 }
