@@ -1,8 +1,11 @@
 package com.daxtonl.mediatracker.controller;
 import java.util.List;
 
+import com.daxtonl.mediatracker.dto.MediaDetailResponse;
 import com.daxtonl.mediatracker.dto.MediaRequest;
 import com.daxtonl.mediatracker.dto.MediaResponse;
+import com.daxtonl.mediatracker.dto.MediaUpdateRequest;
+import com.daxtonl.mediatracker.dto.ViewLogRequest;
 import com.daxtonl.mediatracker.service.MediaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,8 +32,31 @@ public class MediaController {
         mediaService.delete(id);
     }
 
-    @GetMapping("/api/trackes/{trackerId}/media")
+    @GetMapping("/api/trackers/{trackerId}/media")
     public List<MediaResponse> findByTracker(@PathVariable Long trackerId) {
         return mediaService.findByTracker(trackerId);
+    }
+
+    @GetMapping("/api/media/{id}")
+    public MediaDetailResponse findById(@PathVariable Long id) {
+        return mediaService.findById(id);
+    }
+
+    @PatchMapping("/api/media/{id}")
+    public MediaResponse update(@PathVariable Long id,
+                                @Valid @RequestBody MediaUpdateRequest request) {
+        return mediaService.update(id, request);
+    }
+
+    @PostMapping("/api/media/{id}/logs")
+    @ResponseStatus(HttpStatus.CREATED)
+    public MediaResponse logViewing(@PathVariable Long id,
+                                    @Valid @RequestBody ViewLogRequest request) {
+        return mediaService.logViewing(id, request);
+    }
+
+    @DeleteMapping("/api/media/{id}/logs/latest")
+    public MediaResponse removeLatestLog(@PathVariable Long id) {
+        return mediaService.removeLatestLog(id);
     }
 }
