@@ -1,0 +1,25 @@
+{
+    "name": "Edge cases",
+    "mediaList": [
+        {
+            "name": "Berserk",
+            "type": "MANGA",
+            "length": "364",
+            "status": "DROPPED",
+            "priority": "-1",
+            "rating": "-1",
+            "log": [
+                { "year": "2025", "month": "FEBRUARY", "day": "2", "viewProgress": "40" }
+            ]
+        },
+        {
+            "name": "Berserk",
+            "type": "MANGA",
+            "length": "364",
+            "status": "WAITLIST",
+            "priority": "1",
+            "rating": "-1",
+            "log": []
+        }
+    ]
+}
