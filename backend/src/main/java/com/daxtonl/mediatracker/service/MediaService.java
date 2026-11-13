@@ -9,6 +9,8 @@ import com.daxtonl.mediatracker.dto.ViewLogRequest;
 import com.daxtonl.mediatracker.model.Media;
 import com.daxtonl.mediatracker.model.Tracker;
 import com.daxtonl.mediatracker.model.ViewLog;
+import com.daxtonl.mediatracker.model.enums.MediaType;
+import com.daxtonl.mediatracker.model.enums.Status;
 import com.daxtonl.mediatracker.repository.MediaRepository;
 import com.daxtonl.mediatracker.repository.TrackerRepository;
 import org.springframework.http.HttpStatus;
@@ -62,11 +64,23 @@ public class MediaService {
 
     @Transactional(readOnly = true)
     public List<MediaResponse> findByTracker(Long trackerId) {
+        return findByTracker(trackerId, null, null, null, null);
+    }
+
+    // Lists a tracker's media, keeping only media that pass every given filter.
+    // Any filter left null is ignored.
+    @Transactional(readOnly = true)
+    public List<MediaResponse> findByTracker(Long trackerId, Status status, MediaType type,
+                                             Integer minRating, Integer maxRating) {
         if (!trackerRepository.existsById(trackerId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Tracker " + trackerId + " not found");
         }
-        return mediaRepository.findByTrackerId(trackerId).stream()
+        if (minRating != null && maxRating != null && minRating > maxRating) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "minRating cannot be greater than maxRating");
+        }
+        return mediaRepository.findFiltered(trackerId, status, type, minRating, maxRating).stream()
                 .map(MediaResponse::from)
                 .toList();
     }
