@@ -112,6 +112,42 @@ class ApiTest {
         mvc.perform(get("/api/trackers/999/media")).andExpect(status().isNotFound());
     }
 
+    // ---------- Filtering media ----------
+
+    @Test
+    void filterByStatusTypeAndRating() throws Exception {
+        long hades = idOf(postJson("/api/trackers/" + trackerId + "/media",
+                "{ \"name\": \"Hades\", \"type\": \"GAME\" }"));
+        patchJson("/api/media/" + hades, "{ \"rating\": 9, \"status\": \"FINISHED\" }")
+                .andExpect(status().isOk());
+        postJson("/api/trackers/" + trackerId + "/media", "{ \"name\": \"Dune\", \"type\": \"BOOK\" }")
+                .andExpect(status().isCreated());
+
+        String url = "/api/trackers/" + trackerId + "/media";
+        mvc.perform(get(url).param("status", "WAITLIST"))
+                .andExpect(jsonPath("$.length()").value(2));
+        mvc.perform(get(url).param("type", "GAME"))
+                .andExpect(jsonPath("$.length()").value(2));
+        mvc.perform(get(url).param("type", "GAME").param("status", "WAITLIST"))
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Celeste"));
+        mvc.perform(get(url).param("minRating", "8"))
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Hades"));
+        mvc.perform(get(url).param("maxRating", "8"))
+                .andExpect(jsonPath("$.length()").value(0));   // unrated media are excluded
+    }
+
+    @Test
+    void invalidFiltersReturn400() throws Exception {
+        String url = "/api/trackers/" + trackerId + "/media";
+        mvc.perform(get(url).param("status", "BORED")).andExpect(status().isBadRequest());
+        mvc.perform(get(url).param("type", "PODCAST")).andExpect(status().isBadRequest());
+        mvc.perform(get(url).param("minRating", "11")).andExpect(status().isBadRequest());
+        mvc.perform(get(url).param("minRating", "8").param("maxRating", "3"))
+                .andExpect(status().isBadRequest());
+    }
+
     @Test
     void getMediaIncludesLogs() throws Exception {
         logViewing("{ \"viewedOn\": \"2026-11-10\", \"viewProgress\": 5 }")

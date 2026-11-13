@@ -101,3 +101,24 @@ DELETE http://localhost:8080/api/media/1/logs/latest
 
 ### Remove when there are no logs left (expect 404)
 DELETE http://localhost:8080/api/media/1/logs/latest
+
+### ---------- Filtering a tracker's media ----------
+### Filters are optional and combined with AND. Unrated media are excluded when a rating bound is given.
+
+### Filter by status (expect 200)
+GET http://localhost:8080/api/trackers/1/media?status=VIEWING
+
+### Filter by type and minimum rating (expect 200)
+GET http://localhost:8080/api/trackers/1/media?type=GAME&minRating=7
+
+### Rating range (expect 200)
+GET http://localhost:8080/api/trackers/1/media?minRating=3&maxRating=8
+
+### Invalid status (expect 400)
+GET http://localhost:8080/api/trackers/1/media?status=BORED
+
+### Rating out of range (expect 400)
+GET http://localhost:8080/api/trackers/1/media?minRating=11
+
+### minRating greater than maxRating (expect 400)
+GET http://localhost:8080/api/trackers/1/media?minRating=8&maxRating=3

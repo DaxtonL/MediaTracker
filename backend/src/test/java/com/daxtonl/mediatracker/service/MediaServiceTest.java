@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,6 +45,36 @@ class MediaServiceTest {
     void findByTrackerListsItsMedia() {
         mediaService.create(trackerId, new MediaRequest("Soul Eater", MediaType.SHOW, 51, null));
         assertEquals(2, mediaService.findByTracker(trackerId).size());
+    }
+
+    @Test
+    void findByTrackerAppliesAllFilters() {
+        Long soulEater = mediaService.create(trackerId,
+                new MediaRequest("Soul Eater", MediaType.SHOW, 51, null)).id();
+        mediaService.update(soulEater, new MediaUpdateRequest(null, null, Status.DROPPED, null, null, 4));
+        mediaService.update(showId, new MediaUpdateRequest(null, null, null, null, null, 10));
+        mediaService.create(trackerId, new MediaRequest("Dune", MediaType.BOOK, 600, null));
+
+        assertEquals(3, mediaService.findByTracker(trackerId, null, null, null, null).size());
+        assertEquals(2, mediaService.findByTracker(trackerId, null, MediaType.SHOW, null, null).size());
+        assertEquals(List.of("Soul Eater"), names(
+                mediaService.findByTracker(trackerId, Status.DROPPED, null, null, null)));
+        assertEquals(List.of("Cowboy Bebop"), names(
+                mediaService.findByTracker(trackerId, null, MediaType.SHOW, 5, null)));
+        assertEquals(List.of("Soul Eater"), names(
+                mediaService.findByTracker(trackerId, null, null, 0, 5)));
+        assertTrue(mediaService.findByTracker(trackerId, Status.DROPPED, MediaType.BOOK, null, null).isEmpty());
+    }
+
+    @Test
+    void findByTrackerRejectsInvertedRatingRange() {
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> mediaService.findByTracker(trackerId, null, null, 8, 3));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+    }
+
+    private static List<String> names(List<MediaResponse> media) {
+        return media.stream().map(MediaResponse::name).toList();
     }
 
     @Test
