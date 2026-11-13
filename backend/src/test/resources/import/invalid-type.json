@@ -1,0 +1,7 @@
+{
+    "name": "Broken",
+    "mediaList": [
+        { "name": "Okay", "type": "BOOK", "length": "300", "status": "WAITLIST", "priority": "-1", "rating": "-1", "log": [] },
+        { "name": "Bad", "type": "PODCAST", "length": "-1", "status": "WAITLIST", "priority": "-1", "rating": "-1", "log": [] }
+    ]
+}

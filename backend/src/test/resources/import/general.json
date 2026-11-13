@@ -1,0 +1,40 @@
+{
+    "name": "My media tracker",
+    "mediaList": [
+        {
+            "name": "Celeste",
+            "type": "GAME",
+            "length": "-1",
+            "status": "VIEWING",
+            "priority": "2",
+            "rating": "-1",
+            "log": [
+                {
+                    "year": "2025", 
+                    "month": "JANUARY", 
+                    "day": "13",
+                    "viewProgress": "99"
+                }
+            ]
+
+        },
+        {
+            "name": "Cowboy Bebop",
+            "type": "SHOW",
+            "length": "26",
+            "status": "FINISHED",
+            "priority": "-1",
+            "rating": "9",
+            "log": [
+                {
+                    "year": "2025", 
+                    "month": "JANUARY", 
+                    "day": "13",
+                    "viewProgress": "26"
+                }
+            ]
+
+        }
+        
+    ]
+}
