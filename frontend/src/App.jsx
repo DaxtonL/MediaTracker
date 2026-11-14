@@ -1,25 +1,13 @@
-import { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router'
+import TrackerListPage from './pages/TrackerListPage.jsx'
+import TrackerPage from './pages/TrackerPage.jsx'
 
 function App() {
-  const [trackers, setTrackers] = useState([])
-
-  useEffect(() => {
-    fetch('/api/trackers')
-      .then((res) => res.json())
-      .then(setTrackers)
-  }, [])
-
   return (
-    <main>
-      <h1>Media Tracker</h1>
-      <ul>
-        {trackers.map((t) => (
-          <li key={t.id}>
-            {t.name} ({t.mediaCount} media)
-          </li>
-        ))}
-      </ul>
-    </main>
+    <Routes>
+      <Route path="/" element={<TrackerListPage />} />
+      <Route path="/trackers/:id" element={<TrackerPage />} />
+    </Routes>
   )
 }
 
