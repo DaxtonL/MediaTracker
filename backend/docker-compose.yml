@@ -1,0 +1,16 @@
+# Local PostgreSQL for development: `docker compose up -d` from backend/.
+# Credentials match the defaults in src/main/resources/application.properties.
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: mediatracker
+      POSTGRES_USER: mediatracker
+      POSTGRES_PASSWORD: mediatracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - mediatracker-pgdata:/var/lib/postgresql/data
+
+volumes:
+  mediatracker-pgdata:

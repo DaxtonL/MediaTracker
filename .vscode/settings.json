@@ -1,17 +1,6 @@
 {
-    "java.project.sourcePaths": [
-        "src/main",
-        "src/test"
-    ],
-    "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar"
-    ],
-    "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
-    "java.checkstyle.version": "10.2",
     "update.mode": "none",
     "extensions.autoCheckUpdates": false,
-    "java.checkstyle.autocheck": false,
     "files.autoSave": "afterDelay",
     "java.debug.settings.stepping.skipClasses": [
         "$JDK",
