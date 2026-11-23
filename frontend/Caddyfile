@@ -1,0 +1,16 @@
+# SITE_ADDRESS: a domain (e.g. mediatracker.example.com) for automatic HTTPS,
+# or unset to serve plain HTTP on port 80.
+{$SITE_ADDRESS::80} {
+	encode gzip
+
+	handle /api/* {
+		reverse_proxy backend:8080
+	}
+
+	# Single-page app: unknown paths fall back to index.html so React Router handles them.
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}

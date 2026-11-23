@@ -1,35 +1,14 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "Main",
+            "name": "Backend (Spring Boot)",
             "request": "launch",
-            "mainClass": "ui.Main",
-            "projectName": "project-g7x1q_5f6bd405"
-        },
-        {
-            "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "ui.Main",
-            "projectName": "project-g7x1q_618a56a7"
-        },
-        {
-            "type": "java",
-            "name": "LabelChanger",
-            "request": "launch",
-            "mainClass": "ui.panels.LabelChanger",
-            "projectName": "project-g7x1q_618a56a7"
+            "mainClass": "com.daxtonl.mediatracker.MediatrackerApplication",
+            "projectName": "mediatracker",
+            // The JSON import path (../data) is relative to backend/.
+            "cwd": "${workspaceFolder}/backend"
         }
     ]
 }

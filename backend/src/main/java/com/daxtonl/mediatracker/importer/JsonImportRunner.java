@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 // Runs once at startup and imports every tracker file in mediatracker.import.dir.
-// While the app uses in-memory H2, this reloads your data after every restart.
+// Trackers already in the database are skipped, so restarts do not duplicate data.
 @Component
 @ConditionalOnProperty(name = "mediatracker.import.enabled", havingValue = "true")
 public class JsonImportRunner implements ApplicationRunner {

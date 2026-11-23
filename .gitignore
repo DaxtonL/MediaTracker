@@ -1,12 +1,8 @@
-*.class
-# Compiled Java files
-*.class
-bin/
+# Personal tracker data (imported into the database by the backend)
+data/*.json
 
-# Personal Media Tracker data
-data/Dax's Media Tracker.json
-data/My media tracker.json
-data/My work room.json
+# Deployment secrets
+.env
 
 # macOS
 .DS_Store

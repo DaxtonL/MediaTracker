@@ -1,0 +1,50 @@
+# Full stack for the live demo: `docker compose up -d --build` from the repo root.
+# Settings come from .env (copy .env.example). Only Caddy is reachable from outside.
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mediatracker
+      POSTGRES_USER: mediatracker
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mediatracker -d mediatracker"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/mediatracker
+      DB_USERNAME: mediatracker
+      DB_PASSWORD: ${DB_PASSWORD}
+      # The demo starts empty; don't look for the old Swing JSON files.
+      MEDIATRACKER_IMPORT_ENABLED: "false"
+      SPRING_JPA_SHOW_SQL: "false"
+
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
